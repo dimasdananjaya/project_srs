@@ -1,0 +1,42 @@
+body{
+    background-color: #ffffff;
+}
+
+/*** Home****/
+#home .banner{
+    background-color: #005086;
+    color: #ffffff;
+    margin-top: -1.6em;
+    padding-top: 1em;
+    padding-bottom: 0.5em;
+}
+
+#home .card-body{
+    background-color: #318fb5;
+    color: #ffffff;
+}
+
+#home .card{
+    border-radius: 1em;
+    margin-top: 2em;
+}
+
+#home .card>img{
+    width: 13.5em;
+    height: 13.5em;
+    padding-top: 1em;
+}
+
+#home .card-body{
+    border-radius: 0 0 1em 1em;
+}
+
+#home .card-body>a{
+    background-color: #0f4c75;
+    color: #ffffff;
+}
+
+#home .card-body>a:hover{
+    background-color: #00bcd4;
+    color: #ffffff;
+}
