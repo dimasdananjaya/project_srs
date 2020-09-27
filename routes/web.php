@@ -20,3 +20,5 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/store-list', [App\Http\Controllers\RouteController::class,'storeList'])->name('store.list');
+Route::get('/store-dashboard', [App\Http\Controllers\RouteController::class,'storeDashboard'])->name('store.dashboard');

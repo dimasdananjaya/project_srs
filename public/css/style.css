@@ -2,8 +2,21 @@ body{
     background-color: #ffffff;
 }
 
-/*** Home****/
-#home .banner{
+footer{
+    position: relative;
+
+    width: 100%;
+    text-align: center;
+    box-shadow:0 3px 13px rgba(0,0,0,0.23);
+    background-color: #0278ae;
+    color: #ffffff;
+    padding-top: 0.7em;
+    
+}
+
+/****global style*****/
+
+.banner{
     background-color: #005086;
     color: #ffffff;
     margin-top: -1.6em;
@@ -11,32 +24,59 @@ body{
     padding-bottom: 0.5em;
 }
 
-#home .card-body{
+.card{
+    border-radius: 1em;
+    margin-top: 2em;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.card:hover {
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+.card-body{
     background-color: #318fb5;
     color: #ffffff;
 }
 
-#home .card{
-    border-radius: 1em;
-    margin-top: 2em;
-}
-
-#home .card>img{
+.card>img{
     width: 13.5em;
     height: 13.5em;
     padding-top: 1em;
 }
 
-#home .card-body{
+.card-body{
     border-radius: 0 0 1em 1em;
 }
 
-#home .card-body>a{
+.card-body>a{
     background-color: #0f4c75;
     color: #ffffff;
 }
 
-#home .card-body>a:hover{
+.card-body>a:hover{
     background-color: #00bcd4;
     color: #ffffff;
+}
+
+
+/*****store-list**********/
+
+#store-list img{
+    width: 10em;
+    height: 11em;
+    margin-top: 1em;
+    padding-bottom: 1em;
+}
+
+
+/*****store-dashboard**********/
+
+#store-dashboard .card-body{
+    background-color: #ffffff;
+    color: black;
+}
+
+#store-dashboard .card{
+    margin-bottom: 2em;
 }
