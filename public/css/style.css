@@ -16,7 +16,7 @@ footer{
 
 /****global style*****/
 
-.banner{
+#home .banner{
     background-color: #005086;
     color: #ffffff;
     margin-top: -1.6em;
@@ -24,37 +24,37 @@ footer{
     padding-bottom: 0.5em;
 }
 
-.card{
+#home .card{
     border-radius: 1em;
     margin-top: 2em;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 
-.card:hover {
+#home .card:hover {
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
 
-.card-body{
+#home .card-body{
     background-color: #318fb5;
     color: #ffffff;
 }
 
-.card>img{
+#home .card>img{
     width: 13.5em;
     height: 13.5em;
     padding-top: 1em;
 }
 
-.card-body{
+#home .card-body{
     border-radius: 0 0 1em 1em;
 }
 
-.card-body>a{
+#home .card-body>a{
     background-color: #0f4c75;
     color: #ffffff;
 }
 
-.card-body>a:hover{
+#home .card-body>a:hover{
     background-color: #00bcd4;
     color: #ffffff;
 }
