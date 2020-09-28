@@ -12,8 +12,8 @@
                 <div class="card">
                     <img class="card-img-top mx-auto d-block mb-2" src="/resources/logo/sales.svg" alt="Card image cap">
                     <div class="card-body">
-                        <h4 class="card-title text-center"><b>Penjualan</b></h4>
-                        <p class="text-center">Lihat laporan Penjualan</p>
+                        <h4 class="card-title text-center"><b>Kelola Data Toko</b></h4>
+                        <p class="text-center">Kelola Data Penjualan Toko</p>
                         <a href="#" class="btn btn-block">Show</a>
                     </div><!--card-body-->
                 </div><!--card-->
