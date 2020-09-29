@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>SYS SYSTEM</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -26,10 +26,10 @@
     <link href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.bootstrap4.min.css" rel="stylesheet">
 </head>
 <body>
-    <div id="app">
+
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ url('/home') }}">
                     <img src="/resources/logo/navbar.svg" width="30" height="30" class="d-inline-block align-top mr-2" alt="">
                     SRS
                 </a>
@@ -80,13 +80,16 @@
         </nav>
 
         <main class="py-4">
+            @include('sweetalert::alert')
             @yield('content')
 
+            <!--
             <footer>
                 <p>© 2020 Created By Dimas Dananjaya</p>
             </footer>
+        -->
         </main>
-    </div>
+
 
     <!--datatable-->
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js" defer></script>

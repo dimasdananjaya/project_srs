@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Validator;
+use App\Models\BarangModel;
 
 class BarangController extends Controller
 {
@@ -14,7 +15,9 @@ class BarangController extends Controller
      */
     public function index()
     {
-        return view('menu.barang-dashboard');
+        $dataBarang=BarangModel::all();
+        return view('menu.barang-dashboard')
+        ->with('dataBarang',$dataBarang);
     }
 
     /**
@@ -37,30 +40,27 @@ class BarangController extends Controller
     {
         // validate
         $rules = array(
-            'nama_barang' => 'required',
-            'jenis' => 'required',
-            'harga_pokok' => 'required|numeric',
-            'harga_jual' => 'required|numeric'
-        );
-        $validator = Validator::make(Input::all(), $rules);
 
-        // process the login
+        );
+        $validator = Validator::make($request->all(), [$rules]);
+
+        // update barang
         if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator);
+            alert()->error('Gagal Disimpan !', $validator);
+            return redirect()->back();
         } else {
             // store
-            $dataBarang = new Barang;
-            $dataBarang->nama_barang = Input::get('nama_barang');
-            $dataBarang->jenis = 'dummy_jenis';
-            $dataBarang->harga_pokok = 'harga_pokok';
-            $dataBarang->harga_jual = 'harga_jual';
+            $dataBarang = new BarangModel;
+            $dataBarang->nama_barang = $request->input('nama_barang');
+            $dataBarang->jenis = $request->input('jenis');
+            $dataBarang->harga_pokok = $request->input('harga_pokok');
+            $dataBarang->harga_jual = $request->input('harga_jual');
             
-            $shark->save();
+            $dataBarang->save();
 
             // redirect
-            return redirect()->back()
-                ->withErrors($validator);
+            alert()->success('Data Tersimpan !', '');
+            return back();
         }
     }
 
@@ -97,31 +97,28 @@ class BarangController extends Controller
     {
         // validate
         $rules = array(
-            'nama_barang' => 'required',
-            'jenis' => 'required',
-            'harga_pokok' => 'required|numeric',
-            'harga_jual' => 'required|numeric'
-        );
-        $validator = Validator::make(Input::all(), $rules);
 
-        // process the login
+        );
+        $validator = Validator::make($request->all(), [$rules]);
+
+        // update barang
         if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator);
+            alert()->error('Gagal Disimpan !', $validator);
+            return redirect()->back();
         } else {
             // store
-            $shark = shark::find($id);
+            $dataBarang = BarangModel::find($id);
 
-            $dataBarang->nama_barang = Input::get('nama_barang');
-            $dataBarang->jenis = 'dummy_jenis';
-            $dataBarang->harga_pokok = 'harga_pokok';
-            $dataBarang->harga_jual = 'harga_jual';
+            $dataBarang->nama_barang = $request->input('nama_barang');
+            $dataBarang->jenis = $request->input('jenis');
+            $dataBarang->harga_pokok = $request->input('harga_pokok');
+            $dataBarang->harga_jual = $request->input('harga_jual');
             
-            $shark->save();
+            $dataBarang->save();
 
             // redirect
-            return redirect()->back()
-                ->withErrors($validator);
+            alert()->success('Data Diupdate !', '');
+            return back();
         }
     }
 

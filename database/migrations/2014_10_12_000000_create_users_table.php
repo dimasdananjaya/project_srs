@@ -22,6 +22,15 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+
+        Schema::create('barang', function (Blueprint $table) {
+            $table->id_barang();
+            $table->string('nama_barang');
+            $table->string('jenis');
+            $table->decimal('harga_pokok',13,2);
+            $table->decimal('harga_jual',13,2);
+            $table->timestamps();
+        });
     }
 
     /**

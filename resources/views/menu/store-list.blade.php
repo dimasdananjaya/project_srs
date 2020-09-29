@@ -10,10 +10,45 @@
                     <div class="card-body">
                         <h4 class="card-title text-center"><b>Teges</b></h4>
                         <hr>
-                        <button href="#" class="btn btn-block btn-primary">Kelola Sales</button>
+                        <button href="#" class="btn btn-block btn-primary" data-toggle="modal" data-target="#salesModal">Kelola Sales</button>
                         <button href="#" class="btn btn-block btn-primary" data-toggle="modal" data-target="#reportModal">Rekap Laporan</button>
                     </div><!--card-body-->
                 </div><!--card-->
+
+                <!-- Sales modal -->
+                <div class="modal fade" id="salesModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Pilih Periode Sales</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div><!--modal-header-->
+                            <div class="modal-body">
+                                <div class="form-group-row">
+                                    {!!Form::open(['action'=>'BarangController@store', 'method'=>'POST'])!!}
+                                        <div class="col-lg-12">
+                                            {{Form::label('periode','Periode :')}}
+                                            <select class="form-control form-group" id="exampleFormControlSelect1" name="periode">
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
+                                            {{Form::submit('Simpan',['class'=>'btn btn-success btn-block'])}}
+                                        </div><!--col-lg-12-->
+                                    {!!Form::close()!!}
+                                </div><!--row-->
+                            </div><!--modal-body-->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Go</button>
+                            </div><!--modal-footer-->
+                        </div><!--modal-content-->
+                    </div><!--modal dialog-->
+                </div><!--modal report-->
 
                 <!-- Report modal -->
                 <div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

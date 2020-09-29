@@ -22,6 +22,6 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/store-list', [App\Http\Controllers\RouteController::class,'storeList'])->name('store.list');
 Route::get('/store-dashboard', [App\Http\Controllers\RouteController::class,'storeDashboard'])->name('store.dashboard');
-Route::get('/barang-dashboard', [App\Http\Controllers\BarangController::class,'barangDashboard'])->name('barang.dashboard');
 
-Route::resource('barang', BarangController::class);
+use App\Http\Controllers\BarangController;
+Route::resource('/barang', BarangController::class);

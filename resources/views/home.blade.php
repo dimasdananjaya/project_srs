@@ -12,9 +12,9 @@
                 <div class="card">
                     <img class="card-img-top mx-auto d-block mb-2" src="/resources/logo/sales.svg" alt="Card image cap">
                     <div class="card-body">
-                        <h4 class="card-title text-center"><b>Kelola Data Toko</b></h4>
+                        <h4 class="card-title text-center"><b>Penjualan Toko</b></h4>
                         <p class="text-center">Kelola Data Penjualan Toko</p>
-                        <a href="#" class="btn btn-block">Show</a>
+                        <a href="/store-list" class="btn btn-block">Show</a>
                     </div><!--card-body-->
                 </div><!--card-->
             </div><!--col-lg-4-->
@@ -25,7 +25,7 @@
                     <div class="card-body">
                         <h4 class="card-title text-center"><b>Manajemen Barang</b></h4>
                         <p class="text-center">Kelola data Barang</p>
-                        <a href="#" class="btn btn-block">Show</a>
+                        <a href="/barang" class="btn btn-block">Show</a>
                     </div><!--card-body-->
                 </div><!--card-->
             </div><!--col-lg-4-->
