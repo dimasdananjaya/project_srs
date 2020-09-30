@@ -36,7 +36,7 @@
                     <div class="card-body">
                         <h4 class="card-title text-center"><b>Manajemen Pengguna</b></h4>
                         <p class="text-center">Kelola data Pengguna dan Member</p>
-                        <a href="#" class="btn btn-block">Show</a>
+                        <a href="/member" class="btn btn-block">Show</a>
                     </div><!--card-body-->
                 </div><!--card-->
             </div><!--col-lg-4-->

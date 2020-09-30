@@ -25,3 +25,6 @@ Route::get('/store-dashboard', [App\Http\Controllers\RouteController::class,'sto
 
 use App\Http\Controllers\BarangController;
 Route::resource('/barang', BarangController::class);
+
+use App\Http\Controllers\MemberController;
+Route::resource('/member', MemberController::class);

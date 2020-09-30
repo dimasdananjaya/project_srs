@@ -24,11 +24,18 @@ class CreateUsersTable extends Migration
         });
 
         Schema::create('barang', function (Blueprint $table) {
-            $table->id_barang();
+            $table->id('id_barang');
             $table->string('nama_barang');
             $table->string('jenis');
             $table->decimal('harga_pokok',13,2);
             $table->decimal('harga_jual',13,2);
+            $table->timestamps();
+        });
+
+        Schema::create('member', function (Blueprint $table) {
+            $table->id('id_member');
+            $table->string('nama_member');
+            $table->string('no_kontak');
             $table->timestamps();
         });
     }
