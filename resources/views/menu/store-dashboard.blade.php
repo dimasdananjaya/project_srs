@@ -21,6 +21,83 @@
                 </ul>
                 <div class="tab-content mt-3" id="myTabContent">
                     <div class="tab-pane fade show active" id="sales" role="tabpanel" aria-labelledby="home-tab">
+                        <!-- Modal -->
+                        <div class="modal fade" id="add-orders-modal" tabindex="-1" role="dialog"  aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Add Order</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ route('barang.store') }}"  method="POST">
+                                            @csrf
+                                            <label>Nama Pemesan :</label>
+                                            {{ Form::text('nama_pembeli','',['class' => 'form-control form-group'])}}
+                                            <label>Kontak Pemesan :</label>
+                                            {{ Form::text('kontak_pembeli','',['class' => 'form-control form-group'])}}
+                                            <label>Alamat Pengiriman :</label>
+                                            {{ Form::text('alamat_pengiriman','',['class' => 'form-control form-group'])}}
+                                            {{Form::hidden('id_user', Auth::user()->id_user) }}
+                                            {{Form::hidden('status', 'pending') }}
+                                            {{-- ... customer name and email fields --}}
+                                        
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    Products
+                                                </div>
+                                        
+                                                <div class="card-body">
+                                                    <table class="table" id="products_table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Items</th>
+                                                                <th>Quantity</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr id="product0">
+                                                                <td>
+                                                                    <select name="products[]" class="form-control form-group">
+                                                                        <option value="">-- choose product --</option>
+                                                                        @foreach ($dataBarang as $db)
+                                                                            <option value="{{ $db->id_barang }}">
+                                                                                {{ $db->nama_barang }} (${{ number_format($product->price, 2) }})
+                                                                            </option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" name="quantities[]" class="form-control" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="product1"></tr>
+                                                        </tbody>
+                                                    </table>
+                                        
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <button id="add_row" class="btn btn-success pull-left">+ Add Row</button>
+                                                            <button id='delete_row' class="pull-right btn btn-danger">- Delete Row</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <label>Total Price :</label>
+                                            {{ Form::number('total_price','',['class' => 'form-control form-group'])}}
+                                            <div>
+                                                <input class="btn btn-primary btn-block" type="submit">
+                                            </div>
+                                        </form>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div><!--end modal body-->
+                                </div><!-- end modal content-->
+                            </div><!--end modal dialog-->
+                        </div><!--end modal-->
                         <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
                             <thead>
                                 <tr>
@@ -111,5 +188,25 @@
     $(document).ready(function() {
         $('#example').DataTable();
     } );
+
+    $(document).ready(function(){
+            let row_number = 1;
+            $("#add_row").click(function(e){
+            e.preventDefault();
+            let new_row_number = row_number - 1;
+            $('#product' + row_number).html($('#product' + new_row_number).html()).find('td:first-child');
+            $('#products_table').append('<tr id="product' + (row_number + 1) + '"></tr>');
+            row_number++;
+            });
+
+            $("#delete_row").click(function(e){
+            e.preventDefault();
+            if(row_number > 1){
+                $("#product" + (row_number - 1)).html('');
+                row_number--;
+            }
+            });
+        });
 </script>
+
 @endsection

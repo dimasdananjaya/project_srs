@@ -28,3 +28,27 @@ Route::resource('/barang', BarangController::class);
 
 use App\Http\Controllers\MemberController;
 Route::resource('/member', MemberController::class);
+
+
+
+Route::get('/nama-barang', function () {
+
+    $categoris = Category::where('parent_id',0)->get();
+    
+    return view('welcome',["categoris" => $categoris]);
+
+});
+
+Route::post('/harga-pokok', function (Request $request) {
+
+    $parent_id = $request->cat_id;
+    
+    $subcategories = Category::where('id',$parent_id)
+                          ->with('subcategories')
+                          ->get();
+
+    return response()->json([
+        'subcategories' => $subcategories
+    ]);
+   
+})->name('harga.pokok');

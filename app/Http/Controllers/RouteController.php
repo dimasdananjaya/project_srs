@@ -16,8 +16,4 @@ class RouteController extends Controller
         ->with('dataPeriode',$dataPeriode)
         ->with('dataStore',$dataStore);
     }
-
-    public function storeDashboard(){
-        return view('menu.store-dashboard');
-    }
 }

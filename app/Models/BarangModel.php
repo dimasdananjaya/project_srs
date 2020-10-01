@@ -12,4 +12,10 @@ class BarangModel extends Model
     protected $table = 'barang';
     public $timestamps = true;
     public $primaryKey='id_barang';
+
+    public function barang()
+    {
+        return $this->belongsToMany('App\Models', 'barang_penjualan', 
+        'id_order','id_product')->withPivot(['quantity']);
+    }
 }
