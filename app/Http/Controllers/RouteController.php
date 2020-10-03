@@ -3,17 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\StoreListModel;
+use App\Models\TokoModel;
 use App\Models\PeriodeModel;
 
 class RouteController extends Controller
 {
-    public function storeList(){
-        $dataStore=StoreListModel::all();
+    public function tokoList(){
+        $dataToko=TokoModel::all();
         $dataPeriode=PeriodeModel::all();
 
-        return view('menu.store-list')
+        return view('menu.toko-list')
         ->with('dataPeriode',$dataPeriode)
-        ->with('dataStore',$dataStore);
+        ->with('dataToko',$dataToko);
     }
 }

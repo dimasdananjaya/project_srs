@@ -5,7 +5,7 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-header">
-                <h4><b>Store : Teges</b></h4>
+            <h4>Dashboard Toko : <b> @foreach ($dataToko as $dt) {{$dt->nama_toko}} @endforeach</b></h4>
             </div><!--card-header-->
             <div class="card-body">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">

@@ -4,12 +4,12 @@
 <section id="store-list">
     <div class="container mt-3">
         <div class="row">
-            @foreach ($dataStore as $ds)
+            @foreach ($dataToko as $dt)
             <div class="col-lg-4">
                 <div class="card">
                     <img class="card-img-top mx-auto d-block mb-2" src="/resources/logo/store.svg" alt="Card image cap">
                     <div class="card-body">
-                        <h4 class="card-title text-center"><b>{{$ds->nama_toko}}</b></h4>
+                        <h4 class="card-title text-center"><b>{{$dt->nama_toko}}</b></h4>
                         <hr>
                         <button href="#" class="btn btn-block btn-primary" data-toggle="modal" data-target="#salesModal">Kelola Sales</button>
                         <button href="#" class="btn btn-block btn-primary" data-toggle="modal" data-target="#reportModal">Rekap Laporan</button>
@@ -28,7 +28,7 @@
                             </div><!--modal-header-->
                             <div class="modal-body">
                                 <div class="form-group-row">
-                                    {!!Form::open(['route'=>'barang.store', 'method'=>'POST'])!!}
+                                    {!!Form::open(['route'=>'toko.dashboard', 'method'=>'POST'])!!}
                                         <div class="col-lg-12">
                                             {{Form::label('periode','Periode :')}}
                                             <select class="form-control form-group" id="exampleFormControlSelect1" name="periode">
@@ -36,6 +36,7 @@
                                                     <option value="{{$dtp->id_periode}}">{{$dtp->periode}}</option>
                                                 @endforeach
                                             </select>
+                                            {{Form::hidden('id_toko',$dt->id_toko)}}
                                             {{Form::submit('Simpan',['class'=>'btn btn-success btn-block'])}}
                                         </div><!--col-lg-12-->
                                     {!!Form::close()!!}

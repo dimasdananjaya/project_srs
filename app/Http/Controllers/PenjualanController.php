@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\MemberModel;
 use App\Models\BarangModel;
 use App\Models\PeriodeModel;
+use App\Models\PenjualanModel;
+use App\Models\TokoModel;
+use DB;
 
 class PenjualanController extends Controller
 {
@@ -16,13 +19,8 @@ class PenjualanController extends Controller
      */
     public function index()
     {
-        $dataMember=MemberModel::all();
-        $dataBarang=BarangModel::all();
-        $dataPeriode=PeriodeModel::all();
-        return view('menu.store-dashboard')
-        ->with('dataBarang',$dataBarang)
-        ->with('dataPeriode',$dataPeriode)
-        ->with('dataMember',$dataMember);
+
+
     }
 
     /**
@@ -89,5 +87,27 @@ class PenjualanController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function showPenjualanToko(Request $request)
+    {
+        $periode=$request->input('periode');
+        $idToko=$request->input('id_toko');
+
+        $dataMember=MemberModel::all();
+        $dataBarang=BarangModel::all();
+        $dataPeriode=PeriodeModel::all();
+        $dataToko=DB::table('toko')->where('id_toko', '=', $idToko)->get();
+        $dataPenjualan=PenjualanModel::with('barang_penjualan')
+        ->where('id_periode', '=', $periode)
+        ->where('id_toko', '=', $idToko)
+        ->orderBy('updated_at','DESC')->get();
+
+        return view('menu.toko-dashboard')
+        ->with('dataBarang',$dataBarang)
+        ->with('dataPeriode',$dataPeriode)
+        ->with('dataMember',$dataMember)
+        ->with('dataPenjualan',$dataPenjualan)
+        ->with('dataToko',$dataToko);
     }
 }

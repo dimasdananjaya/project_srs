@@ -14,7 +14,7 @@
                     <div class="card-body">
                         <h4 class="card-title text-center"><b>Penjualan Toko</b></h4>
                         <p class="text-center">Kelola Data Penjualan Toko</p>
-                        <a href="/store-list" class="btn btn-block">Show</a>
+                        <a href="/toko-list" class="btn btn-block">Show</a>
                     </div><!--card-body-->
                 </div><!--card-->
             </div><!--col-lg-4-->

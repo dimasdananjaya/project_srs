@@ -20,8 +20,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/store-list', [App\Http\Controllers\RouteController::class,'storeList'])->name('store.list');
-Route::get('/store-dashboard', [App\Http\Controllers\RouteController::class,'storeDashboard'])->name('store.dashboard');
+Route::get('/toko-list', [App\Http\Controllers\RouteController::class,'tokoList'])->name('toko.list');
+Route::post('/toko-dashboard', [App\Http\Controllers\PenjualanController::class,'showPenjualanToko'])->name('toko.dashboard');
 
 use App\Http\Controllers\BarangController;
 Route::resource('/barang', BarangController::class);
@@ -29,26 +29,6 @@ Route::resource('/barang', BarangController::class);
 use App\Http\Controllers\MemberController;
 Route::resource('/member', MemberController::class);
 
+use App\Http\Controllers\PenjualanController;
+Route::resource('/penjualan', PenjualanController::class);
 
-
-Route::get('/nama-barang', function () {
-
-    $categoris = Category::where('parent_id',0)->get();
-    
-    return view('welcome',["categoris" => $categoris]);
-
-});
-
-Route::post('/harga-pokok', function (Request $request) {
-
-    $parent_id = $request->cat_id;
-    
-    $subcategories = Category::where('id',$parent_id)
-                          ->with('subcategories')
-                          ->get();
-
-    return response()->json([
-        'subcategories' => $subcategories
-    ]);
-   
-})->name('harga.pokok');

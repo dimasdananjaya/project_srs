@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PembayaranBonModel extends Model
+class TokoModel extends Model
 {
     use HasFactory;
 
-    protected $table = 'pembayaran_bon';
+    protected $table = 'toko';
     public $timestamps = true;
-    public $primaryKey='id_pembayaran_bon';
+    public $primaryKey='id_toko';
 }

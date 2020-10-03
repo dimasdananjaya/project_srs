@@ -16,7 +16,7 @@ class MemberController extends Controller
     public function index()
     {
         $dataMember=MemberModel::all();
-        return view('menu.manage-member')
+        return view('menu.member-manage')
         ->with('dataMember',$dataMember);
     }
 
