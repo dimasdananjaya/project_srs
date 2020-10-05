@@ -1,9 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<section id="store-list">
+<section id="toko-list">
     <div class="container mt-3">
-        <div class="row">
+        <h2 class="text-center"><b>Daftar Toko<b></h2>
+        <hr>
+        <div class="row mt-3">
             @foreach ($dataToko as $dt)
             <div class="col-lg-4">
                 <div class="card">
@@ -11,13 +13,13 @@
                     <div class="card-body">
                         <h4 class="card-title text-center"><b>{{$dt->nama_toko}}</b></h4>
                         <hr>
-                        <button href="#" class="btn btn-block btn-primary" data-toggle="modal" data-target="#salesModal">Kelola Sales</button>
+                        <button href="#" class="btn btn-block btn-primary" data-toggle="modal" data-target="#salesModal{{$dt->id_toko}}">Kelola Sales</button>
                         <button href="#" class="btn btn-block btn-primary" data-toggle="modal" data-target="#reportModal">Rekap Laporan</button>
                     </div><!--card-body-->
                 </div><!--card-->
 
                 <!-- Sales modal -->
-                <div class="modal fade" id="salesModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="salesModal{{$dt->id_toko}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -28,7 +30,7 @@
                             </div><!--modal-header-->
                             <div class="modal-body">
                                 <div class="form-group-row">
-                                    {!!Form::open(['route'=>'toko.dashboard', 'method'=>'POST'])!!}
+                                    {!!Form::open(['route'=>['toko.dashboard', ''], 'method'=>'GET'])!!}
                                         <div class="col-lg-12">
                                             {{Form::label('periode','Periode :')}}
                                             <select class="form-control form-group" id="exampleFormControlSelect1" name="periode">
@@ -36,6 +38,7 @@
                                                     <option value="{{$dtp->id_periode}}">{{$dtp->periode}}</option>
                                                 @endforeach
                                             </select>
+                                            
                                             {{Form::hidden('id_toko',$dt->id_toko)}}
                                             {{Form::submit('Simpan',['class'=>'btn btn-success btn-block'])}}
                                         </div><!--col-lg-12-->

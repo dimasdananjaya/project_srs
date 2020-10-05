@@ -20,13 +20,19 @@
                 </li>
                 </ul>
                 <div class="tab-content mt-3" id="myTabContent">
+
                     <div class="tab-pane fade show active" id="sales" role="tabpanel" aria-labelledby="home-tab">
+                        <!-- Button Tambah Penjualan modal -->
+                        <button type="button" class="btn btn-primary mb-4" data-toggle="modal" data-target="#add-orders-modal">
+                            Tambah Penjualan
+                        </button>
+
                         <!-- Modal -->
                         <div class="modal fade" id="add-orders-modal" tabindex="-1" role="dialog"  aria-hidden="true">
-                            <div class="modal-dialog">
+                            <div class="modal-dialog modal-xl">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Add Order</h5>
+                                        <h5 class="modal-title" id="exampleModalLabel">Tambah Penjualan</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                         </button>
@@ -34,14 +40,36 @@
                                     <div class="modal-body">
                                         <form action="{{ route('barang.store') }}"  method="POST">
                                             @csrf
-                                            <label>Nama Pemesan :</label>
-                                            {{ Form::text('nama_pembeli','',['class' => 'form-control form-group'])}}
-                                            <label>Kontak Pemesan :</label>
-                                            {{ Form::text('kontak_pembeli','',['class' => 'form-control form-group'])}}
-                                            <label>Alamat Pengiriman :</label>
-                                            {{ Form::text('alamat_pengiriman','',['class' => 'form-control form-group'])}}
+                                            <label>Pembeli / Member :</label>
+                                            <select name="id_member" class="form-control form-group">
+                                                <option value="">-- pilih --</option>
+                                                @foreach ($dataMember as $dm)
+                                                    <option value="{{ $dm->id_member }}">
+                                                        {{ $dm->nama_member }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <label>Pembeli / Member :</label>
+                                            <select name="jenis_pembayaran" class="form-control form-group">
+                                                <option value="cash">
+                                                    Cash
+                                                </option>
+                                                <option value="transfer">
+                                                    Transfer
+                                                </option>
+                                                <option value="bon">
+                                                    Bon
+                                                </option>
+                                            </select>
+                                            <label>Keterangan :</label>
+                                            {{ Form::text('keterangan','',['class' => 'form-control form-group'])}}
                                             {{Form::hidden('id_user', Auth::user()->id_user) }}
-                                            {{Form::hidden('status', 'pending') }}
+                                            @foreach ($dataToko as $dt) 
+                                                {{Form::hidden('id_toko', $dt->id_toko) }}
+                                            @endforeach
+                                            @foreach ($dataPeriode as $dp) 
+                                                {{Form::hidden('id_periode', $dp->id_periode) }}
+                                            @endforeach
                                             {{-- ... customer name and email fields --}}
                                         
                                             <div class="card">
@@ -50,43 +78,33 @@
                                                 </div>
                                         
                                                 <div class="card-body">
-                                                    <table class="table" id="products_table">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Items</th>
-                                                                <th>Quantity</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr id="product0">
-                                                                <td>
-                                                                    <select name="products[]" class="form-control form-group">
-                                                                        <option value="">-- choose product --</option>
-                                                                        @foreach ($dataBarang as $db)
-                                                                            <option value="{{ $db->id_barang }}">
-                                                                                {{ $db->nama_barang }} (${{ number_format($product->price, 2) }})
-                                                                            </option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </td>
-                                                                <td>
-                                                                    <input type="number" name="quantities[]" class="form-control" />
-                                                                </td>
-                                                            </tr>
-                                                            <tr id="product1"></tr>
-                                                        </tbody>
-                                                    </table>
-                                        
+                                                    <table id="tabel_barangs" class="table table-bordered">
+                                                        <tr>
+                                                            <th><input class='check_all' type='checkbox' onclick="select_all()"/></th>
+                                                            <th>No.</th>
+                                                            <th>Nama Barang</th>
+                                                            <th>Harga Pokok</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><input type='checkbox' class='chkbox'/></td>
+                                                            <td><span id='sn'>1.</span></td>
+                                                            <td><input class="form-control autocomplete_txt" type='text' data-type="nama_barang" id='nama_barang_1' name='nama_barang[]'/></td>
+                                                            <td><input class="form-control autocomplete_txt" type='text' data-type="harga_pokok" id='harga_pokok_1' name='harga_pokok[]'/> </td>
+                                                          </tr>
+                                                        </table>
+                                                    <div>
+                                                        <hr>
+                                                        <p style="float: right;"><b>Total Harga : Rp 99999999</b></p>
+                                                    </div>
                                                     <div class="row">
                                                         <div class="col-md-12">
-                                                            <button id="add_row" class="btn btn-success pull-left">+ Add Row</button>
-                                                            <button id='delete_row' class="pull-right btn btn-danger">- Delete Row</button>
+                                                            <button type="button" class='btn btn-danger delete'>- Delete</button>
+                                                            <button type="button" class='btn btn-success addbtn'>+ Add More</button>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <label>Total Price :</label>
-                                            {{ Form::number('total_price','',['class' => 'form-control form-group'])}}
+                                                </div><!--card-body-->
+                                            </div><!--card-->
+
                                             <div>
                                                 <input class="btn btn-primary btn-block" type="submit">
                                             </div>
@@ -98,75 +116,29 @@
                                 </div><!-- end modal content-->
                             </div><!--end modal dialog-->
                         </div><!--end modal-->
-                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+                        <table class="table table-striped table-bordered dt-responsive nowrap" id="example" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>First name</th>
-                                    <th>Last name</th>
-                                    <th>Position</th>
-                                    <th>Office</th>
-                                    <th>Age</th>
-                                    <th>Start date</th>
-                                    <th>Salary</th>
-                                    <th>Extn.</th>
-                                    <th>E-mail</th>
+                                    <th>Id</th>
+                                    <th>Pembeli</th>
+                                    <th>Items</th>
+                                    <th>Total Harga Pokok</th>
+                                    <th>Total Harga Jual</th>
+                                    <th>Jenis Pembayaran</th>
+                                    <th>Keterangan</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Tiger</td>
-                                    <td>Nixon</td>
+                                    <td>1</td>
+                                    <td>Dims</td>
                                     <td>System Architect</td>
                                     <td>Edinburgh</td>
                                     <td>61</td>
                                     <td>2011/04/25</td>
                                     <td>$320,800</td>
                                     <td>5421</td>
-                                    <td>t.nixon@datatables.net</td>
-                                </tr>
-                                <tr>
-                                    <td>Garrett</td>
-                                    <td>Winters</td>
-                                    <td>Accountant</td>
-                                    <td>Tokyo</td>
-                                    <td>63</td>
-                                    <td>2011/07/25</td>
-                                    <td>$170,750</td>
-                                    <td>8422</td>
-                                    <td>g.winters@datatables.net</td>
-                                </tr>
-                                <tr>
-                                    <td>Ashton</td>
-                                    <td>Cox</td>
-                                    <td>Junior Technical Author</td>
-                                    <td>San Francisco</td>
-                                    <td>66</td>
-                                    <td>2009/01/12</td>
-                                    <td>$86,000</td>
-                                    <td>1562</td>
-                                    <td>a.cox@datatables.net</td>
-                                </tr>
-                                <tr>
-                                    <td>Cedric</td>
-                                    <td>Kelly</td>
-                                    <td>Senior Javascript Developer</td>
-                                    <td>Edinburgh</td>
-                                    <td>22</td>
-                                    <td>2012/03/29</td>
-                                    <td>$433,060</td>
-                                    <td>6224</td>
-                                    <td>c.kelly@datatables.net</td>
-                                </tr>
-                                <tr>
-                                    <td>Airi</td>
-                                    <td>Satou</td>
-                                    <td>Accountant</td>
-                                    <td>Tokyo</td>
-                                    <td>33</td>
-                                    <td>2008/11/28</td>
-                                    <td>$162,700</td>
-                                    <td>5407</td>
-                                    <td>a.satou@datatables.net</td>
                                 </tr>
 
                             </tbody>
@@ -185,28 +157,7 @@
 </section>
 
 <script>
-    $(document).ready(function() {
-        $('#example').DataTable();
-    } );
 
-    $(document).ready(function(){
-            let row_number = 1;
-            $("#add_row").click(function(e){
-            e.preventDefault();
-            let new_row_number = row_number - 1;
-            $('#product' + row_number).html($('#product' + new_row_number).html()).find('td:first-child');
-            $('#products_table').append('<tr id="product' + (row_number + 1) + '"></tr>');
-            row_number++;
-            });
-
-            $("#delete_row").click(function(e){
-            e.preventDefault();
-            if(row_number > 1){
-                $("#product" + (row_number - 1)).html('');
-                row_number--;
-            }
-            });
-        });
 </script>
 
 @endsection

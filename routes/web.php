@@ -21,7 +21,9 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/toko-list', [App\Http\Controllers\RouteController::class,'tokoList'])->name('toko.list');
-Route::post('/toko-dashboard', [App\Http\Controllers\PenjualanController::class,'showPenjualanToko'])->name('toko.dashboard');
+Route::get('/toko-dashboard', [App\Http\Controllers\PenjualanController::class,'showPenjualanToko'])->name('toko.dashboard');
+
+Route::get('searchajax', ['as'=>'searchajax','uses'=>'PenjualanController@searchResponse']);
 
 use App\Http\Controllers\BarangController;
 Route::resource('/barang', BarangController::class);

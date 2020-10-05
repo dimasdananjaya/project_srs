@@ -34,8 +34,8 @@
                 <div class="card">
                     <img class="card-img-top mx-auto d-block mb-2" src="/resources/logo/user.svg" alt="Card image cap">
                     <div class="card-body">
-                        <h4 class="card-title text-center"><b>Manajemen Pengguna</b></h4>
-                        <p class="text-center">Kelola data Pengguna dan Member</p>
+                        <h4 class="card-title text-center"><b>Manajemen Member</b></h4>
+                        <p class="text-center">Kelola data Member</p>
                         <a href="/member" class="btn btn-block">Show</a>
                     </div><!--card-body-->
                 </div><!--card-->

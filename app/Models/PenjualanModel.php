@@ -16,7 +16,7 @@ class PenjualanModel extends Model
 
     public function barang()
     {
-        return $this->belongsToMany('App\Models\BarangModel', 'barang_penjualan', 
+        return $this->belongsToMany('App\Models\BarangPenjualanModel', 'barang_penjualan', 
         'id_penjualan','id_barang')->withPivot(['quantity']);
     }
 }
