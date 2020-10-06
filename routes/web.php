@@ -23,7 +23,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/toko-list', [App\Http\Controllers\RouteController::class,'tokoList'])->name('toko.list');
 Route::get('/toko-dashboard', [App\Http\Controllers\PenjualanController::class,'showPenjualanToko'])->name('toko.dashboard');
 
-Route::get('searchajax', ['as'=>'searchajax','uses'=>'PenjualanController@searchResponse']);
+Route::get('/searchajax', [App\Http\Controllers\PenjualanController::class,'searchResponse'])->name('searchajax');
 
 use App\Http\Controllers\BarangController;
 Route::resource('/barang', BarangController::class);

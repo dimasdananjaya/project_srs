@@ -47,8 +47,10 @@ class PenjualanController extends Controller
 
         $products = $request->input('products', []);
         $quantities = $request->input('quantities', []);
-        $harga_juals = $request->input('harga_juals', []);
-        $harga_pokoks = $request->input('harga_pokoks', []);
+        $total_harga_juals = $request->input('total_harga_juals', []);
+        $total_harga_pokoks = $request->input('total_harga_pokoks', []);
+
+       
 
         $penjualan = new PenjualanModel;
         $penjualan->id_toko = $request->input('id_toko');
@@ -143,15 +145,18 @@ class PenjualanController extends Controller
         if($request->type=='harga_pokok'){
             $barangs->where('harga_pokok','LIKE','%'.$query.'%');
         }
-           $barangs=$barangs->get();        
+        if($request->type=='harga_jual'){
+            $barangs->where('harga_jual','LIKE','%'.$query.'%');
+        }
+        $barangs=$barangs->get();        
         $data=array();
         foreach ($barangs as $br) {
-                $data[]=array('nama_barang'=>$br->nama_barang,'harga_pokok'=>$br->harga_pokok);
+                $data[]=array('nama_barang'=>$br->nama_barang,'harga_pokok'=>$br->harga_pokok,'harga_jual'=>$br->harga_jual);
         }
         if(count($data))
              return $data;
         else
-            return ['nama_barang'=>'','harga_pokok'=>''];
+            return ['nama_barang'=>'','harga_pokok'=>'','harga_jual'=>''];
     }
 
 }

@@ -49,7 +49,7 @@
                                                     </option>
                                                 @endforeach
                                             </select>
-                                            <label>Pembeli / Member :</label>
+                                            <label>Metode Pembayaran :</label>
                                             <select name="jenis_pembayaran" class="form-control form-group">
                                                 <option value="cash">
                                                     Cash
@@ -76,32 +76,45 @@
                                                 <div class="card-header">
                                                     Products
                                                 </div>
-                                        
+
                                                 <div class="card-body">
-                                                    <table id="tabel_barangs" class="table table-bordered">
+                                                    <table id="tabel_barangs" class="table table-bordered table-responsive">
                                                         <tr>
                                                             <th><input class='check_all' type='checkbox' onclick="select_all()"/></th>
                                                             <th>No.</th>
+                                                            <th>Jumlah</th>
                                                             <th>Nama Barang</th>
                                                             <th>Harga Pokok</th>
+                                                            <th>Harga Jual</th>
+                                                            <th>Total Harga Pokok</th>
+                                                            <th>Total Harga Jual</th>
+                                                            
                                                         </tr>
                                                         <tr>
                                                             <td><input type='checkbox' class='chkbox'/></td>
                                                             <td><span id='sn'>1.</span></td>
-                                                            <td><input class="form-control autocomplete_txt" type='text' data-type="nama_barang" id='nama_barang_1' name='nama_barang[]'/></td>
-                                                            <td><input class="form-control autocomplete_txt" type='text' data-type="harga_pokok" id='harga_pokok_1' name='harga_pokok[]'/> </td>
+                                                            <td><input style="width:6em;" class="form-control" type='number' data-type="jumlah" id='jumlah_1' name='jumlah[]'/> </td>
+                                                            <td><input style="width:15em;" class="form-control span-2 autocomplete_txt" type='text' data-type="nama_barang" id='nama_barang_1' name='nama_barang[]'/></td>
+                                                            <td><input class="form-control autocomplete_txt" type='number' data-type="harga_pokok" id='harga_pokok_1' name='harga_pokok[]'readonly/> </td>
+                                                            <td><input class="form-control autocomplete_txt" type='number' data-type="harga_jual" id='harga_jual_1' name='harga_jual[]' readonly/> </td>
+                                                            <td><input class="form-control autocomplete_txt" type='number' data-type="total_harga_pokok" id='total_harga_pokok_1' name='total_harga_pokok[]' readonly/> </td>
+                                                            <td><input class="form-control autocomplete_txt" type='number' data-type="total_harga_jual" id='total_harga_jual_1' name='total_harga_jual[]' readonly/> </td>
+                                                            
                                                           </tr>
                                                         </table>
-                                                    <div>
-                                                        <hr>
-                                                        <p style="float: right;"><b>Total Harga : Rp 99999999</b></p>
-                                                    </div>
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <button type="button" class='btn btn-danger delete'>- Delete</button>
                                                             <button type="button" class='btn btn-success addbtn'>+ Add More</button>
-                                                        </div>
-                                                    </div>
+                                                        </div><!--col-12-->
+                                                        <div class="col-md-6 offset-md-6">
+                                                            <label class="mt-3">Diskon :</label>
+                                                            <input class="form-control" type='number' id='diskon' name='diskon'/>
+                                                            <hr>
+                                                            <label class="mt-3">Total Akhir:</label>
+                                                            <input class="form-control" type='number' id='total_akhir' name='total_akhir' readonly/>
+                                                        </div><!--col -3-->
+                                                    </div><!--row-->
                                                 </div><!--card-body-->
                                             </div><!--card-->
 
@@ -143,21 +156,18 @@
 
                             </tbody>
                         </table>
-                    </div>
+                    </div><!--tab tambah penjualan-->
                     <div class="tab-pane fade" id="bon" role="tabpanel" aria-labelledby="profile-tab">
 
-                    </div>
+                    </div><!--tab bon-->
                     <div class="tab-pane fade" id="items-sold" role="tabpanel" aria-labelledby="contact-tab">
 
-                    </div>
+                    </div><!--tab items sold-->
                 </div><!--tab content-->
             </div><!--card-body-->
         </div><!--card-->
     </div><!--container-->
 </section>
 
-<script>
-
-</script>
 
 @endsection
