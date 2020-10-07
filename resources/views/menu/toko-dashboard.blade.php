@@ -17,7 +17,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="contact-tab" data-toggle="tab" href="#items-sold" role="tab" aria-controls="contact" aria-selected="false">Items Sold</a>
-                </li>
+                    </li>
                 </ul>
                 <div class="tab-content mt-3" id="myTabContent">
 
@@ -38,7 +38,7 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="{{ route('barang.store') }}"  method="POST">
+                                        <form action="{{ route('penjualan.store') }}"  method="POST">
                                             @csrf
                                             <label>Pembeli / Member :</label>
                                             <select name="id_member" class="form-control form-group">
@@ -56,9 +56,6 @@
                                                 </option>
                                                 <option value="transfer">
                                                     Transfer
-                                                </option>
-                                                <option value="bon">
-                                                    Bon
                                                 </option>
                                             </select>
                                             <label>Keterangan :</label>
@@ -83,6 +80,7 @@
                                                             <th><input class='check_all' type='checkbox' onclick="select_all()"/></th>
                                                             <th>No.</th>
                                                             <th>Jumlah</th>
+                                                            <th>Id Barang</th>
                                                             <th>Nama Barang</th>
                                                             <th>Harga Pokok</th>
                                                             <th>Harga Jual</th>
@@ -94,7 +92,8 @@
                                                             <td><input type='checkbox' class='chkbox'/></td>
                                                             <td><span id='sn'>1.</span></td>
                                                             <td><input style="width:6em;" class="form-control" type='number' data-type="jumlah" id='jumlah_1' name='jumlah[]'/> </td>
-                                                            <td><input style="width:15em;" class="form-control span-2 autocomplete_txt" type='text' data-type="nama_barang" id='nama_barang_1' name='nama_barang[]'/></td>
+                                                            <td><input style="width:6em;" class="form-control autocomplete_txt" type='text' data-type="id_barang" id='id_barang_1' name='id_barang[]' readonly/></td>
+                                                            <td><input style="width:15em;" class="form-control autocomplete_txt" type='text' data-type="nama_barang" id='nama_barang_1' name='nama_barang[]'/></td>
                                                             <td><input class="form-control autocomplete_txt" type='number' data-type="harga_pokok" id='harga_pokok_1' name='harga_pokok[]'readonly/> </td>
                                                             <td><input class="form-control autocomplete_txt" type='number' data-type="harga_jual" id='harga_jual_1' name='harga_jual[]' readonly/> </td>
                                                             <td><input class="form-control autocomplete_txt" type='number' data-type="total_harga_pokok" id='total_harga_pokok_1' name='total_harga_pokok[]' readonly/> </td>
@@ -109,10 +108,15 @@
                                                         </div><!--col-12-->
                                                         <div class="col-md-6 offset-md-6">
                                                             <label class="mt-3">Diskon :</label>
-                                                            <input class="form-control" type='number' id='diskon' name='diskon'/>
+                                                            <input class="form-control" type='number' id='diskon' value="0" name='diskon'/>
                                                             <hr>
-                                                            <label class="mt-3">Total Akhir:</label>
-                                                            <input class="form-control" type='number' id='total_akhir' name='total_akhir' readonly/>
+                                                            <label class="mt-3">Total Harga Pokok Penjualan:</label>
+                                                            <input type="number" class="form-control" id="total_harga_pokok_akhir" name="total_harga_akhir_pokok_penjualan" readonly>
+                                                            <label class="mt-3">Total Harga Jual Penjualan:</label>
+                                                            <input type="number" class="form-control" id="total_akhir1" name="total_harga_akhir_penjualan" readonly>
+                                                            <label class="mt-3"><b>Total Akhir:</b></label>
+                                                            <input class="form-control" type='number' id='total_akhir2' name='total_akhir' readonly/>
+
                                                         </div><!--col -3-->
                                                     </div><!--row-->
                                                 </div><!--card-body-->
@@ -144,14 +148,16 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>1</td>
-                                    <td>Dims</td>
-                                    <td>System Architect</td>
-                                    <td>Edinburgh</td>
-                                    <td>61</td>
-                                    <td>2011/04/25</td>
-                                    <td>$320,800</td>
-                                    <td>5421</td>
+                                    @foreach($dataPenjualan as $dp)
+                                        <td>{{$dp->id_penjualan}}</td>
+                                        <td>{{$dp->id_penjualan}}</td>
+                                        <td>{{$dp->id_penjualan}}</td>
+                                        <td>{{$dp->id_penjualan}}</td>
+                                        <td>{{$dp->id_penjualan}}</td>
+                                        <td>{{$dp->id_penjualan}}</td>
+                                        <td>{{$dp->id_penjualan}}</td>
+                                        <td>{{$dp->id_penjualan}}</td>
+                                    @endforeach
                                 </tr>
 
                             </tbody>

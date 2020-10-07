@@ -1,23 +1,29 @@
 $(document).ready(function() {
     $('#example').DataTable();
 } );
-$(document).ready(function(){
-        let row_number = 1;
-        $("#add_row").click(function(e){
-        e.preventDefault();
-        let new_row_number = row_number - 1;
-        $('#product' + row_number).html($('#product' + new_row_number).html()).find('td:first-child');
-        $('#products_table').append('<tr id="product' + (row_number + 1) + '"></tr>');
-        row_number++;
-        });
-        $("#delete_row").click(function(e){
-        e.preventDefault();
-        if(row_number > 1){
-            $("#product" + (row_number - 1)).html('');
-            row_number--;
-        }
-        });
-    });
+
+
+function totalAkhir(){
+  var diskon=$('#diskon').val();
+
+  var tmpPokok = 0;
+  $("input[name^='total_harga_pokok']").each(function() { 
+      tmpPokok +=parseInt($(this).val()) 
+      totalHargaPokok=tmpPokok-diskon; 
+      $('#total_harga_pokok_akhir').val(totalHargaPokok);
+  });
+
+  
+  var tmpJual = 0;
+  $("input[name^='total_harga_jual']").each(function() { 
+      tmpJual +=parseInt($(this).val()) 
+      totalHargaJual=tmpJual-diskon; 
+      $('#total_akhir1').val(totalHargaJual);
+      $('#total_akhir2').val(totalHargaJual);
+  });
+
+
+}
 
 
 
@@ -25,6 +31,7 @@ $(".delete").on('click', function() {
     $('.chkbox:checkbox:checked').parents("tr").remove();
     $('.check_all').prop("checked", false); 
     updateSerialNo();
+    totalAkhir();
   });
   var i=$('table tr').length;
   $(".addbtn").on('click',function(){
@@ -33,6 +40,7 @@ $(".delete").on('click', function() {
       var data="<tr><td><input type='checkbox' class='chkbox'/></td>";
         data+="<td><span id='sn"+i+"'>"+count+".</span></td>";
         data+="<td><input style='width:6em;' class='form-control ' type='text' data-type='jumlah' id='jumlah_"+i+"' name='jumlah[]'/></td>";
+        data+="<td><input style='width:6em;' class='form-control autocomplete_txt' type='text' data-type='id_barang' id='id_barang_"+i+"' name='id_barang[]' readonly/></td>";
         data+="<td><input style='width:15em;' class='form-control autocomplete_txt' type='text' data-type='nama_barang' id='nama_barang_"+i+"' name='nama_barang[]'/></td>";
         data+="<td><input class='form-control autocomplete_txt' type='text' data-type='harga_pokok' id='harga_pokok_"+i+"' name='harga_pokok[]' readonly/></td>";
         data+="<td><input class='form-control autocomplete_txt' type='text' data-type='harga_jual' id='harga_jual_"+i+"' name='harga_jual[]' readonly/></td>";
@@ -59,7 +67,9 @@ $(".delete").on('click', function() {
     $.each( obj, function( key, value ) {
       id=value.id;
       $('#'+id).html(key+1);
+      
     });
+    totalAkhir();
   }
   //autocomplete script
   $(document).on('focus','.autocomplete_txt',function(){
@@ -97,6 +107,7 @@ $(".delete").on('click', function() {
              id_arr = $(this).attr('id');
              id = id_arr.split("_");
              elementId = id[id.length-1];
+             $('#id_barang_'+elementId).val(data.id_barang);
              $('#nama_barang_'+elementId).val(data.nama_barang);
              $('#harga_pokok_'+elementId).val(data.harga_pokok);
              $('#harga_jual_'+elementId).val(data.harga_jual);
@@ -114,13 +125,5 @@ $(".delete").on('click', function() {
            
      });
            
-    function totalAkhir(){
-      var diskon=$('#diskon').val();
-      var tmp = 0;
-      $("input[name^='total_harga_jual']").each(function() { 
-          tmp +=parseInt($(this).val()) 
-          totalHargaJual=tmp-diskon; 
-          $('#total_akhir').val(totalHargaJual);
-      });
-     }
+
 });
