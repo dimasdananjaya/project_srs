@@ -40,6 +40,8 @@
                                     <div class="modal-body">
                                         <form action="{{ route('penjualan.store') }}"  method="POST">
                                             @csrf
+                                            <label>Tanggal :</label>
+                                            {{ Form::date('tanggal','',['class' => 'form-control form-group'])}}
                                             <label>Pembeli / Member :</label>
                                             <select name="id_member" class="form-control form-group">
                                                 <option value="">-- pilih --</option>
@@ -57,6 +59,9 @@
                                                 <option value="transfer">
                                                     Transfer
                                                 </option>
+                                                <option value="bon">
+                                                    Bon
+                                                </option>
                                             </select>
                                             <label>Keterangan :</label>
                                             {{ Form::text('keterangan','',['class' => 'form-control form-group'])}}
@@ -64,10 +69,8 @@
                                             @foreach ($dataToko as $dt) 
                                                 {{Form::hidden('id_toko', $dt->id_toko) }}
                                             @endforeach
-                                            @foreach ($dataPeriode as $dp) 
-                                                {{Form::hidden('id_periode', $dp->id_periode) }}
-                                            @endforeach
-                                            {{-- ... customer name and email fields --}}
+                                          
+                                            {{Form::hidden('id_periode', $periode) }}
                                         
                                             <div class="card">
                                                 <div class="card-header">
@@ -113,7 +116,7 @@
                                                             <label class="mt-3">Total Harga Pokok Penjualan:</label>
                                                             <input type="number" class="form-control" id="total_harga_pokok_akhir" name="total_harga_akhir_pokok_penjualan" readonly>
                                                             <label class="mt-3">Total Harga Jual Penjualan:</label>
-                                                            <input type="number" class="form-control" id="total_akhir1" name="total_harga_akhir_penjualan" readonly>
+                                                            <input type="number" class="form-control" id="total_akhir1" name="total_harga_akhir_jual_penjualan" readonly>
                                                             <label class="mt-3"><b>Total Akhir:</b></label>
                                                             <input class="form-control" type='number' id='total_akhir2' name='total_akhir' readonly/>
 
@@ -133,41 +136,210 @@
                                 </div><!-- end modal content-->
                             </div><!--end modal dialog-->
                         </div><!--end modal-->
-                        <table class="table table-striped table-bordered dt-responsive nowrap" id="example" style="width:100%">
+                        <table class="table table-striped table-bordered dt-responsive table-responsive-xl table-sm" id="example" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>Id</th>
+                                    <th>Tanggal</th>
                                     <th>Pembeli</th>
                                     <th>Items</th>
+                                    <th>Jenis Pembayaran</th>
                                     <th>Total Harga Pokok</th>
                                     <th>Total Harga Jual</th>
+                                    <th>Total Diskon</th>
+                                    <th>Total Akhir</th>
+                                    <th>Keterangan</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($dataPenjualanLunas as $dp)
+                                <tr>
+                                    <td>{{$dp->id_penjualan}}</td>
+                                    <td>{{$dp->tanggal}}</td>
+                                    <td>{{$dp->nama_member}}</td>
+                                    <td>
+                                        <?php
+                                            $barangs= DB::table('barang_penjualan')
+                                            ->join('barang', 'barang_penjualan.id_barang', '=', 'barang.id_barang')
+                                            ->select('barang_penjualan.*', 'barang.nama_barang')
+                                            ->where('id_penjualan',$dp->id_penjualan)
+                                            ->get();
+                                        ?>
+                                        @foreach ($barangs as $barang)
+                                            <p><small>{{$barang->nama_barang}} x ({{$barang->jumlah}})</small></p>
+                                        @endforeach
+                                    </td>
+                                    <td>{{$dp->jenis_pembayaran}}</td>
+                                    <td> Rp. {{ number_format($dp->total_harga_pokok, 2, ',', '.') }}</td>
+                                    <td> Rp. {{ number_format($dp->total_harga_jual, 2, ',', '.') }}</td>
+                                    <td> Rp. {{ number_format($dp->diskon, 2, ',', '.') }}</td>
+                                    <td> Rp. {{ number_format($dp->total_akhir, 2, ',', '.') }}</td>
+                                    <td>{{$dp->keterangan}}</td>
+                                    <td><b>{{$dp->status}}</b></td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div><!--tab tambah penjualan-->
+
+<!---------------------------------------------------------- tab bon--------------------------------------------------->
+                    <div class="tab-pane fade" id="bon" role="tabpanel" aria-labelledby="profile-tab">
+                        <!-- Button Tambah Penjualan modal -->
+                        <h3><b>Tabel Bon</b></h3>
+                        <hr>
+                        <table class="table table-striped table-bordered dt-responsive nowrap" id="tabel-bon" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Tanggal</th>
+                                    <th>Pembeli</th>
+                                    <th>Items</th>
                                     <th>Jenis Pembayaran</th>
+                                    <th>Total Harga Pokok</th>
+                                    <th>Total Harga Jual</th>
+                                    <th>Total Diskon</th>
+                                    <th>Total Akhir</th>
                                     <th>Keterangan</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    @foreach($dataPenjualan as $dp)
-                                        <td>{{$dp->id_penjualan}}</td>
-                                        <td>{{$dp->id_penjualan}}</td>
-                                        <td>{{$dp->id_penjualan}}</td>
-                                        <td>{{$dp->id_penjualan}}</td>
-                                        <td>{{$dp->id_penjualan}}</td>
-                                        <td>{{$dp->id_penjualan}}</td>
-                                        <td>{{$dp->id_penjualan}}</td>
-                                        <td>{{$dp->id_penjualan}}</td>
+                                    @foreach($dataPenjualanBon as $dpb)
+                                    <tr>
+                                        <td>{{$dpb->id_penjualan}}</td>
+                                        <td>{{$dpb->tanggal}}</td>
+                                        <td>{{$dpb->nama_member}}</td>
+                                        <td>
+                                            <?php
+                                                $barangs= DB::table('barang_penjualan')
+                                                ->join('barang', 'barang_penjualan.id_barang', '=', 'barang.id_barang')
+                                                ->select('barang_penjualan.*', 'barang.nama_barang')
+                                                ->where('id_penjualan',$dpb->id_penjualan)
+                                                ->get();
+                                            ?>
+                                            @foreach ($barangs as $barang)
+                                                <p><small>{{$barang->nama_barang}} x ({{$barang->jumlah}})</small></p>
+                                            @endforeach
+                                        </td>
+                                        <td>{{$dp->jenis_pembayaran}}</td>
+                                        <td> Rp. {{ number_format($dpb->total_harga_pokok, 2, ',', '.') }}</td>
+                                        <td> Rp. {{ number_format($dpb->total_harga_jual, 2, ',', '.') }}</td>
+                                        <td> Rp. {{ number_format($dpb->diskon, 2, ',', '.') }}</td>
+                                        <td> Rp. {{ number_format($dpb->total_akhir, 2, ',', '.') }}</td>
+                                        <td>{{$dpb->keterangan}}</td>
+                                        <td><b>{{$dpb->status}}</b></td>
+                                    </tr>
                                     @endforeach
                                 </tr>
-
                             </tbody>
                         </table>
-                    </div><!--tab tambah penjualan-->
-                    <div class="tab-pane fade" id="bon" role="tabpanel" aria-labelledby="profile-tab">
+
+                        <h3 class="mt-5"><b>Pembayaran Bon</b></h3>
+                        <hr>
+                        <button type="button" class="btn btn-primary mb-4" data-toggle="modal" data-target="#tambah-pembayaran-bon-modal">
+                            Tambah Pembayaran Bon
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="tambah-pembayaran-bon-modal" tabindex="-1" role="dialog"  aria-hidden="true">
+                            <div class="modal-dialog modal-xl">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Tambah Pembayaran Bon</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ route('penjualan.store') }}"  method="POST">
+                                            @csrf
+                                            <label>Pilih Bon :</label>
+                                            <select name="id_member" class="form-control form-group">
+                                                <option value="">-- pilih --</option>
+                                                @foreach ($dataPenjualanBon as $dpb)
+                                                    <option value="{{ $dpb->id_penjualan }}">
+                                                        {{ $dpb->id_penjualan }} - {{$dpb->nama_member}} - {{$dpb->tanggal}}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <label>Metode Pembayaran :</label>
+                                            <select name="jenis_pembayaran" class="form-control form-group">
+                                                <option value="cash">
+                                                    Cash
+                                                </option>
+                                                <option value="transfer">
+                                                    Transfer
+                                                </option>
+                                            </select>
+                                            @foreach ($dataToko as $dt) 
+                                                {{Form::hidden('id_toko', $dt->id_toko) }}
+                                            @endforeach
+                                            {{Form::hidden('id_periode', $periode) }}
+                            
+                                            <label>Jumlah Pembayaran :</label>
+                                            {{ Form::number('jumlah_pembayaran','',['class' => 'form-control form-group'])}}
+                                            <label>Tanggal :</label>
+                                            {{ Form::date('tanggal','',['class' => 'form-control form-group'])}}
+                                            <div>
+                                                <input class="btn btn-primary btn-block" type="submit">
+                                            </div>
+                                        </form>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div><!--end modal body-->
+                                </div><!-- end modal content-->
+                            </div><!--end modal dialog-->
+                        </div><!--end modal-->
+                        <table class="table table-striped table-bordered dt-responsive nowrap mt-3" id="tabel-pembayaran-bon" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Bon</th>
+                                    <th>Pembeli</th>
+                                    <th>Jumlah</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($dataPenjualanLunas as $dp)
+                                <tr>
+                                    <td>{{$dp->id_penjualan}}</td>
+                                    <td>{{$dp->id_penjualan}}</td>
+                                    <td>{{$dp->id_penjualan}}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+
 
                     </div><!--tab bon-->
-                    <div class="tab-pane fade" id="items-sold" role="tabpanel" aria-labelledby="contact-tab">
 
+
+                    <div class="tab-pane fade" id="items-sold" role="tabpanel" aria-labelledby="contact-tab">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><b>Total Barang Terjual</b></h3>
+                            </div><!--card-header-->
+                            <div class="card-body">
+                                <table id="tabel-penjualan-barang" class="table table-stripped table-bordered">
+                                    <thead>
+                                        <th>Id Barang</th>
+                                        <th>Nama Barang</th>
+                                        <th>Jumlah Terjual</th>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($dataTotalBarangTerjual as $dtbt)
+                                        <tr>
+                                            <td>{{$dtbt->id_barang}}</td>
+                                            <td>{{$dtbt->nama_barang}}</td>
+                                            <td>{{$dtbt->id_barang}}</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div><!--card-body-->
+                        </div><!--card-->
                     </div><!--tab items sold-->
                 </div><!--tab content-->
             </div><!--card-body-->

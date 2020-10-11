@@ -59,9 +59,11 @@ class CreateUsersTable extends Migration
             $table->unsignedBigInteger('id_periode');
             $table->decimal('total_harga_pokok',20,2);
             $table->decimal('total_harga_jual',20,2);
-            $table->decimal('total_price',20,2);
+            $table->decimal('total_akhir',20,2);
+            $table->decimal('diskon',20,2);
             $table->string('jenis_pembayaran');
             $table->string('status');
+            $table->string('keterangan');
             $table->rememberToken();
             $table->timestamps();
 
@@ -74,11 +76,14 @@ class CreateUsersTable extends Migration
 
 
         Schema::create('barang_penjualan', function (Blueprint $table) {
+            $table->id('id_barang_penjualan');
             $table->unsignedBigInteger('id_penjualan');
             $table->unsignedBigInteger('id_toko');
             $table->unsignedBigInteger('id_barang');
             $table->unsignedBigInteger('id_periode');
-            $table->integer('quantity');
+            $table->decimal('total_harga_pokok',13,2);
+            $table->decimal('total_harga_jual',13,2);
+            $table->integer('jumlah');
 
             $table->foreign('id_penjualan')->references('id_penjualan')->on('penjualan')->onDelete('cascade');
             $table->foreign('id_toko')->references('id_toko')->on('toko');

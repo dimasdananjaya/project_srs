@@ -1,5 +1,7 @@
 $(document).ready(function() {
     $('#example').DataTable();
+    $('#tabel-bon').DataTable();
+    $('#tabel-pembayaran-bon').DataTable();
 } );
 
 

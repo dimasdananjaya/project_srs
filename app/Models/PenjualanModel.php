@@ -14,9 +14,5 @@ class PenjualanModel extends Model
     public $timestamps = true;
     public $primaryKey='id_penjualan';
 
-    public function barang()
-    {
-        return $this->belongsToMany('App\Models\BarangPenjualanModel', 'barang_penjualan', 
-        'id_penjualan','id_barang')->withPivot(['quantity']);
-    }
+    protected $guarded = [];
 }
