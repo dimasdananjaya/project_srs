@@ -41,7 +41,7 @@
                                         <form action="{{ route('penjualan.store') }}"  method="POST">
                                             @csrf
                                             <label>Tanggal :</label>
-                                            {{ Form::date('tanggal','',['class' => 'form-control form-group'])}}
+                                            {{ Form::date('tanggal','',['class' => 'form-control form-group'],)}}
                                             <label>Pembeli / Member :</label>
                                             <select name="id_member" class="form-control form-group">
                                                 <option value="">-- pilih --</option>
@@ -64,7 +64,7 @@
                                                 </option>
                                             </select>
                                             <label>Keterangan :</label>
-                                            {{ Form::text('keterangan','',['class' => 'form-control form-group'])}}
+                                            {{ Form::text('keterangan','',['class' => 'form-control form-group','required'])}}
                                             {{Form::hidden('id_user', Auth::user()->id_user) }}
                                             @foreach ($dataToko as $dt) 
                                                 {{Form::hidden('id_toko', $dt->id_toko) }}
@@ -253,10 +253,10 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="{{ route('penjualan.store') }}"  method="POST">
+                                        <form action="{{ route('tambah.pembayaran-bon') }}"  method="POST">
                                             @csrf
                                             <label>Pilih Bon :</label>
-                                            <select name="id_member" class="form-control form-group">
+                                            <select name="id_penjualan" class="form-control form-group">
                                                 <option value="">-- pilih --</option>
                                                 @foreach ($dataPenjualanBon as $dpb)
                                                     <option value="{{ $dpb->id_penjualan }}">
@@ -265,7 +265,7 @@
                                                 @endforeach
                                             </select>
                                             <label>Metode Pembayaran :</label>
-                                            <select name="jenis_pembayaran" class="form-control form-group">
+                                            <select name="metode_pembayaran" class="form-control form-group">
                                                 <option value="cash">
                                                     Cash
                                                 </option>
@@ -273,15 +273,25 @@
                                                     Transfer
                                                 </option>
                                             </select>
-                                            @foreach ($dataToko as $dt) 
-                                                {{Form::hidden('id_toko', $dt->id_toko) }}
-                                            @endforeach
-                                            {{Form::hidden('id_periode', $periode) }}
                             
                                             <label>Jumlah Pembayaran :</label>
-                                            {{ Form::number('jumlah_pembayaran','',['class' => 'form-control form-group'])}}
-                                            <label>Tanggal :</label>
-                                            {{ Form::date('tanggal','',['class' => 'form-control form-group'])}}
+                                            {{ Form::number('jumlah_pembayaran','',['class' => 'form-control form-group','required'])}}
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <label>Tanggal :</label>
+                                                    {{ Form::date('tanggal','',['class' => 'form-control form-group'])}}
+                                                </div><!--col-lg-6-->
+                                                <div class="col-lg-6">
+                                                    <label>Referral :</label>
+                                                    {{ Form::text('referral','',['class' => 'form-control form-group','required'])}}
+                                                </div><!--col-lg-6-->
+                                            </div><!--row-->
+
+                                            @foreach ($dataToko as $dt) 
+                                            {{Form::hidden('id_toko', $dt->id_toko) }}
+                                            @endforeach
+                                            {{Form::hidden('id_periode', $periode) }}
+
                                             <div>
                                                 <input class="btn btn-primary btn-block" type="submit">
                                             </div>
@@ -296,17 +306,21 @@
                         <table class="table table-striped table-bordered dt-responsive nowrap mt-3" id="tabel-pembayaran-bon" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>Bon</th>
-                                    <th>Pembeli</th>
-                                    <th>Jumlah</th>
+                                    <th>Id Bon</th>
+                                    <th>Jumlah Pembayaran</th>
+                                    <th>Referral</th>
+                                    <th>Tanggal</th>
+                                    <th>Metode Pembayaran</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($dataPenjualanLunas as $dp)
+                                @foreach($dataPembayaranBon as $dpb)
                                 <tr>
-                                    <td>{{$dp->id_penjualan}}</td>
-                                    <td>{{$dp->id_penjualan}}</td>
-                                    <td>{{$dp->id_penjualan}}</td>
+                                    <td>{{$dpb->id_penjualan}}</td>
+                                    <td>{{$dpb->jumlah_pembayaran}}</td>
+                                    <td>{{$dpb->referral}}</td>
+                                    <td>{{$dpb->tanggal}}</td>
+                                    <td>{{$dpb->metode_pembayaran}}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -333,7 +347,7 @@
                                         <tr>
                                             <td>{{$dtbt->id_barang}}</td>
                                             <td>{{$dtbt->nama_barang}}</td>
-                                            <td>{{$dtbt->id_barang}}</td>
+                                            <td>{{$dtbt->jumlah_barang_terjual}}</td>
                                         </tr>
                                         @endforeach
                                     </tbody>

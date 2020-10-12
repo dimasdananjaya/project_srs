@@ -10,6 +10,6 @@ class PembayaranBonModel extends Model
     use HasFactory;
 
     protected $table = 'pembayaran_bon';
-    public $timestamps = true;
+    public $timestamps = false;
     public $primaryKey='id_pembayaran_bon';
 }

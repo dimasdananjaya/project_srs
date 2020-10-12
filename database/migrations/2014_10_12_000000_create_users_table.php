@@ -97,7 +97,11 @@ class CreateUsersTable extends Migration
             $table->unsignedBigInteger('id_toko');
             $table->unsignedBigInteger('id_penjualan');
             $table->unsignedBigInteger('id_periode');
+            $table->date('tanggal');
+            $table->string('jenis_pembayaran');
+            $table->string('referral');
             $table->decimal('jumlah_pembayaran',20,2);
+            
 
             $table->foreign('id_toko')->references('id_toko')->on('toko');
             $table->foreign('id_penjualan')->references('id_penjualan')->on('penjualan')->onDelete('cascade');

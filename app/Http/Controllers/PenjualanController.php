@@ -174,7 +174,13 @@ class PenjualanController extends Controller
         ->where('penjualan.id_periode', $periode)
         ->where('penjualan.id_toko', $idToko)
         ->where('penjualan.status', 'bon')
-        ->orderBy('created_at','DESC')->get();
+        ->orderBy('tanggal','ASC')->get();
+
+        $dataPembayaranBon=DB::table('pembayaran_bon')
+        ->select('pembayaran_bon.*')  
+        ->where('pembayaran_bon.id_periode', $periode)
+        ->where('pembayaran_bon.id_toko', $idToko)
+        ->orderBy('tanggal','DESC')->get();
 
         $dataTotalBarangTerjual=DB::select(DB::raw(" 
         select *, sum(jumlah) as jumlah_barang_terjual from barang_penjualan
@@ -193,6 +199,7 @@ class PenjualanController extends Controller
         ->with('periode',$periode)
         ->with('dataPenjualanLunas',$dataPenjualanLunas)
         ->with('dataPenjualanBon',$dataPenjualanBon)
+        ->with('dataPembayaranBon',$dataPembayaranBon)
         ->with('dataTotalBarangTerjual',$dataTotalBarangTerjual);
     }
     
