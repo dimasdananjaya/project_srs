@@ -1,30 +1,35 @@
 $(document).ready(function() {
     $('#example').DataTable();
-    $('#tabel-bon').DataTable();
+} );
+
+$(document).ready(function() {
+  $('#tabel-bon').DataTable();
+} );
+
+
+$(document).ready(function() {
     $('#tabel-pembayaran-bon').DataTable();
 } );
 
 
+
 function totalAkhir(){
   var diskon=$('#diskon').val();
+  var totalHargaPokok = 0;
+  var totalHargaJual = 0;
 
-  var tmpPokok = 0;
   $("input[name^='total_harga_pokok']").each(function() { 
-      tmpPokok +=parseInt($(this).val()) 
-      totalHargaPokok=tmpPokok-diskon; 
+      totalHargaPokok +=parseInt($(this).val()) 
       $('#total_harga_pokok_akhir').val(totalHargaPokok);
   });
 
-  
-  var tmpJual = 0;
   $("input[name^='total_harga_jual']").each(function() { 
-      tmpJual +=parseInt($(this).val()) 
-      totalHargaJual=tmpJual-diskon; 
+      totalHargaJual +=parseInt($(this).val()) 
       $('#total_akhir1').val(totalHargaJual);
-      $('#total_akhir2').val(totalHargaJual);
   });
 
-
+  var totalAkhir = totalHargaJual-diskon;
+  $('#total_akhir2').val(totalAkhir);
 }
 
 

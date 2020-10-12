@@ -10,18 +10,21 @@
             <div class="card-body">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#sales" role="tab" aria-controls="home" aria-selected="true">Sales</a>
+                        <a class="nav-link active" id="sales-tab" data-toggle="tab" href="#sales" role="tab" aria-controls="home" aria-selected="true">Sales</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#bon" role="tab" aria-controls="profile" aria-selected="false">Bon</a>
+                        <a class="nav-link" id="bon-tab" data-toggle="tab" href="#bon" role="tab" aria-controls="profile" aria-selected="false">Bon</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#items-sold" role="tab" aria-controls="contact" aria-selected="false">Items Sold</a>
+                        <a class="nav-link" id="items-sold-tab" data-toggle="tab" href="#items-sold" role="tab" aria-controls="contact" aria-selected="false">Items Sold</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="cek-toko-tab" data-toggle="tab" href="#cek-toko" role="tab" aria-controls="contact" aria-selected="false">Items Sold</a>
                     </li>
                 </ul>
                 <div class="tab-content mt-3" id="myTabContent">
 
-                    <div class="tab-pane fade show active" id="sales" role="tabpanel" aria-labelledby="home-tab">
+                    <div class="tab-pane fade show active" id="sales" role="tabpanel" aria-labelledby="sales-tab">
                         <!-- Button Tambah Penjualan modal -->
                         <button type="button" class="btn btn-primary mb-4" data-toggle="modal" data-target="#add-orders-modal">
                             Tambah Penjualan
@@ -117,7 +120,7 @@
                                                             <input type="number" class="form-control" id="total_harga_pokok_akhir" name="total_harga_akhir_pokok_penjualan" readonly>
                                                             <label class="mt-3">Total Harga Jual Penjualan:</label>
                                                             <input type="number" class="form-control" id="total_akhir1" name="total_harga_akhir_jual_penjualan" readonly>
-                                                            <label class="mt-3"><b>Total Akhir:</b></label>
+                                                            <label class="mt-3"><b>Total Akhir Setelah Diskon:</b></label>
                                                             <input class="form-control" type='number' id='total_akhir2' name='total_akhir' readonly/>
 
                                                         </div><!--col -3-->
@@ -136,7 +139,7 @@
                                 </div><!-- end modal content-->
                             </div><!--end modal dialog-->
                         </div><!--end modal-->
-                        <table class="table table-striped table-bordered dt-responsive table-responsive-xl table-sm" id="example" style="width:100%">
+                        <table class="table table-hover table-bordered dt-responsive table-responsive-xl table-sm" id="example" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>Id</th>
@@ -148,6 +151,7 @@
                                     <th>Total Harga Jual</th>
                                     <th>Total Diskon</th>
                                     <th>Total Akhir</th>
+                                    <th>Keuntungan</th>
                                     <th>Keterangan</th>
                                     <th>Status</th>
                                 </tr>
@@ -165,6 +169,12 @@
                                             ->select('barang_penjualan.*', 'barang.nama_barang')
                                             ->where('id_penjualan',$dp->id_penjualan)
                                             ->get();
+
+                                            $hargaJual=$dp->total_harga_jual;
+                                            $hargaPokok=$dp->total_harga_pokok;
+                                            $diskon=$dp->diskon;
+
+                                            $keuntungan=$hargaJual-$hargaPokok-$diskon;
                                         ?>
                                         @foreach ($barangs as $barang)
                                             <p><small>{{$barang->nama_barang}} x ({{$barang->jumlah}})</small></p>
@@ -175,6 +185,7 @@
                                     <td> Rp. {{ number_format($dp->total_harga_jual, 2, ',', '.') }}</td>
                                     <td> Rp. {{ number_format($dp->diskon, 2, ',', '.') }}</td>
                                     <td> Rp. {{ number_format($dp->total_akhir, 2, ',', '.') }}</td>
+                                    <td> Rp. {{ number_format($keuntungan, 2, ',', '.') }}</td>
                                     <td>{{$dp->keterangan}}</td>
                                     <td><b>{{$dp->status}}</b></td>
                                 </tr>
@@ -184,11 +195,11 @@
                     </div><!--tab tambah penjualan-->
 
 <!---------------------------------------------------------- tab bon--------------------------------------------------->
-                    <div class="tab-pane fade" id="bon" role="tabpanel" aria-labelledby="profile-tab">
+                    <div class="tab-pane fade" id="bon" role="tabpanel" aria-labelledby="bon-tab">
                         <!-- Button Tambah Penjualan modal -->
                         <h3><b>Tabel Bon</b></h3>
                         <hr>
-                        <table class="table table-striped table-bordered dt-responsive nowrap" id="tabel-bon" style="width:100%">
+                        <table class="table table-hover table-bordered dt-responsive table-responsive-xl table-sm" id="tabel-bon" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>Id</th>
@@ -200,6 +211,8 @@
                                     <th>Total Harga Jual</th>
                                     <th>Total Diskon</th>
                                     <th>Total Akhir</th>
+                                    <th>Total Bayar</th>
+                                    <th>Sisa</th>
                                     <th>Keterangan</th>
                                     <th>Status</th>
                                 </tr>
@@ -223,11 +236,31 @@
                                                 <p><small>{{$barang->nama_barang}} x ({{$barang->jumlah}})</small></p>
                                             @endforeach
                                         </td>
-                                        <td>{{$dp->jenis_pembayaran}}</td>
+                                        <td>{{$dpb->jenis_pembayaran}}</td>
                                         <td> Rp. {{ number_format($dpb->total_harga_pokok, 2, ',', '.') }}</td>
                                         <td> Rp. {{ number_format($dpb->total_harga_jual, 2, ',', '.') }}</td>
                                         <td> Rp. {{ number_format($dpb->diskon, 2, ',', '.') }}</td>
                                         <td> Rp. {{ number_format($dpb->total_akhir, 2, ',', '.') }}</td>
+                                        <td>
+                                            @php
+                                            $id_bon=$dpb->id_penjualan;
+                                            $totalBayar=DB::select(DB::raw("SELECT sum(jumlah_pembayaran) AS total_bayar FROM pembayaran_bon WHERE id_penjualan=$id_bon GROUP BY id_penjualan"));
+                                            @endphp
+                                            @foreach ($totalBayar as $tb)
+                                                Rp. {{ number_format($tb->total_bayar, 2, ',', '.') }}
+                                            @endforeach     
+                                        </td>
+                                        <td>
+                                            @php
+                                                //cari sisa pembayaran
+                                                foreach ($totalBayar as $tb) {
+                                                    $x=$dpb->total_akhir;
+                                                    $y=$tb->total_bayar;
+                                                    $sisa=$x-$y;
+                                                    echo number_format("$sisa",2,",",".");
+                                                }
+                                            @endphp
+                                        </td>
                                         <td>{{$dpb->keterangan}}</td>
                                         <td><b>{{$dpb->status}}</b></td>
                                     </tr>
@@ -303,7 +336,7 @@
                                 </div><!-- end modal content-->
                             </div><!--end modal dialog-->
                         </div><!--end modal-->
-                        <table class="table table-striped table-bordered dt-responsive nowrap mt-3" id="tabel-pembayaran-bon" style="width:100%">
+                        <table class="table table-striped table-bordered dt-responsive nowrap mt-3" id="tabel-pembayaran-bon">
                             <thead>
                                 <tr>
                                     <th>Id Bon</th>
@@ -317,7 +350,7 @@
                                 @foreach($dataPembayaranBon as $dpb)
                                 <tr>
                                     <td>{{$dpb->id_penjualan}}</td>
-                                    <td>{{$dpb->jumlah_pembayaran}}</td>
+                                    <td> Rp. {{ number_format($dpb->jumlah_pembayaran, 2, ',', '.') }}</td>
                                     <td>{{$dpb->referral}}</td>
                                     <td>{{$dpb->tanggal}}</td>
                                     <td>{{$dpb->metode_pembayaran}}</td>
@@ -326,11 +359,10 @@
                             </tbody>
                         </table>
 
-
                     </div><!--tab bon-->
 
 
-                    <div class="tab-pane fade" id="items-sold" role="tabpanel" aria-labelledby="contact-tab">
+                    <div class="tab-pane fade" id="items-sold" role="tabpanel" aria-labelledby="items-sold-tab">
                         <div class="card">
                             <div class="card-header">
                                 <h3><b>Total Barang Terjual</b></h3>
@@ -355,6 +387,32 @@
                             </div><!--card-body-->
                         </div><!--card-->
                     </div><!--tab items sold-->
+
+                    <div class="tab-pane fade" id="cek-toko" role="tabpanel" aria-labelledby="cek-toko-tab">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><b>Cek Toko</b></h3>
+                            </div><!--card-header-->
+                            <div class="card-body">
+                                <table id="tabel-penjualan-barang" class="table table-stripped table-bordered">
+                                    <thead>
+                                        <th>Id Barang</th>
+                                        <th>Nama Barang</th>
+                                        <th>Jumlah Terjual</th>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($dataTotalBarangTerjual as $dtbt)
+                                        <tr>
+                                            <td>{{$dtbt->id_barang}}</td>
+                                            <td>{{$dtbt->nama_barang}}</td>
+                                            <td>{{$dtbt->jumlah_barang_terjual}}</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div><!--card-body-->
+                        </div><!--card-->
+                    </div><!--cek toko-->
                 </div><!--tab content-->
             </div><!--card-body-->
         </div><!--card-->
