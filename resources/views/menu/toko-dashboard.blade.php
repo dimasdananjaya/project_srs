@@ -19,7 +19,7 @@
                         <a class="nav-link" id="items-sold-tab" data-toggle="tab" href="#items-sold" role="tab" aria-controls="contact" aria-selected="false">Items Sold</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="cek-toko-tab" data-toggle="tab" href="#cek-toko" role="tab" aria-controls="contact" aria-selected="false">Items Sold</a>
+                        <a class="nav-link" id="cek-toko-tab" data-toggle="tab" href="#cek-toko" role="tab" aria-controls="contact" aria-selected="false">Cek Toko</a>
                     </li>
                 </ul>
                 <div class="tab-content mt-3" id="myTabContent">
@@ -43,17 +43,24 @@
                                     <div class="modal-body">
                                         <form action="{{ route('penjualan.store') }}"  method="POST">
                                             @csrf
-                                            <label>Tanggal :</label>
-                                            {{ Form::date('tanggal','',['class' => 'form-control form-group'],)}}
-                                            <label>Pembeli / Member :</label>
-                                            <select name="id_member" class="form-control form-group">
-                                                <option value="">-- pilih --</option>
-                                                @foreach ($dataMember as $dm)
-                                                    <option value="{{ $dm->id_member }}">
-                                                        {{ $dm->nama_member }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <label>Tanggal :</label>
+                                                    {{ Form::date('tanggal','',['class' => 'form-control form-group'],)}}
+                                                </div><!--col-lg-6-->
+                                                <div class="col-lg-6">
+                                                    <label>Pembeli / Member :</label>
+                                                    <select name="id_member" class="form-control form-group">
+                                                        <option value="">-- pilih --</option>
+                                                        @foreach ($dataMember as $dm)
+                                                            <option value="{{ $dm->id_member }}">
+                                                                {{ $dm->nama_member }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div><!--col-lg-6-->
+                                            </div><!--row-->
+ 
                                             <label>Metode Pembayaran :</label>
                                             <select name="jenis_pembayaran" class="form-control form-group">
                                                 <option value="cash">
@@ -218,7 +225,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
                                     @foreach($dataPenjualanBon as $dpb)
                                     <tr>
                                         <td>{{$dpb->id_penjualan}}</td>
@@ -265,7 +271,6 @@
                                         <td><b>{{$dpb->status}}</b></td>
                                     </tr>
                                     @endforeach
-                                </tr>
                             </tbody>
                         </table>
 
@@ -396,18 +401,25 @@
                             <div class="card-body">
                                 <table id="tabel-penjualan-barang" class="table table-stripped table-bordered">
                                     <thead>
-                                        <th>Id Barang</th>
-                                        <th>Nama Barang</th>
-                                        <th>Jumlah Terjual</th>
+                                        <th>Tanggal</th>
+                                        <th>Total Penjualan</th>
+                                        <th>Pokok</th>
+                                        <th>Untung</th>
+                                        <th>Tunai</th>
+                                        <th>Transfer</th>
+                                        <th>Bon</th>
                                     </thead>
                                     <tbody>
-                                        @foreach ($dataTotalBarangTerjual as $dtbt)
-                                        <tr>
-                                            <td>{{$dtbt->id_barang}}</td>
-                                            <td>{{$dtbt->nama_barang}}</td>
-                                            <td>{{$dtbt->jumlah_barang_terjual}}</td>
-                                        </tr>
-                                        @endforeach
+                                        @for($i = 0; $i < count($tanggalCek); $i++)
+                                            <tr>
+                                            @foreach ($tanggalCek as $tc)
+                                                <td>{{$tc->tanggal}}</td>
+                                            @endforeach
+                                            @foreach ($cekTotalPenjualan as $ctp)
+                                                <td> Rp. {{ number_format($ctp->total_penjualan, 2, ',', '.') }}</td>    
+                                            @endforeach
+                                            </tr>
+                                        @endfor
                                     </tbody>
                                 </table>
                             </div><!--card-body-->

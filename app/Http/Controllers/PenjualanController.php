@@ -190,6 +190,21 @@ class PenjualanController extends Controller
         group by nama_barang
         order by nama_barang asc"));
 
+        $tanggalCek=DB::select(DB::raw(" 
+        select tanggal from penjualan
+        where id_toko = $idToko
+        and id_periode = $periode
+        group by tanggal
+        order by tanggal asc"));
+
+        $cekTotalPenjualan=DB::select(DB::raw(" 
+        select *, sum(total_akhir) as total_penjualan from penjualan
+        where id_toko = $idToko
+        and id_periode = $periode
+        group by tanggal
+        order by tanggal asc"));
+
+        
 
         return view('menu.toko-dashboard')
         ->with('dataBarang',$dataBarang)
@@ -200,7 +215,9 @@ class PenjualanController extends Controller
         ->with('dataPenjualanLunas',$dataPenjualanLunas)
         ->with('dataPenjualanBon',$dataPenjualanBon)
         ->with('dataPembayaranBon',$dataPembayaranBon)
-        ->with('dataTotalBarangTerjual',$dataTotalBarangTerjual);
+        ->with('dataTotalBarangTerjual',$dataTotalBarangTerjual)
+        ->with('tanggalCek',$tanggalCek)
+        ->with('cekTotalPenjualan',$cekTotalPenjualan);
     }
     
 
