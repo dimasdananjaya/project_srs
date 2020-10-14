@@ -11,6 +11,10 @@ $(document).ready(function() {
     $('#tabel-pembayaran-bon').DataTable();
 } );
 
+$(document).ready(function() {
+  $('#tabel-cek-toko').DataTable();
+} );
+
 
 
 function totalAkhir(){

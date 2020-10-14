@@ -161,6 +161,7 @@
                                     <th>Keuntungan</th>
                                     <th>Keterangan</th>
                                     <th>Status</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -195,6 +196,33 @@
                                     <td> Rp. {{ number_format($keuntungan, 2, ',', '.') }}</td>
                                     <td>{{$dp->keterangan}}</td>
                                     <td><b>{{$dp->status}}</b></td>
+                                    <td>
+                                        <!-- Modal Hapus Penjualan -->
+                                        <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modal-hapus-penjualan{{$dp->id_penjualan}}">
+                                            Hapus
+                                        </button>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="modal-hapus-penjualan{{$dp->id_penjualan}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        {!!Form::open(['route'=>['penjualan.destroy', $dp->id_penjualan], 'method'=>'POST'])!!}
+                                                            <h3>Hapus Penjualan Id : {{$dp->id_penjualan}}?</h3>
+                                                            {{Form::hidden('_method', 'DELETE')}}                                                
+                                                            {{Form::submit('Hapus Penjualan Ini?',['class'=>'btn btn-danger'])}}
+                                                        {!!Form::close()!!}
+                                                    </div>
+                                                </div><!--modal-content-->
+                                            </div><!--modal dialog-->
+                                        </div><!-- modal fade-->
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -222,6 +250,7 @@
                                     <th>Sisa</th>
                                     <th>Keterangan</th>
                                     <th>Status</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -269,6 +298,33 @@
                                         </td>
                                         <td>{{$dpb->keterangan}}</td>
                                         <td><b>{{$dpb->status}}</b></td>
+                                        <td>
+                                            <!-- Modal Hapus Bon -->
+                                            <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modal-hapus-bon{{$dpb->id_penjualan}}">
+                                                Hapus
+                                            </button>
+    
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="modal-hapus-bon{{$dpb->id_penjualan}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            {!!Form::open(['route'=>['hapus.penjualan-bon', $dpb->id_penjualan], 'method'=>'DELETE'])!!}
+                                                                <h4>Hapus Penjualan Bon Id : {{$dpb->id_penjualan}}?</h4>
+                                                                {{Form::hidden('_method', 'DELETE')}}                                                
+                                                                {{Form::submit('Hapus Penjualan Ini?',['class'=>'btn btn-danger'])}}
+                                                            {!!Form::close()!!}
+                                                        </div>
+                                                    </div><!--modal-content-->
+                                                </div><!--modal dialog-->
+                                            </div><!-- modal fade-->
+                                        </td>
                                     </tr>
                                     @endforeach
                             </tbody>
@@ -349,16 +405,44 @@
                                     <th>Referral</th>
                                     <th>Tanggal</th>
                                     <th>Metode Pembayaran</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($dataPembayaranBon as $dpb)
                                 <tr>
-                                    <td>{{$dpb->id_penjualan}}</td>
+                                    <td>{{$dpb->id_pembayaran_bon}}</td>
                                     <td> Rp. {{ number_format($dpb->jumlah_pembayaran, 2, ',', '.') }}</td>
                                     <td>{{$dpb->referral}}</td>
                                     <td>{{$dpb->tanggal}}</td>
                                     <td>{{$dpb->metode_pembayaran}}</td>
+                                    <td>
+                                        <!-- Modal Hapus Pembayaran Bon -->
+                                        <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modal-hapus-pembayaran-bon{{$dpb->id_pembayaran_bon}}">
+                                            Hapus
+                                        </button>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="modal-hapus-pembayaran-bon{{$dpb->id_pembayaran_bon}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Hapus Data</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        {!!Form::open(['route'=>['hapus.pembayaran-bon', $dpb->id_pembayaran_bon], 'method'=>'DELETE'])!!}
+                                                            <h4>Hapus Pembayaran Bon Id : {{$dpb->id_pembayaran_bon}}?</h4>
+                                                            {{Form::hidden('_method', 'DELETE')}}                                                
+                                                            {{Form::submit('Hapus Penjualan Ini?',['class'=>'btn btn-danger'])}}
+                                                        {!!Form::close()!!}
+                                                    </div>
+                                                </div><!--modal-content-->
+                                            </div><!--modal dialog-->
+                                        </div><!-- modal fade-->
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -399,7 +483,7 @@
                                 <h3><b>Cek Toko</b></h3>
                             </div><!--card-header-->
                             <div class="card-body">
-                                <table id="tabel-penjualan-barang" class="table table-stripped table-bordered">
+                                <table id="tabel-cek-toko" class="table table-stripped table-bordered">
                                     <thead>
                                         <th>Tanggal</th>
                                         <th>Total Penjualan</th>
@@ -410,16 +494,51 @@
                                         <th>Bon</th>
                                     </thead>
                                     <tbody>
-                                        @for($i = 0; $i < count($tanggalCek); $i++)
+                                        @foreach ($cekToko as $ct)
                                             <tr>
-                                            @foreach ($tanggalCek as $tc)
-                                                <td>{{$tc->tanggal}}</td>
-                                            @endforeach
-                                            @foreach ($cekTotalPenjualan as $ctp)
-                                                <td> Rp. {{ number_format($ctp->total_penjualan, 2, ',', '.') }}</td>    
-                                            @endforeach
+                                                <td>{{$ct->tanggal}}</td>
+                                                <td> Rp. {{ number_format($ct->total_penjualan, 2, ',', '.') }}</td>
+                                                <td> Rp. {{ number_format($ct->pokok, 2, ',', '.') }}</td>      
+                                                @php
+                                                    $x=$ct->total_penjualan;
+                                                    $y=$ct->pokok;
+                                                    
+                                                    $untung=$x-$y;
+
+                                                    $cash=DB::select(DB::raw(" 
+                                                    select sum(total_akhir) as cash from penjualan
+                                                    where jenis_pembayaran='cash'
+                                                    and id_toko = $idToko
+                                                    and id_periode = $periode
+                                                    and tanggal = '$ct->tanggal'"));
+
+                                                    $transfer=DB::select(DB::raw(" 
+                                                    select sum(total_akhir) as transfer from penjualan
+                                                    where jenis_pembayaran='transfer'
+                                                    and id_toko = $idToko
+                                                    and id_periode = $periode
+                                                    and tanggal = '$ct->tanggal'"));
+
+                                                    $bon=DB::select(DB::raw(" 
+                                                    select sum(jumlah_pembayaran) as total_bayar_bon from pembayaran_bon                                                
+                                                    where id_toko = $idToko
+                                                    and id_periode = $periode
+                                                    and tanggal = '$ct->tanggal'"));
+                                                @endphp
+                                                <td> Rp. {{ number_format($untung, 2, ',', '.') }}</td> 
+                                                @foreach ($cash as $cash)
+                                                <td> Rp. {{ number_format($cash->cash, 2, ',', '.') }}</td>
+                                                @endforeach
+
+                                                @foreach ($transfer as $transfer)
+                                                <td> Rp. {{ number_format($transfer->transfer, 2, ',', '.') }}</td>
+                                                @endforeach
+
+                                                @foreach ($bon as $bon)
+                                                <td> Rp. {{ number_format($bon->total_bayar_bon, 2, ',', '.') }}</td>
+                                                @endforeach
                                             </tr>
-                                        @endfor
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div><!--card-body-->

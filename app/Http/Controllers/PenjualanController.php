@@ -146,7 +146,9 @@ class PenjualanController extends Controller
      */
     public function destroy($id)
     {
-        //
+        PenjualanModel::find($id)->delete();
+        alert()->success('Data Penjualan Berhasil Dihapus!', '');
+        return back();
     }
 
     public function showPenjualanToko(Request $request)
@@ -190,17 +192,11 @@ class PenjualanController extends Controller
         group by nama_barang
         order by nama_barang asc"));
 
-        $tanggalCek=DB::select(DB::raw(" 
-        select tanggal from penjualan
-        where id_toko = $idToko
-        and id_periode = $periode
-        group by tanggal
-        order by tanggal asc"));
-
-        $cekTotalPenjualan=DB::select(DB::raw(" 
-        select *, sum(total_akhir) as total_penjualan from penjualan
-        where id_toko = $idToko
-        and id_periode = $periode
+        $cekToko=DB::select(DB::raw(" 
+        select tanggal, sum(total_akhir) as total_penjualan, 
+        sum(total_harga_pokok) as pokok from penjualan
+        where id_toko = 1
+        and id_periode = 1
         group by tanggal
         order by tanggal asc"));
 
@@ -211,13 +207,13 @@ class PenjualanController extends Controller
         ->with('dataPeriode',$dataPeriode)
         ->with('dataMember',$dataMember)
         ->with('dataToko',$dataToko)
+        ->with('idToko',$idToko)
         ->with('periode',$periode)
         ->with('dataPenjualanLunas',$dataPenjualanLunas)
         ->with('dataPenjualanBon',$dataPenjualanBon)
         ->with('dataPembayaranBon',$dataPembayaranBon)
         ->with('dataTotalBarangTerjual',$dataTotalBarangTerjual)
-        ->with('tanggalCek',$tanggalCek)
-        ->with('cekTotalPenjualan',$cekTotalPenjualan);
+        ->with('cekToko',$cekToko);
     }
     
 
@@ -242,6 +238,13 @@ class PenjualanController extends Controller
              return $data;
         else
             return ['nama_barang'=>'','harga_pokok'=>'','harga_jual'=>''];
+    }
+
+    public function hapusPenjualanBon($id)
+    {
+        PenjualanModel::find($id)->delete();
+        alert()->success('Data Penjualan Bon Berhasil Dihapus!', '');
+        return back();
     }
 
 

@@ -25,6 +25,8 @@ Route::get('/toko-dashboard', [App\Http\Controllers\PenjualanController::class,'
 Route::get('/searchajax', [App\Http\Controllers\PenjualanController::class,'searchResponse'])->name('searchajax');
 
 Route::post('/pembayaran-bon', [App\Http\Controllers\PembayaranBonController::class,'tambahPembayaranBon'])->name('tambah.pembayaran-bon');
+Route::delete('/hapus-pembayaran-bon/{id}', [App\Http\Controllers\PembayaranBonController::class,'hapusPembayaranBon'])->name('hapus.pembayaran-bon');
+Route::delete('/hapus-penjualan-bon/{id}', [App\Http\Controllers\PenjualanController::class,'hapusPenjualanBon'])->name('hapus.penjualan-bon');
 
 use App\Http\Controllers\BarangController;
 Route::resource('/barang', BarangController::class);
