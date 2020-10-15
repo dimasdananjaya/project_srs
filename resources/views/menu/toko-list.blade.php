@@ -64,7 +64,7 @@
                             </div><!--modal-header-->
                             <div class="modal-body">
                                 <div class="form-group-row">
-                                    {{ Form::open(['route' => 'barang.store']) }}
+                                    {{ Form::open(['route' => 'toko.cek-toko', 'method'=>'GET']) }}
                                         <div class="col-lg-12">
                                             {{Form::label('dari','Dari :')}}
                                             {{Form::date('dari','',['class'=>'form-control form-group','placeholder'=>'dd/mm/yyyy','required'])}}
@@ -74,6 +74,7 @@
                                             {{Form::label('hingga','Hingga :')}}
                                             {{Form::date('hingga','',['class'=>'form-control form-group','placeholder'=>'dd/mm/yyyy','required'])}}
                                         </div><!--col-lg-6-->
+                                        {{Form::hidden('id_toko',$dt->id_toko)}}
                                         {{Form::submit('Simpan',['class'=>'btn btn-success btn-block'])}}
                                     {!!Form::close()!!}
                                 </div><!--row-->

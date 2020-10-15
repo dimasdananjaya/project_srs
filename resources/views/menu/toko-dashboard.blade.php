@@ -400,10 +400,11 @@
                         <table class="table table-striped table-bordered dt-responsive nowrap mt-3" id="tabel-pembayaran-bon">
                             <thead>
                                 <tr>
-                                    <th>Id Bon</th>
-                                    <th>Jumlah Pembayaran</th>
-                                    <th>Referral</th>
+                                    <th>Id Bayar Bon</th>
                                     <th>Tanggal</th>
+                                    <th>Id Penjualan Bon</th>
+                                    <th>Jumlah Pembayaran</th>
+                                    <th>Referral</th>                                   
                                     <th>Metode Pembayaran</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -412,9 +413,10 @@
                                 @foreach($dataPembayaranBon as $dpb)
                                 <tr>
                                     <td>{{$dpb->id_pembayaran_bon}}</td>
-                                    <td> Rp. {{ number_format($dpb->jumlah_pembayaran, 2, ',', '.') }}</td>
-                                    <td>{{$dpb->referral}}</td>
                                     <td>{{$dpb->tanggal}}</td>
+                                    <td>{{$dpb->id_penjualan}}</td>
+                                    <td> Rp. {{ number_format($dpb->jumlah_pembayaran, 2, ',', '.') }}</td>
+                                    <td>{{$dpb->referral}}</td>                                  
                                     <td>{{$dpb->metode_pembayaran}}</td>
                                     <td>
                                         <!-- Modal Hapus Pembayaran Bon -->
