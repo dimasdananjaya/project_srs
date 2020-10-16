@@ -40,8 +40,9 @@
                                 and tanggal = '$tanggal[$i]'"));
 
                                 $bon=DB::select(DB::raw(" 
-                                select sum(jumlah_pembayaran) as total_bayar_bon from pembayaran_bon                                               
-                                where id_toko = $idToko
+                                select sum(total_akhir) as total_bon from penjualan                                                
+                                where jenis_pembayaran='bon' 
+                                and id_toko = $idToko
                                 and tanggal = '$tanggal[$i]'"));                                
                             @endphp
 
@@ -65,7 +66,7 @@
                                 @endforeach
 
                                 @foreach ($bon as $bon)
-                                    <td> Rp. {{ number_format($bon->total_bayar_bon, 2, ',', '.') }}</td>
+                                    <td> Rp. {{ number_format($bon->total_bon, 2, ',', '.') }}</td>
                                 @endforeach
 
                             @endforeach 

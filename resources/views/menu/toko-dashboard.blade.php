@@ -19,7 +19,7 @@
                         <a class="nav-link" id="items-sold-tab" data-toggle="tab" href="#items-sold" role="tab" aria-controls="contact" aria-selected="false">Items Sold</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="cek-toko-tab" data-toggle="tab" href="#cek-toko" role="tab" aria-controls="contact" aria-selected="false">Cek Toko</a>
+                        <a class="nav-link" id="cek-toko-tab" data-toggle="tab" href="#cek-toko" role="tab" aria-controls="contact" aria-selected="false">Rekap Periode</a>
                     </li>
                 </ul>
                 <div class="tab-content mt-3" id="myTabContent">
@@ -292,7 +292,7 @@
                                                     $x=$dpb->total_akhir;
                                                     $y=$tb->total_bayar;
                                                     $sisa=$x-$y;
-                                                    echo number_format("$sisa",2,",",".");
+                                                    echo "Rp.".number_format("$sisa",2,",",".");
                                                 }
                                             @endphp
                                         </td>
@@ -482,7 +482,7 @@
                     <div class="tab-pane fade" id="cek-toko" role="tabpanel" aria-labelledby="cek-toko-tab">
                         <div class="card">
                             <div class="card-header">
-                                <h3><b>Cek Toko</b></h3>
+                                <h3><b>Rekap Periode</b></h3>
                             </div><!--card-header-->
                             <div class="card-body">
                                 <table id="tabel-cek-toko" class="table table-stripped table-bordered">
@@ -522,8 +522,9 @@
                                                     and tanggal = '$ct->tanggal'"));
 
                                                     $bon=DB::select(DB::raw(" 
-                                                    select sum(jumlah_pembayaran) as total_bayar_bon from pembayaran_bon                                                
-                                                    where id_toko = $idToko
+                                                    select sum(total_akhir) as total_bon from penjualan                                                
+                                                    where jenis_pembayaran='bon' 
+                                                    and id_toko = $idToko
                                                     and id_periode = $periode
                                                     and tanggal = '$ct->tanggal'"));
                                                 @endphp
@@ -537,7 +538,7 @@
                                                 @endforeach
 
                                                 @foreach ($bon as $bon)
-                                                <td> Rp. {{ number_format($bon->total_bayar_bon, 2, ',', '.') }}</td>
+                                                <td> Rp. {{ number_format($bon->total_bon, 2, ',', '.') }}</td>
                                                 @endforeach
                                             </tr>
                                         @endforeach

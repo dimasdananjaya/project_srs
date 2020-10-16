@@ -168,7 +168,7 @@ class PenjualanController extends Controller
         ->where('penjualan.id_periode', $periode)
         ->where('penjualan.id_toko', $idToko)
         ->where('penjualan.status', 'lunas')
-        ->orderBy('created_at','DESC')->get();
+        ->orderBy('tanggal','DESC')->get();
 
         $dataPenjualanBon=DB::table('penjualan')
         ->join('member', 'member.id_member', '=', 'penjualan.id_member')
@@ -195,12 +195,10 @@ class PenjualanController extends Controller
         $cekToko=DB::select(DB::raw(" 
         select tanggal, sum(total_akhir) as total_penjualan, 
         sum(total_harga_pokok) as pokok from penjualan
-        where id_toko = 1
-        and id_periode = 1
+        where id_toko = $idToko
+        and id_periode = $periode
         group by tanggal
-        order by tanggal asc"));
-
-        
+        order by tanggal asc"));  
 
         return view('menu.toko-dashboard')
         ->with('dataBarang',$dataBarang)

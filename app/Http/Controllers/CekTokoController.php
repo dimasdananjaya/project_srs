@@ -18,23 +18,58 @@ class CekTokoController extends Controller
 {
     public function cekToko(Request $request)
     {
-        $periode=$request->input('periode');
         $idToko=$request->input('id_toko');
         $dari = $request->input('dari');   
-        $dari = strtotime($dari); // Convert date to a UNIX timestamp  
+        $dari1 = strtotime($dari); // Convert date to a UNIX timestamp  
         
         $hingga = $request->input('hingga');   
-        $hingga = strtotime($hingga); // Convert date to a UNIX timestamp
+        $hingga1 = strtotime($hingga); // Convert date to a UNIX timestamp
         
         $dates = [];
         
         // Loop from the start date to end date and output all dates inbetween  
-        for ($i=$dari; $i<=$hingga; $i+=86400) {  
+        for ($i=$dari1; $i<=$hingga1; $i+=86400) {  
             array_push($dates,date("Y-m-d", $i));  
         }
+
+        $totalPenjualanDanPokok=DB::select(DB::raw(" 
+        select sum(total_akhir) 
+        as total_penjualan, 
+        sum(total_harga_pokok) as pokok 
+        from penjualan 
+        WHERE tanggal BETWEEN '$dari' AND '$hingga'
+        and id_toko = $idToko "));
+        
+        $totalPenjualanCash=DB::select(DB::raw(" 
+        select sum(total_akhir) 
+        as total_penjualan, 
+        sum(total_harga_pokok) as pokok 
+        from penjualan 
+        WHERE tanggal BETWEEN '$dari' AND '$hingga'
+        and id_toko = $idToko
+        and jenis_pembayaran='cash'")); 
+
+        $totalPenjualanTransfer=DB::select(DB::raw(" 
+        select sum(total_akhir) 
+        as total_penjualan, 
+        sum(total_harga_pokok) as pokok 
+        from penjualan 
+        WHERE tanggal BETWEEN '$dari' AND '$hingga'
+        and id_toko = $idToko
+        and jenis_pembayaran='transfer' ")); 
+
+        $totalPenjualanBon=DB::select(DB::raw(" 
+        select sum(total_akhir) 
+        as total_penjualan, 
+        sum(total_harga_pokok) as pokok 
+        from penjualan 
+        WHERE tanggal BETWEEN '$dari' AND '$hingga'
+        and id_toko = $idToko
+        and jenis_pembayaran='bon'")); 
         
         return view('menu.toko-cek')
         ->with('tanggal',$dates)
-        ->with('idToko',$idToko);
+        ->with('idToko',$idToko)
+        ->with('totalPenjualanDanPokok',$totalPenjualanDanPokok);
     }
 }
