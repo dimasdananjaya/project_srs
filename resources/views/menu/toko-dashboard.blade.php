@@ -59,20 +59,26 @@
                                                         @endforeach
                                                     </select>
                                                 </div><!--col-lg-6-->
+                                                <div class="col-lg-6">
+                                                    <label>Metode Pembayaran :</label>
+                                                    <select name="jenis_pembayaran" class="form-control form-group">
+                                                        <option value="cash">
+                                                            Cash
+                                                        </option>
+                                                        <option value="transfer">
+                                                            Transfer
+                                                        </option>
+                                                        <option value="bon">
+                                                            Bon
+                                                        </option>
+                                                    </select>
+                                                </div><!--col-lg-6-->
+                                                <div class="col-lg-6">
+                                                    <label>No Bon (Hanya Untuk Bon) :</label>
+                                                    {{ Form::text('no_bon','',['class' => 'form-control form-group','required'])}}
+                                                </div><!--col-lg-6-->
                                             </div><!--row-->
  
-                                            <label>Metode Pembayaran :</label>
-                                            <select name="jenis_pembayaran" class="form-control form-group">
-                                                <option value="cash">
-                                                    Cash
-                                                </option>
-                                                <option value="transfer">
-                                                    Transfer
-                                                </option>
-                                                <option value="bon">
-                                                    Bon
-                                                </option>
-                                            </select>
                                             <label>Keterangan :</label>
                                             {{ Form::text('keterangan','',['class' => 'form-control form-group','required'])}}
                                             {{Form::hidden('id_user', Auth::user()->id_user) }}
@@ -239,6 +245,7 @@
                                 <tr>
                                     <th>Id</th>
                                     <th>Tanggal</th>
+                                    <th>No. Bon</th>
                                     <th>Pembeli</th>
                                     <th>Items</th>
                                     <th>Jenis Pembayaran</th>
@@ -258,6 +265,7 @@
                                     <tr>
                                         <td>{{$dpb->id_penjualan}}</td>
                                         <td>{{$dpb->tanggal}}</td>
+                                        <td>{{$dpb->no_bon}}</td>
                                         <td>{{$dpb->nama_member}}</td>
                                         <td>
                                             <?php
@@ -272,7 +280,7 @@
                                             @endforeach
                                         </td>
                                         <td>{{$dpb->jenis_pembayaran}}</td>
-                                        <td> Rp. {{ number_format($dpb->total_harga_pokok, 2, ',', '.') }}</td>
+                                        <td> {{ number_format($dpb->total_harga_pokok, 2) }}</td>
                                         <td> Rp. {{ number_format($dpb->total_harga_jual, 2, ',', '.') }}</td>
                                         <td> Rp. {{ number_format($dpb->diskon, 2, ',', '.') }}</td>
                                         <td> Rp. {{ number_format($dpb->total_akhir, 2, ',', '.') }}</td>

@@ -64,6 +64,7 @@ class CreateUsersTable extends Migration
             $table->string('jenis_pembayaran');
             $table->string('status');
             $table->string('keterangan');
+            $table->string('no_bon');
             $table->rememberToken();
             $table->timestamps();
 

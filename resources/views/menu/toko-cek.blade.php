@@ -74,6 +74,42 @@
                     @endfor
                 </tbody>
             </table>
+
+             <table class="table table-lg table-striped mt-4 table-bordered">
+                <thead>
+                    <th>Total Penjualan</th>
+                    <th>Total Pokok</th>
+                    <th>Total Keuntungan</th>
+                    <th>Total Cash</th>
+                    <th>Total Transfer</th>
+                    <th>Total Bon</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        @foreach ($totalPenjualanDanPokok as $tpdp)
+                            <td><b> Rp. {{ number_format($tpdp->total_penjualan, 2, ',', '.') }} </b></td>
+                            <td><b> Rp. {{ number_format($tpdp->pokok, 2, ',', '.') }} </b></td>
+                            @php
+                             $x=$tpdp->total_penjualan;
+                             $y=$tpdp->pokok;
+                            
+                             $untung=$x-$y;
+                            @endphp
+                            <td><b> Rp. {{ number_format($untung, 2, ',', '.') }}<b></td>
+                        @endforeach
+                        @foreach ($totalPenjualanCash as $tpc)
+                            <td><b> Rp. {{ number_format($tpc->total_penjualan_cash, 2, ',', '.') }}</b></td>
+                        @endforeach
+                        @foreach ($totalPenjualanTransfer as $tpt)
+                            <td><b> Rp. {{ number_format($tpt->total_penjualan_transfer, 2, ',', '.') }}</b></td>
+                        @endforeach
+                        @foreach ($totalPenjualanBon as $tpb)
+                            <td><b>Rp. {{ number_format($tpb->total_penjualan_bon, 2, ',', '.') }}</b></td>
+                        @endforeach
+                    </tr>
+                </tbody>
+            </table>  
+
         </div><!--card-body-->
     </div><!--card-->
 @endsection

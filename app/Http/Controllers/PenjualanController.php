@@ -61,6 +61,7 @@ class PenjualanController extends Controller
         $penjualan->total_harga_jual = $request->input('total_harga_akhir_jual_penjualan');
         $penjualan->total_akhir= $request->input('total_akhir');
         $penjualan->diskon = $request->input('diskon');
+        $penjualan->no_bon = $request->input('no_bon');
 
         $jenis_pembayaran=$request->input('jenis_pembayaran');
         $tanggal=$request->input('tanggal');

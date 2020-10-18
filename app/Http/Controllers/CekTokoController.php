@@ -42,7 +42,7 @@ class CekTokoController extends Controller
         
         $totalPenjualanCash=DB::select(DB::raw(" 
         select sum(total_akhir) 
-        as total_penjualan, 
+        as total_penjualan_cash, 
         sum(total_harga_pokok) as pokok 
         from penjualan 
         WHERE tanggal BETWEEN '$dari' AND '$hingga'
@@ -51,7 +51,7 @@ class CekTokoController extends Controller
 
         $totalPenjualanTransfer=DB::select(DB::raw(" 
         select sum(total_akhir) 
-        as total_penjualan, 
+        as total_penjualan_transfer, 
         sum(total_harga_pokok) as pokok 
         from penjualan 
         WHERE tanggal BETWEEN '$dari' AND '$hingga'
@@ -60,7 +60,7 @@ class CekTokoController extends Controller
 
         $totalPenjualanBon=DB::select(DB::raw(" 
         select sum(total_akhir) 
-        as total_penjualan, 
+        as total_penjualan_bon, 
         sum(total_harga_pokok) as pokok 
         from penjualan 
         WHERE tanggal BETWEEN '$dari' AND '$hingga'
@@ -70,6 +70,9 @@ class CekTokoController extends Controller
         return view('menu.toko-cek')
         ->with('tanggal',$dates)
         ->with('idToko',$idToko)
-        ->with('totalPenjualanDanPokok',$totalPenjualanDanPokok);
+        ->with('totalPenjualanDanPokok',$totalPenjualanDanPokok)
+        ->with('totalPenjualanCash',$totalPenjualanCash)
+        ->with('totalPenjualanTransfer',$totalPenjualanTransfer)
+        ->with('totalPenjualanBon',$totalPenjualanBon);
     }
 }
