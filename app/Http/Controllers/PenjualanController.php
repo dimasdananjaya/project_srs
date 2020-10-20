@@ -180,7 +180,8 @@ class PenjualanController extends Controller
         ->orderBy('tanggal','ASC')->get();
 
         $dataPembayaranBon=DB::table('pembayaran_bon')
-        ->select('pembayaran_bon.*')  
+        ->join('penjualan', 'penjualan.id_penjualan', '=', 'pembayaran_bon.id_penjualan')
+        ->select('pembayaran_bon.*','penjualan.no_bon')  
         ->where('pembayaran_bon.id_periode', $periode)
         ->where('pembayaran_bon.id_toko', $idToko)
         ->orderBy('tanggal','DESC')->get();

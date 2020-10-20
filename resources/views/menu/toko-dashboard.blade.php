@@ -243,7 +243,6 @@
                         <table class="table table-hover table-bordered dt-responsive table-responsive-xl table-sm" id="tabel-bon" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>Id</th>
                                     <th>Tanggal</th>
                                     <th>No. Bon</th>
                                     <th>Pembeli</th>
@@ -263,7 +262,6 @@
                             <tbody>
                                     @foreach($dataPenjualanBon as $dpb)
                                     <tr>
-                                        <td>{{$dpb->id_penjualan}}</td>
                                         <td>{{$dpb->tanggal}}</td>
                                         <td>{{$dpb->no_bon}}</td>
                                         <td>{{$dpb->nama_member}}</td>
@@ -362,7 +360,7 @@
                                                 <option value="">-- pilih --</option>
                                                 @foreach ($dataPenjualanBon as $dpb)
                                                     <option value="{{ $dpb->id_penjualan }}">
-                                                        {{ $dpb->id_penjualan }} - {{$dpb->nama_member}} - {{$dpb->tanggal}}
+                                                        {{ $dpb->no_bon }} - {{$dpb->nama_member}} - {{$dpb->tanggal}}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -408,9 +406,8 @@
                         <table class="table table-striped table-bordered dt-responsive nowrap mt-3" id="tabel-pembayaran-bon">
                             <thead>
                                 <tr>
-                                    <th>Id Bayar Bon</th>
+                                    <th>No Bon</th>
                                     <th>Tanggal</th>
-                                    <th>Id Penjualan Bon</th>
                                     <th>Jumlah Pembayaran</th>
                                     <th>Referral</th>                                   
                                     <th>Metode Pembayaran</th>
@@ -420,9 +417,8 @@
                             <tbody>
                                 @foreach($dataPembayaranBon as $dpb)
                                 <tr>
-                                    <td>{{$dpb->id_pembayaran_bon}}</td>
+                                    <td>{{$dpb->no_bon}}</td>
                                     <td>{{$dpb->tanggal}}</td>
-                                    <td>{{$dpb->id_penjualan}}</td>
                                     <td> Rp. {{ number_format($dpb->jumlah_pembayaran, 2, ',', '.') }}</td>
                                     <td>{{$dpb->referral}}</td>                                  
                                     <td>{{$dpb->metode_pembayaran}}</td>
@@ -487,75 +483,6 @@
                         </div><!--card-->
                     </div><!--tab items sold-->
 
-                    <div class="tab-pane fade" id="cek-toko" role="tabpanel" aria-labelledby="cek-toko-tab">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3><b>Rekap Periode</b></h3>
-                            </div><!--card-header-->
-                            <div class="card-body">
-                                <table id="tabel-cek-toko" class="table table-stripped table-bordered">
-                                    <thead>
-                                        <th>Tanggal</th>
-                                        <th>Total Penjualan</th>
-                                        <th>Pokok</th>
-                                        <th>Untung</th>
-                                        <th>Tunai</th>
-                                        <th>Transfer</th>
-                                        <th>Bon</th>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($cekToko as $ct)
-                                            <tr>
-                                                <td>{{$ct->tanggal}}</td>
-                                                <td> Rp. {{ number_format($ct->total_penjualan, 2, ',', '.') }}</td>
-                                                <td> Rp. {{ number_format($ct->pokok, 2, ',', '.') }}</td>      
-                                                @php
-                                                    $x=$ct->total_penjualan;
-                                                    $y=$ct->pokok;
-                                                    
-                                                    $untung=$x-$y;
-
-                                                    $cash=DB::select(DB::raw(" 
-                                                    select sum(total_akhir) as cash from penjualan
-                                                    where jenis_pembayaran='cash'
-                                                    and id_toko = $idToko
-                                                    and id_periode = $periode
-                                                    and tanggal = '$ct->tanggal'"));
-
-                                                    $transfer=DB::select(DB::raw(" 
-                                                    select sum(total_akhir) as transfer from penjualan
-                                                    where jenis_pembayaran='transfer'
-                                                    and id_toko = $idToko
-                                                    and id_periode = $periode
-                                                    and tanggal = '$ct->tanggal'"));
-
-                                                    $bon=DB::select(DB::raw(" 
-                                                    select sum(total_akhir) as total_bon from penjualan                                                
-                                                    where jenis_pembayaran='bon' 
-                                                    and id_toko = $idToko
-                                                    and id_periode = $periode
-                                                    and tanggal = '$ct->tanggal'"));
-                                                @endphp
-                                                <td> Rp. {{ number_format($untung, 2, ',', '.') }}</td> 
-                                                @foreach ($cash as $cash)
-                                                <td> Rp. {{ number_format($cash->cash, 2, ',', '.') }}</td>
-                                                @endforeach
-
-                                                @foreach ($transfer as $transfer)
-                                                <td> Rp. {{ number_format($transfer->transfer, 2, ',', '.') }}</td>
-                                                @endforeach
-
-                                                @foreach ($bon as $bon)
-                                                <td> Rp. {{ number_format($bon->total_bon, 2, ',', '.') }}</td>
-                                                @endforeach
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div><!--card-body-->
-                        </div><!--card-->
-                    </div><!--cek toko-->
-                </div><!--tab content-->
             </div><!--card-body-->
         </div><!--card-->
     </div><!--container-->

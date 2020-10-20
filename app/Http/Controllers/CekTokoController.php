@@ -66,6 +66,13 @@ class CekTokoController extends Controller
         WHERE tanggal BETWEEN '$dari' AND '$hingga'
         and id_toko = $idToko
         and jenis_pembayaran='bon'")); 
+
+        $totalBayarBon=DB::select(DB::raw(" 
+        select sum(jumlah_pembayaran) 
+        as total_bayar_bon
+        from pembayaran_bon 
+        WHERE tanggal BETWEEN '$dari' AND '$hingga'
+        and id_toko = $idToko")); 
         
         return view('menu.toko-cek')
         ->with('tanggal',$dates)
@@ -73,6 +80,7 @@ class CekTokoController extends Controller
         ->with('totalPenjualanDanPokok',$totalPenjualanDanPokok)
         ->with('totalPenjualanCash',$totalPenjualanCash)
         ->with('totalPenjualanTransfer',$totalPenjualanTransfer)
-        ->with('totalPenjualanBon',$totalPenjualanBon);
+        ->with('totalPenjualanBon',$totalPenjualanBon)
+        ->with('totalBayarBon',$totalBayarBon);
     }
 }

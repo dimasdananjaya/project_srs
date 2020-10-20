@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="container-fluid">
     <div class="card">
         <div class="card-header">
             <h3><b>Cek Toko</b></h3>
@@ -15,6 +16,7 @@
                     <th>Tunai</th>
                     <th>Transfer</th>
                     <th>Bon</th>
+                    <th>Total Bayar Bon</th>
                 </thead>
                 <tbody>
                     @for($i = 0; $i < count($tanggal); $i++) 
@@ -43,7 +45,12 @@
                                 select sum(total_akhir) as total_bon from penjualan                                                
                                 where jenis_pembayaran='bon' 
                                 and id_toko = $idToko
-                                and tanggal = '$tanggal[$i]'"));                                
+                                and tanggal = '$tanggal[$i]'"));     
+                                
+                                $bayarBon=DB::select(DB::raw(" 
+                                select sum(jumlah_pembayaran) as total_bayar_bon from pembayaran_bon                                                
+                                where id_toko = $idToko
+                                and tanggal = '$tanggal[$i]'")); 
                             @endphp
 
                             @foreach ($cekToko as $ct)
@@ -69,6 +76,10 @@
                                     <td> Rp. {{ number_format($bon->total_bon, 2, ',', '.') }}</td>
                                 @endforeach
 
+                                @foreach ($bayarBon as $bb)
+                                    <td> Rp. {{ number_format($bb->total_bayar_bon, 2, ',', '.') }}</td>
+                                @endforeach
+
                             @endforeach 
                         </tr>
                     @endfor
@@ -83,6 +94,7 @@
                     <th>Total Cash</th>
                     <th>Total Transfer</th>
                     <th>Total Bon</th>
+                    <th>Total Bayar Bon</th>
                 </thead>
                 <tbody>
                     <tr>
@@ -97,6 +109,7 @@
                             @endphp
                             <td><b> Rp. {{ number_format($untung, 2, ',', '.') }}<b></td>
                         @endforeach
+
                         @foreach ($totalPenjualanCash as $tpc)
                             <td><b> Rp. {{ number_format($tpc->total_penjualan_cash, 2, ',', '.') }}</b></td>
                         @endforeach
@@ -106,10 +119,14 @@
                         @foreach ($totalPenjualanBon as $tpb)
                             <td><b>Rp. {{ number_format($tpb->total_penjualan_bon, 2, ',', '.') }}</b></td>
                         @endforeach
+                        @foreach ($totalBayarBon as $tbb)
+                            <td><b>Rp. {{ number_format($tbb->total_bayar_bon, 2, ',', '.') }}</b></td>
+                        @endforeach
                     </tr>
                 </tbody>
             </table>  
 
         </div><!--card-body-->
     </div><!--card-->
+</div><!--container-fluid-->
 @endsection
