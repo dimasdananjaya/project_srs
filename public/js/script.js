@@ -16,8 +16,13 @@ $(document).ready(function() {
 } );
 
 
+function maskMoney(){
+  $('.uang' ).mask('000.000.000.000.000', {reverse: true});
+}
+
 
 function totalAkhir(){
+
   var diskon=$('#diskon').val();
   var totalHargaPokok = 0;
   var totalHargaJual = 0;
@@ -34,6 +39,8 @@ function totalAkhir(){
 
   var totalAkhir = totalHargaJual-diskon;
   $('#total_akhir2').val(totalAkhir);
+
+  maskMoney();
 }
 
 
@@ -46,6 +53,7 @@ $(".delete").on('click', function() {
   });
   var i=$('table tr').length;
   $(".addbtn").on('click',function(){
+
     count=$('#tabel_barangs tr').length;
     
       var data="<tr><td><input type='checkbox' class='chkbox'/></td>";
@@ -53,14 +61,15 @@ $(".delete").on('click', function() {
         data+="<td><input style='width:6em;' class='form-control ' type='text' data-type='jumlah' id='jumlah_"+i+"' name='jumlah[]'/></td>";
         data+="<td><input style='width:6em;' class='form-control autocomplete_txt' type='text' data-type='id_barang' id='id_barang_"+i+"' name='id_barang[]' readonly/></td>";
         data+="<td><input style='width:15em;' class='form-control autocomplete_txt' type='text' data-type='nama_barang' id='nama_barang_"+i+"' name='nama_barang[]'/></td>";
-        data+="<td><input class='form-control autocomplete_txt' type='text' data-type='harga_pokok' id='harga_pokok_"+i+"' name='harga_pokok[]' readonly/></td>";
-        data+="<td><input class='form-control autocomplete_txt' type='text' data-type='harga_jual' id='harga_jual_"+i+"' name='harga_jual[]' readonly/></td>";
-        data+="<td><input class='form-control ' type='text' data-type='total_harga_pokok' id='total_harga_pokok_"+i+"' name='total_harga_pokok[]'readonly/></td>";
-        data+="<td><input class='form-control ' type='text' data-type='total_harga_jual' id='total_harga_jual_"+i+"' name='total_harga_jual[]'readonly/></td>";
+        data+="<td><input class='form-control autocomplete_txt uang' type='text' data-type='harga_pokok' id='harga_pokok_"+i+"' name='harga_pokok[]' readonly/></td>";
+        data+="<td><input class='form-control autocomplete_txt uang' type='text' data-type='harga_jual' id='harga_jual_"+i+"' name='harga_jual[]' readonly/></td>";
+        data+="<td><input class='form-control uang' type='text' data-type='total_harga_pokok' id='total_harga_pokok_"+i+"' name='total_harga_pokok[]'readonly/></td>";
+        data+="<td><input class='form-control uang' type='text' data-type='total_harga_jual' id='total_harga_jual_"+i+"' name='total_harga_jual[]'readonly/></td>";
     $('#tabel_barangs').append(data);
    
     i++;
     totalAkhir();
+
   });
           
   function select_all() {
@@ -81,6 +90,7 @@ $(".delete").on('click', function() {
       
     });
     totalAkhir();
+
   }
   //autocomplete script
   $(document).on('focus','.autocomplete_txt',function(){
@@ -130,11 +140,10 @@ $(".delete").on('click', function() {
              $('#total_harga_pokok_'+elementId).val(totalHargaPokok);
              $('#total_harga_jual_'+elementId).val(totalHargaJual);
 
+             
             totalAkhir();
+            maskMoney();
            }
-
-           
      });
            
-
 });

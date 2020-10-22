@@ -46,7 +46,7 @@
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <label>Tanggal :</label>
-                                                    {{ Form::date('tanggal','',['class' => 'form-control form-group'],)}}
+                                                    {{ Form::date('tanggal','',['class' => 'form-control form-group','required'],)}}
                                                 </div><!--col-lg-6-->
                                                 <div class="col-lg-6">
                                                     <label>Pembeli / Member :</label>
@@ -116,9 +116,8 @@
                                                             <td><input class="form-control autocomplete_txt" type='number' data-type="harga_pokok" id='harga_pokok_1' name='harga_pokok[]'readonly/> </td>
                                                             <td><input class="form-control autocomplete_txt" type='number' data-type="harga_jual" id='harga_jual_1' name='harga_jual[]' readonly/> </td>
                                                             <td><input class="form-control autocomplete_txt" type='number' data-type="total_harga_pokok" id='total_harga_pokok_1' name='total_harga_pokok[]' readonly/> </td>
-                                                            <td><input class="form-control autocomplete_txt" type='number' data-type="total_harga_jual" id='total_harga_jual_1' name='total_harga_jual[]' readonly/> </td>
-                                                            
-                                                          </tr>
+                                                            <td><input class="form-control autocomplete_txt" type='number' data-type="total_harga_jual" id='total_harga_jual_1' name='total_harga_jual[]' readonly/> </td>                                                            
+                                                         </tr>
                                                         </table>
                                                     <div class="row">
                                                         <div class="col-md-12">
@@ -127,14 +126,14 @@
                                                         </div><!--col-12-->
                                                         <div class="col-md-6 offset-md-6">
                                                             <label class="mt-3">Diskon :</label>
-                                                            <input class="form-control" type='number' id='diskon' value="0" name='diskon'/>
+                                                            <input class="form-control uang" min="0" type='number' id='diskon' value="0" name='diskon'/>
                                                             <hr>
                                                             <label class="mt-3">Total Harga Pokok Penjualan:</label>
-                                                            <input type="number" class="form-control" id="total_harga_pokok_akhir" name="total_harga_akhir_pokok_penjualan" readonly>
+                                                            <input type="number" class="form-control uang" id="total_harga_pokok_akhir" name="total_harga_akhir_pokok_penjualan" readonly>
                                                             <label class="mt-3">Total Harga Jual Penjualan:</label>
-                                                            <input type="number" class="form-control" id="total_akhir1" name="total_harga_akhir_jual_penjualan" readonly>
+                                                            <input type="number" class="form-control uang" id="total_akhir1" name="total_harga_akhir_jual_penjualan" readonly>
                                                             <label class="mt-3"><b>Total Akhir Setelah Diskon:</b></label>
-                                                            <input class="form-control" type='number' id='total_akhir2' name='total_akhir' readonly/>
+                                                            <input class="form-control uang" type='number' id='total_akhir2' name='total_akhir'/>
 
                                                         </div><!--col -3-->
                                                     </div><!--row-->

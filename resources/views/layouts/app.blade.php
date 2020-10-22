@@ -101,6 +101,7 @@
     src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
     integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
     crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js" defer></script>
 
     <!--datatable-->
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js" defer></script>
