@@ -15,9 +15,23 @@ $(document).ready(function() {
   $('#tabel-cek-toko').DataTable();
 } );
 
+$(document).ready(function() {
+  $('.uangPembayaranBon').mask("000,0000,000,000", {reverse: true, maxLength:false, removeMaskOnSubmit: true});
+  $('.uangDiskon').mask("000,0000,000,000", {reverse: true, maxLength:false, removeMaskOnSubmit: true});
+} );
+
+$("#formPenjualan").submit(function() {
+  $(".uang").unmask();
+});
+
+$("#formPembayaranBon").submit(function() {
+  $(".uangPembayaranBon").unmask();
+});
+
 
 function maskMoney(){
-  $('.uang' ).mask('000.000.000.000.000', {reverse: true});
+  $(".uang").unmask();
+  $('.uang').mask("000,0000,000,000", {reverse: true, maxLength:false, removeMaskOnSubmit: true});
 }
 
 
@@ -38,24 +52,20 @@ function totalAkhir(){
   });
 
   var totalAkhir = totalHargaJual-diskon;
+  
   $('#total_akhir2').val(totalAkhir);
-
-  maskMoney();
 }
-
-
 
 $(".delete").on('click', function() {
     $('.chkbox:checkbox:checked').parents("tr").remove();
     $('.check_all').prop("checked", false); 
     updateSerialNo();
-    totalAkhir();
+
   });
   var i=$('table tr').length;
   $(".addbtn").on('click',function(){
-
-    count=$('#tabel_barangs tr').length;
     
+    count=$('#tabel_barangs tr').length;
       var data="<tr><td><input type='checkbox' class='chkbox'/></td>";
         data+="<td><span id='sn"+i+"'>"+count+".</span></td>";
         data+="<td><input style='width:6em;' class='form-control ' type='text' data-type='jumlah' id='jumlah_"+i+"' name='jumlah[]'/></td>";
@@ -66,10 +76,8 @@ $(".delete").on('click', function() {
         data+="<td><input class='form-control uang' type='text' data-type='total_harga_pokok' id='total_harga_pokok_"+i+"' name='total_harga_pokok[]'readonly/></td>";
         data+="<td><input class='form-control uang' type='text' data-type='total_harga_jual' id='total_harga_jual_"+i+"' name='total_harga_jual[]'readonly/></td>";
     $('#tabel_barangs').append(data);
-   
     i++;
-    totalAkhir();
-
+    
   });
           
   function select_all() {
@@ -87,23 +95,18 @@ $(".delete").on('click', function() {
     $.each( obj, function( key, value ) {
       id=value.id;
       $('#'+id).html(key+1);
-      
     });
-    totalAkhir();
-
   }
   //autocomplete script
   $(document).on('focus','.autocomplete_txt',function(){
+    
     type = $(this).data('type');
     
     if(type =='nama_barang' )autoType='nama_barang'; 
-    if(type =='harga_pokok' )autoType='harga_pokok'; 
-    if(type =='harga_jual' )autoType='harga_jual'; 
     
      $(this).autocomplete({
-     
+          
          source: function( request, response ) {
-             
               $.ajax({
                   url: "/searchajax",
                   dataType: "json",
@@ -124,6 +127,7 @@ $(".delete").on('click', function() {
               });
          },
          select: function( event, ui ) {
+            
              var data = ui.item.data;           
              id_arr = $(this).attr('id');
              id = id_arr.split("_");
@@ -140,10 +144,13 @@ $(".delete").on('click', function() {
              $('#total_harga_pokok_'+elementId).val(totalHargaPokok);
              $('#total_harga_jual_'+elementId).val(totalHargaJual);
 
-             
-            totalAkhir();
-            maskMoney();
            }
-     });
            
+  });
+  
+});
+
+$(".hitungAll").on('click',function(){
+  totalAkhir();
+  maskMoney();
 });

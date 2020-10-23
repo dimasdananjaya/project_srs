@@ -33,7 +33,7 @@ footer{
 /****global style*****/
 
 #home .banner{
-    background-color: #005086;
+    background-color: #28df99;
     color: #ffffff;
     margin-top: -1.6em;
     padding-top: 1em;
@@ -51,7 +51,7 @@ footer{
 }
 
 #home .card-body{
-    background-color: #318fb5;
+    background-color: #28df99;
     color: #ffffff;
 }
 
@@ -65,15 +65,7 @@ footer{
     border-radius: 0 0 1em 1em;
 }
 
-#home .card-body>a{
-    background-color: #0f4c75;
-    color: #ffffff;
-}
 
-#home .card-body>a:hover{
-    background-color: #00bcd4;
-    color: #ffffff;
-}
 
 
 /*****store-list**********/
@@ -88,12 +80,12 @@ footer{
 
 #toko-list .card{
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    margin-top: 2.4em;
 }
 
 #toko-list .card:hover{
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
-
 
 /*****store-dashboard**********/
 

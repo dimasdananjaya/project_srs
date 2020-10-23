@@ -18,9 +18,6 @@
                     <li class="nav-item">
                         <a class="nav-link" id="items-sold-tab" data-toggle="tab" href="#items-sold" role="tab" aria-controls="contact" aria-selected="false">Items Sold</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="cek-toko-tab" data-toggle="tab" href="#cek-toko" role="tab" aria-controls="contact" aria-selected="false">Rekap Periode</a>
-                    </li>
                 </ul>
                 <div class="tab-content mt-3" id="myTabContent">
 
@@ -41,7 +38,7 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="{{ route('penjualan.store') }}"  method="POST">
+                                        <form id="formPenjualan" action="{{ route('penjualan.store') }}"  method="POST">
                                             @csrf
                                             <div class="row">
                                                 <div class="col-lg-6">
@@ -75,7 +72,7 @@
                                                 </div><!--col-lg-6-->
                                                 <div class="col-lg-6">
                                                     <label>No Bon (Hanya Untuk Bon) :</label>
-                                                    {{ Form::text('no_bon','',['class' => 'form-control form-group','required'])}}
+                                                    {{ Form::text('no_bon','',['class' => 'form-control form-group',])}}
                                                 </div><!--col-lg-6-->
                                             </div><!--row-->
  
@@ -113,10 +110,10 @@
                                                             <td><input style="width:6em;" class="form-control" type='number' data-type="jumlah" id='jumlah_1' name='jumlah[]'/> </td>
                                                             <td><input style="width:6em;" class="form-control autocomplete_txt" type='text' data-type="id_barang" id='id_barang_1' name='id_barang[]' readonly/></td>
                                                             <td><input style="width:15em;" class="form-control autocomplete_txt" type='text' data-type="nama_barang" id='nama_barang_1' name='nama_barang[]'/></td>
-                                                            <td><input class="form-control autocomplete_txt" type='number' data-type="harga_pokok" id='harga_pokok_1' name='harga_pokok[]'readonly/> </td>
-                                                            <td><input class="form-control autocomplete_txt" type='number' data-type="harga_jual" id='harga_jual_1' name='harga_jual[]' readonly/> </td>
-                                                            <td><input class="form-control autocomplete_txt" type='number' data-type="total_harga_pokok" id='total_harga_pokok_1' name='total_harga_pokok[]' readonly/> </td>
-                                                            <td><input class="form-control autocomplete_txt" type='number' data-type="total_harga_jual" id='total_harga_jual_1' name='total_harga_jual[]' readonly/> </td>                                                            
+                                                            <td><input class="form-control autocomplete_txt uang" type='text' data-type="harga_pokok" id='harga_pokok_1' name='harga_pokok[]'readonly/> </td>
+                                                            <td><input class="form-control autocomplete_txt uang" type='text' data-type="harga_jual" id='harga_jual_1' name='harga_jual[]' readonly/> </td>
+                                                            <td><input class="form-control autocomplete_txt uang" type='text' data-type="total_harga_pokok" id='total_harga_pokok_1' name='total_harga_pokok[]' readonly/> </td>
+                                                            <td><input class="form-control autocomplete_txt uang" type='text' data-type="total_harga_jual" id='total_harga_jual_1' name='total_harga_jual[]' readonly/> </td>                                                            
                                                          </tr>
                                                         </table>
                                                     <div class="row">
@@ -126,23 +123,21 @@
                                                         </div><!--col-12-->
                                                         <div class="col-md-6 offset-md-6">
                                                             <label class="mt-3">Diskon :</label>
-                                                            <input class="form-control uang" min="0" type='number' id='diskon' value="0" name='diskon'/>
+                                                            <input class="form-control uangDiskon" min="0" type='text' id='diskon' name='diskon'/>
                                                             <hr>
                                                             <label class="mt-3">Total Harga Pokok Penjualan:</label>
-                                                            <input type="number" class="form-control uang" id="total_harga_pokok_akhir" name="total_harga_akhir_pokok_penjualan" readonly>
+                                                            <input type="text" class="form-control uang" id="total_harga_pokok_akhir" name="total_harga_akhir_pokok_penjualan" readonly>
                                                             <label class="mt-3">Total Harga Jual Penjualan:</label>
-                                                            <input type="number" class="form-control uang" id="total_akhir1" name="total_harga_akhir_jual_penjualan" readonly>
+                                                            <input type="text" class="form-control uang" id="total_akhir1" name="total_harga_akhir_jual_penjualan" readonly>
                                                             <label class="mt-3"><b>Total Akhir Setelah Diskon:</b></label>
-                                                            <input class="form-control uang" type='number' id='total_akhir2' name='total_akhir'/>
-
+                                                            <input class="form-control uang" type='text' id='total_akhir2' name='total_akhir' readonly/>
+                                                            <a style="color: #ffffff;" class="btn btn-info hitungAll mt-3 btn-block">Hitung Total</a>
+                                                            <!--<a style="color: #ffffff;" class="btn btn-info resetTotal mt-3 btn-block">Reset Total</a>-->
                                                         </div><!--col -3-->
                                                     </div><!--row-->
                                                 </div><!--card-body-->
                                             </div><!--card-->
-
-                                            <div>
-                                                <input class="btn btn-primary btn-block" type="submit">
-                                            </div>
+                                            <input class="btn btn-primary btn-block" type="submit">
                                         </form>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -352,7 +347,7 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="{{ route('tambah.pembayaran-bon') }}"  method="POST">
+                                        <form id="formPembayaranBon" action="{{ route('tambah.pembayaran-bon') }}"  method="POST">
                                             @csrf
                                             <label>Pilih Bon :</label>
                                             <select name="id_penjualan" class="form-control form-group">
@@ -374,7 +369,7 @@
                                             </select>
                             
                                             <label>Jumlah Pembayaran :</label>
-                                            {{ Form::number('jumlah_pembayaran','',['class' => 'form-control form-group','required'])}}
+                                            {{ Form::text('jumlah_pembayaran','',['class' => 'form-control form-group uang','required'])}}
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <label>Tanggal :</label>

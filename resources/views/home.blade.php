@@ -14,7 +14,7 @@
                     <div class="card-body">
                         <h4 class="card-title text-center"><b>Penjualan Toko</b></h4>
                         <p class="text-center">Kelola Data Penjualan Toko</p>
-                        <a href="/toko-list" class="btn btn-block">Show</a>
+                        <a href="/toko-list" class="btn btn-block btn-success">Show</a>
                     </div><!--card-body-->
                 </div><!--card-->
             </div><!--col-lg-4-->
@@ -25,7 +25,7 @@
                     <div class="card-body">
                         <h4 class="card-title text-center"><b>Manajemen Barang</b></h4>
                         <p class="text-center">Kelola data Barang</p>
-                        <a href="/barang" class="btn btn-block">Show</a>
+                        <a href="/barang" class="btn btn-block btn-success">Show</a>
                     </div><!--card-body-->
                 </div><!--card-->
             </div><!--col-lg-4-->
@@ -36,7 +36,7 @@
                     <div class="card-body">
                         <h4 class="card-title text-center"><b>Manajemen Member</b></h4>
                         <p class="text-center">Kelola data Member</p>
-                        <a href="/member" class="btn btn-block">Show</a>
+                        <a href="/member" class="btn btn-block btn-success">Show</a>
                     </div><!--card-body-->
                 </div><!--card-->
             </div><!--col-lg-4-->

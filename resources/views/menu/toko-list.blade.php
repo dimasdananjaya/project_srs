@@ -13,8 +13,8 @@
                     <div class="card-body">
                         <h4 class="card-title text-center"><b>{{$dt->nama_toko}}</b></h4>
                         <hr>
-                        <button href="#" class="btn btn-block btn-primary" data-toggle="modal" data-target="#salesModal{{$dt->id_toko}}">Kelola Sales</button>
-                        <button href="#" class="btn btn-block btn-primary" data-toggle="modal" data-target="#reportModal">Rekap Laporan</button>
+                        <a href="#" class="btn btn-block btn-success" data-toggle="modal" data-target="#salesModal{{$dt->id_toko}}">Kelola Sales</a>
+                        <a href="#" class="btn btn-block btn-success" data-toggle="modal" data-target="#reportModal">Rekap Laporan</a>
                     </div><!--card-body-->
                 </div><!--card-->
 
@@ -38,7 +38,6 @@
                                                     <option value="{{$dtp->id_periode}}">{{$dtp->periode}}</option>
                                                 @endforeach
                                             </select>
-                                            
                                             {{Form::hidden('id_toko',$dt->id_toko)}}
                                             {{Form::submit('Simpan',['class'=>'btn btn-success btn-block'])}}
                                         </div><!--col-lg-12-->
