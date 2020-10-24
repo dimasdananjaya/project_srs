@@ -17,7 +17,7 @@ $(document).ready(function() {
 
 $(document).ready(function() {
   $('.uangPembayaranBon').mask("000,0000,000,000", {reverse: true, maxLength:false, removeMaskOnSubmit: true});
-  $('.uangDiskon').mask("000,0000,000,000", {reverse: true, maxLength:false, removeMaskOnSubmit: true});
+
 } );
 
 $("#formPenjualan").submit(function() {
@@ -36,7 +36,7 @@ function maskMoney(){
 
 
 function totalAkhir(){
-
+  $(".uang").unmask();
   var diskon=$('#diskon').val();
   var totalHargaPokok = 0;
   var totalHargaJual = 0;
@@ -56,11 +56,16 @@ function totalAkhir(){
   $('#total_akhir2').val(totalAkhir);
 }
 
+function hitungAll(){
+  totalAkhir();
+  maskMoney();
+}
+
 $(".delete").on('click', function() {
     $('.chkbox:checkbox:checked').parents("tr").remove();
     $('.check_all').prop("checked", false); 
     updateSerialNo();
-
+    hitungAll();
   });
   var i=$('table tr').length;
   $(".addbtn").on('click',function(){
@@ -77,7 +82,7 @@ $(".delete").on('click', function() {
         data+="<td><input class='form-control uang' type='text' data-type='total_harga_jual' id='total_harga_jual_"+i+"' name='total_harga_jual[]'readonly/></td>";
     $('#tabel_barangs').append(data);
     i++;
-    
+    hitungAll();
   });
           
   function select_all() {
@@ -138,17 +143,16 @@ $(".delete").on('click', function() {
              $('#harga_jual_'+elementId).val(data.harga_jual);
 
              var jumlah=$('#jumlah_'+elementId).val();
-            
              var totalHargaPokok = data.harga_pokok * jumlah;
              var totalHargaJual = data.harga_jual * jumlah;
              $('#total_harga_pokok_'+elementId).val(totalHargaPokok);
              $('#total_harga_jual_'+elementId).val(totalHargaJual);
-
-           }
-           
-  });
-  
+            hitungAll();
+           }       
+    });
 });
+
+
 
 $(".hitungAll").on('click',function(){
   totalAkhir();

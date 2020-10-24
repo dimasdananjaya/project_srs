@@ -62,6 +62,7 @@ class PenjualanController extends Controller
         $penjualan->total_akhir= $request->input('total_akhir');
         $penjualan->diskon = $request->input('diskon');
         $penjualan->no_bon = $request->input('no_bon');
+        $penjualan->bank = $request->input('bank');
 
         $jenis_pembayaran=$request->input('jenis_pembayaran');
         $tanggal=$request->input('tanggal');
@@ -100,9 +101,8 @@ class PenjualanController extends Controller
         
 
      /** https://stackoverflow.com/questions/51686090/array-count-laravel */   
-
-    
-        return redirect()->back();
+     alert()->success('Data Tersimpan!');
+     return back();
     }
 
     /**

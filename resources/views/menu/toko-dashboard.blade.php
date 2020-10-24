@@ -71,13 +71,35 @@
                                                     </select>
                                                 </div><!--col-lg-6-->
                                                 <div class="col-lg-6">
+                                                    <label>Bank (Hanya Untuk Transfer):</label>
+                                                    <select name="bank" class="form-control form-group">
+                                                        <option value="-">
+                                                            -
+                                                        </option>
+                                                        <option value="BNI">
+                                                            BNI
+                                                        </option>
+                                                        <option value="BCA">
+                                                            BCA
+                                                        </option>
+                                                        <option value="BRI">
+                                                            BRI
+                                                        </option>
+                                                        <option value="MANDIRI">
+                                                            MANDIRI
+                                                        </option>
+                                                    </select>
+                                                </div><!--col-lg-6-->
+                                                <div class="col-lg-6">
                                                     <label>No Bon (Hanya Untuk Bon) :</label>
                                                     {{ Form::text('no_bon','',['class' => 'form-control form-group',])}}
                                                 </div><!--col-lg-6-->
+                                                <div class="col-lg-6">
+                                                    <label>Keterangan :</label>
+                                                    {{ Form::text('keterangan','',['class' => 'form-control form-group','required'])}}
+                                                </div><!--col-lg-6-->
                                             </div><!--row-->
- 
-                                            <label>Keterangan :</label>
-                                            {{ Form::text('keterangan','',['class' => 'form-control form-group','required'])}}
+
                                             {{Form::hidden('id_user', Auth::user()->id_user) }}
                                             @foreach ($dataToko as $dt) 
                                                 {{Form::hidden('id_toko', $dt->id_toko) }}
@@ -88,8 +110,7 @@
                                             <div class="card">
                                                 <div class="card-header">
                                                     Products
-                                                </div>
-
+                                                </div><!--card-header-->
                                                 <div class="card-body">
                                                     <table id="tabel_barangs" class="table table-bordered table-responsive">
                                                         <tr>
@@ -123,7 +144,7 @@
                                                         </div><!--col-12-->
                                                         <div class="col-md-6 offset-md-6">
                                                             <label class="mt-3">Diskon :</label>
-                                                            <input class="form-control uangDiskon" min="0" type='text' id='diskon' name='diskon'/>
+                                                            <input class="form-control uang" min="0" type='text' id='diskon' name='diskon'/>
                                                             <hr>
                                                             <label class="mt-3">Total Harga Pokok Penjualan:</label>
                                                             <input type="text" class="form-control uang" id="total_harga_pokok_akhir" name="total_harga_akhir_pokok_penjualan" readonly>
@@ -189,11 +210,11 @@
                                         @endforeach
                                     </td>
                                     <td>{{$dp->jenis_pembayaran}}</td>
-                                    <td> Rp. {{ number_format($dp->total_harga_pokok, 2, ',', '.') }}</td>
-                                    <td> Rp. {{ number_format($dp->total_harga_jual, 2, ',', '.') }}</td>
-                                    <td> Rp. {{ number_format($dp->diskon, 2, ',', '.') }}</td>
-                                    <td> Rp. {{ number_format($dp->total_akhir, 2, ',', '.') }}</td>
-                                    <td> Rp. {{ number_format($keuntungan, 2, ',', '.') }}</td>
+                                    <td>{{ number_format($dp->total_harga_pokok, 2, ',', '.') }}</td>
+                                    <td>{{ number_format($dp->total_harga_jual, 2, ',', '.') }}</td>
+                                    <td>{{ number_format($dp->diskon, 2, ',', '.') }}</td>
+                                    <td>{{ number_format($dp->total_akhir, 2, ',', '.') }}</td>
+                                    <td>{{ number_format($keuntungan, 2, ',', '.') }}</td>
                                     <td>{{$dp->keterangan}}</td>
                                     <td><b>{{$dp->status}}</b></td>
                                     <td>
@@ -367,7 +388,26 @@
                                                     Transfer
                                                 </option>
                                             </select>
-                            
+
+                                            <label>Bank (Hanya Untuk Transfer):</label>
+                                            <select name="bank" class="form-control form-group">
+                                                <option value="-">
+                                                    -
+                                                </option>
+                                                <option value="BNI">
+                                                    BNI
+                                                </option>
+                                                <option value="BCA">
+                                                    BCA
+                                                </option>
+                                                <option value="BRI">
+                                                    BRI
+                                                </option>
+                                                <option value="MANDIRI">
+                                                    MANDIRI
+                                                </option>
+                                            </select>
+                                                                                    
                                             <label>Jumlah Pembayaran :</label>
                                             {{ Form::text('jumlah_pembayaran','',['class' => 'form-control form-group uang','required'])}}
                                             <div class="row">

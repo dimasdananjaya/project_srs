@@ -27,8 +27,8 @@ class CreateUsersTable extends Migration
             $table->id('id_barang');
             $table->string('nama_barang');
             $table->string('jenis');
-            $table->decimal('harga_pokok',13,2);
-            $table->decimal('harga_jual',13,2);
+            $table->decimal('harga_pokok',13);
+            $table->decimal('harga_jual',13);
             $table->timestamps();
         });
 
@@ -45,6 +45,12 @@ class CreateUsersTable extends Migration
             $table->timestamps();
         });
 
+        Schema::create('bank', function (Blueprint $table) {
+            $table->id('id_bank');
+            $table->string('nama_bank');
+            $table->timestamps();
+        });
+
         Schema::create('toko', function (Blueprint $table) {
             $table->id('id_toko');
             $table->string('nama_toko');
@@ -57,10 +63,11 @@ class CreateUsersTable extends Migration
             $table->unsignedBigInteger('id_user');
             $table->unsignedBigInteger('id_member');
             $table->unsignedBigInteger('id_periode');
-            $table->decimal('total_harga_pokok',20,2);
-            $table->decimal('total_harga_jual',20,2);
-            $table->decimal('total_akhir',20,2);
-            $table->decimal('diskon',20,2);
+            $table->unsignedBigInteger('id_bank');
+            $table->decimal('total_harga_pokok',20);
+            $table->decimal('total_harga_jual',20);
+            $table->decimal('total_akhir',20);
+            $table->decimal('diskon',20);
             $table->string('jenis_pembayaran');
             $table->string('status');
             $table->string('keterangan');
@@ -72,7 +79,7 @@ class CreateUsersTable extends Migration
             $table->foreign('id_user')->references('id_user')->on('users');
             $table->foreign('id_member')->references('id_member')->on('member');
             $table->foreign('id_periode')->references('id_periode')->on('periode');
-            
+            $table->foreign('id_bank')->references('id_bank')->on('bank');
         });
 
 
@@ -82,8 +89,8 @@ class CreateUsersTable extends Migration
             $table->unsignedBigInteger('id_toko');
             $table->unsignedBigInteger('id_barang');
             $table->unsignedBigInteger('id_periode');
-            $table->decimal('total_harga_pokok',13,2);
-            $table->decimal('total_harga_jual',13,2);
+            $table->decimal('total_harga_pokok',13);
+            $table->decimal('total_harga_jual',13);
             $table->integer('jumlah');
 
             $table->foreign('id_penjualan')->references('id_penjualan')->on('penjualan')->onDelete('cascade');
@@ -98,16 +105,17 @@ class CreateUsersTable extends Migration
             $table->unsignedBigInteger('id_toko');
             $table->unsignedBigInteger('id_penjualan');
             $table->unsignedBigInteger('id_periode');
+            $table->unsignedBigInteger('id_bank');
             $table->date('tanggal');
             $table->string('jenis_pembayaran');
             $table->string('referral');
-            $table->decimal('jumlah_pembayaran',20,2);
+            $table->decimal('jumlah_pembayaran',20);
             
 
             $table->foreign('id_toko')->references('id_toko')->on('toko');
             $table->foreign('id_penjualan')->references('id_penjualan')->on('penjualan')->onDelete('cascade');
             $table->foreign('id_periode')->references('id_periode')->on('periode')->onDelete('cascade');
-
+            $table->foreign('id_bank')->references('id_bank')->on('bank');
         });
     }
 

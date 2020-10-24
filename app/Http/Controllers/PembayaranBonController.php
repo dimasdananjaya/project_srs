@@ -16,6 +16,7 @@ class PembayaranBonController extends Controller
         $pembayaran->metode_pembayaran = $request->input('metode_pembayaran');
         $pembayaran->referral = $request->input('referral');
         $pembayaran->jumlah_pembayaran = $request->input('jumlah_pembayaran');
+        $pembayaran->bank = $request->input('bank');
 
         $pembayaran->save();
 
