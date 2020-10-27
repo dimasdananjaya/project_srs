@@ -14,7 +14,7 @@
                         <h4 class="card-title text-center"><b>{{$dt->nama_toko}}</b></h4>
                         <hr>
                         <a href="#" class="btn btn-block btn-success" data-toggle="modal" data-target="#salesModal{{$dt->id_toko}}">Kelola Sales</a>
-                        <a href="#" class="btn btn-block btn-success" data-toggle="modal" data-target="#reportModal">Rekap Laporan</a>
+                        <a href="#" class="btn btn-block btn-success" data-toggle="modal" data-target="#reportModal{{$dt->id_toko}}">Rekap Laporan</a>
                     </div><!--card-body-->
                 </div><!--card-->
 
@@ -23,7 +23,7 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Pilih Periode Sales</h5>
+                                <h5 class="modal-title" id="exampleModalLabel">Pilih Periode Sales {{$dt->nama_toko}}</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                                 </button>
@@ -52,11 +52,11 @@
                 </div><!--modal report-->
 
                 <!-- Report modal -->
-                <div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="reportModal{{$dt->id_toko}}" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Pilih Tanggal Laporan</h5>
+                                <h5 class="modal-title" id="exampleModalLabel">Pilih Tanggal Laporan {{$dt->nama_toko}}</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                                 </button>

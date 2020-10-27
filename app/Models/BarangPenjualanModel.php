@@ -10,7 +10,7 @@ class BarangPenjualanModel extends Model
     use HasFactory;
 
     protected $table = 'barang_penjualan';
-    public $timestamps = false;
+    public $timestamps = true;
     public $primaryKey='id_barang_penjualan';
 
     protected $guarded = [];

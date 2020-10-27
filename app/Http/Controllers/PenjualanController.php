@@ -9,6 +9,7 @@ use App\Models\BarangPenjualanModel;
 use App\Models\PeriodeModel;
 use App\Models\PenjualanModel;
 use App\Models\TokoModel;
+use App\Models\BankModel;
 use DB;
 
 class PenjualanController extends Controller
@@ -57,12 +58,13 @@ class PenjualanController extends Controller
         $penjualan->id_user = $request->input('id_user');
         $penjualan->id_member = $request->input('id_member');
         $penjualan->id_periode = $request->input('id_periode');
+        $penjualan->id_bank = $request->input('id_bank');
         $penjualan->total_harga_pokok = $request->input('total_harga_akhir_pokok_penjualan');
         $penjualan->total_harga_jual = $request->input('total_harga_akhir_jual_penjualan');
         $penjualan->total_akhir= $request->input('total_akhir');
         $penjualan->diskon = $request->input('diskon');
         $penjualan->no_bon = $request->input('no_bon');
-        $penjualan->bank = $request->input('bank');
+
 
         $jenis_pembayaran=$request->input('jenis_pembayaran');
         $tanggal=$request->input('tanggal');
@@ -154,18 +156,18 @@ class PenjualanController extends Controller
 
     public function showPenjualanToko(Request $request)
     {
-        
-
         $periode=$request->input('periode');
         $idToko=$request->input('id_toko');
 
         $dataMember=MemberModel::all();
-        $dataBarang=BarangModel::all();
+        $dataBarang=DB::table('barang')->where('id_toko', '=', $idToko);
         $dataPeriode=PeriodeModel::all();
+        $dataBank=BankModel::all();
         $dataToko=DB::table('toko')->where('id_toko', '=', $idToko)->get();
         $dataPenjualanLunas=DB::table('penjualan')
         ->join('member', 'member.id_member', '=', 'penjualan.id_member')
-        ->select('penjualan.*', 'member.nama_member')  
+        ->join('bank', 'bank.id_bank', '=', 'penjualan.id_bank')
+        ->select('penjualan.*', 'member.nama_member','bank.nama_bank')  
         ->where('penjualan.id_periode', $periode)
         ->where('penjualan.id_toko', $idToko)
         ->where('penjualan.status', 'lunas')
@@ -173,7 +175,8 @@ class PenjualanController extends Controller
 
         $dataPenjualanBon=DB::table('penjualan')
         ->join('member', 'member.id_member', '=', 'penjualan.id_member')
-        ->select('penjualan.*', 'member.nama_member')  
+        ->join('bank', 'bank.id_bank', '=', 'penjualan.id_bank')
+        ->select('penjualan.*', 'member.nama_member','bank.nama_bank')  
         ->where('penjualan.id_periode', $periode)
         ->where('penjualan.id_toko', $idToko)
         ->where('penjualan.status', 'bon')
@@ -181,7 +184,8 @@ class PenjualanController extends Controller
 
         $dataPembayaranBon=DB::table('pembayaran_bon')
         ->join('penjualan', 'penjualan.id_penjualan', '=', 'pembayaran_bon.id_penjualan')
-        ->select('pembayaran_bon.*','penjualan.no_bon')  
+        ->join('bank', 'bank.id_bank', '=', 'penjualan.id_bank')
+        ->select('pembayaran_bon.*','penjualan.no_bon','bank.nama_bank')  
         ->where('pembayaran_bon.id_periode', $periode)
         ->where('pembayaran_bon.id_toko', $idToko)
         ->orderBy('tanggal','DESC')->get();
@@ -189,7 +193,7 @@ class PenjualanController extends Controller
         $dataTotalBarangTerjual=DB::select(DB::raw(" 
         select *, sum(jumlah) as jumlah_barang_terjual from barang_penjualan
         INNER JOIN barang ON barang.id_barang=barang_penjualan.id_barang
-        where id_toko = $idToko
+        where barang_penjualan.id_toko = $idToko
         and id_periode = $periode
         group by nama_barang
         order by nama_barang asc"));
@@ -207,6 +211,7 @@ class PenjualanController extends Controller
         ->with('dataPeriode',$dataPeriode)
         ->with('dataMember',$dataMember)
         ->with('dataToko',$dataToko)
+        ->with('dataBank',$dataBank)
         ->with('idToko',$idToko)
         ->with('periode',$periode)
         ->with('dataPenjualanLunas',$dataPenjualanLunas)
@@ -223,21 +228,15 @@ class PenjualanController extends Controller
         if($request->type=='nama_barang'){
             $barangs->where('nama_barang','LIKE','%'.$query.'%');
         }
-        if($request->type=='harga_pokok'){
-            $barangs->where('harga_pokok','LIKE','%'.$query.'%');
-        }
-        if($request->type=='harga_jual'){
-            $barangs->where('harga_jual','LIKE','%'.$query.'%');
-        }
         $barangs=$barangs->get();        
         $data=array();
         foreach ($barangs as $br) {
-                $data[]=array('id_barang'=>$br->id_barang,'nama_barang'=>$br->nama_barang,'harga_pokok'=>$br->harga_pokok,'harga_jual'=>$br->harga_jual);
+                $data[]=array('id_barang'=>$br->id_barang,'nama_barang'=>$br->nama_barang,'harga_pokok'=>$br->harga_pokok,'harga_jual'=>$br->harga_jual,'id_toko'=>$br->id_toko);
         }
         if(count($data))
              return $data;
         else
-            return ['nama_barang'=>'','harga_pokok'=>'','harga_jual'=>''];
+            return ['nama_barang'=>'','harga_pokok'=>'','harga_jual'=>'','id_toko'=>''];
     }
 
     public function hapusPenjualanBon($id)
@@ -246,7 +245,5 @@ class PenjualanController extends Controller
         alert()->success('Data Penjualan Bon Berhasil Dihapus!', '');
         return back();
     }
-
-
 
 }

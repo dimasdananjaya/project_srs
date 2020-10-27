@@ -12,11 +12,11 @@ class PembayaranBonController extends Controller
         $pembayaran->id_toko = $request->input('id_toko');
         $pembayaran->id_penjualan = $request->input('id_penjualan');
         $pembayaran->id_periode = $request->input('id_periode');
+        $pembayaran->id_bank = $request->input('id_bank');
         $pembayaran->tanggal = $request->input('tanggal');
         $pembayaran->metode_pembayaran = $request->input('metode_pembayaran');
         $pembayaran->referral = $request->input('referral');
         $pembayaran->jumlah_pembayaran = $request->input('jumlah_pembayaran');
-        $pembayaran->bank = $request->input('bank');
 
         $pembayaran->save();
 

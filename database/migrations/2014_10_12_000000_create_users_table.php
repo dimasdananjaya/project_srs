@@ -23,15 +23,6 @@ class CreateUsersTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('barang', function (Blueprint $table) {
-            $table->id('id_barang');
-            $table->string('nama_barang');
-            $table->string('jenis');
-            $table->decimal('harga_pokok',13);
-            $table->decimal('harga_jual',13);
-            $table->timestamps();
-        });
-
         Schema::create('member', function (Blueprint $table) {
             $table->id('id_member');
             $table->string('nama_member');
@@ -55,6 +46,18 @@ class CreateUsersTable extends Migration
             $table->id('id_toko');
             $table->string('nama_toko');
             $table->timestamps();
+        });
+
+        Schema::create('barang', function (Blueprint $table) {
+            $table->id('id_barang');
+            $table->id('id_toko');
+            $table->string('nama_barang');
+            $table->string('jenis');
+            $table->decimal('harga_pokok',13);
+            $table->decimal('harga_jual',13);
+            $table->timestamps();
+
+            $table->foreign('id_toko')->references('id_toko')->on('toko');
         });
 
         Schema::create('penjualan', function (Blueprint $table) {

@@ -72,22 +72,15 @@
                                                 </div><!--col-lg-6-->
                                                 <div class="col-lg-6">
                                                     <label>Bank (Hanya Untuk Transfer):</label>
-                                                    <select name="bank" class="form-control form-group">
+                                                    <select name="id_bank" class="form-control form-group">
                                                         <option value="-">
                                                             -
                                                         </option>
-                                                        <option value="BNI">
-                                                            BNI
+                                                        @foreach ($dataBank as $db)
+                                                        <option value="{{$db->id_bank}}"">
+                                                            {{$db->nama_bank}}
                                                         </option>
-                                                        <option value="BCA">
-                                                            BCA
-                                                        </option>
-                                                        <option value="BRI">
-                                                            BRI
-                                                        </option>
-                                                        <option value="MANDIRI">
-                                                            MANDIRI
-                                                        </option>
+                                                        @endforeach
                                                     </select>
                                                 </div><!--col-lg-6-->
                                                 <div class="col-lg-6">
@@ -144,7 +137,7 @@
                                                         </div><!--col-12-->
                                                         <div class="col-md-6 offset-md-6">
                                                             <label class="mt-3">Diskon :</label>
-                                                            <input class="form-control uang" min="0" type='text' id='diskon' name='diskon'/>
+                                                            <input class="form-control uang" min="0" type='text' value="0" id='diskon' name='diskon'/>
                                                             <hr>
                                                             <label class="mt-3">Total Harga Pokok Penjualan:</label>
                                                             <input type="text" class="form-control uang" id="total_harga_pokok_akhir" name="total_harga_akhir_pokok_penjualan" readonly>
@@ -175,6 +168,7 @@
                                     <th>Pembeli</th>
                                     <th>Items</th>
                                     <th>Jenis Pembayaran</th>
+                                    <th>Bank</th>
                                     <th>Total Harga Pokok</th>
                                     <th>Total Harga Jual</th>
                                     <th>Total Diskon</th>
@@ -210,6 +204,7 @@
                                         @endforeach
                                     </td>
                                     <td>{{$dp->jenis_pembayaran}}</td>
+                                    <td>{{$dp->nama_bank}}</td>
                                     <td>{{ number_format($dp->total_harga_pokok, 2, ',', '.') }}</td>
                                     <td>{{ number_format($dp->total_harga_jual, 2, ',', '.') }}</td>
                                     <td>{{ number_format($dp->diskon, 2, ',', '.') }}</td>
@@ -294,16 +289,16 @@
                                         </td>
                                         <td>{{$dpb->jenis_pembayaran}}</td>
                                         <td> {{ number_format($dpb->total_harga_pokok, 2) }}</td>
-                                        <td> Rp. {{ number_format($dpb->total_harga_jual, 2, ',', '.') }}</td>
-                                        <td> Rp. {{ number_format($dpb->diskon, 2, ',', '.') }}</td>
-                                        <td> Rp. {{ number_format($dpb->total_akhir, 2, ',', '.') }}</td>
+                                        <td> {{ number_format($dpb->total_harga_jual, 2, ',', '.') }}</td>
+                                        <td> {{ number_format($dpb->diskon, 2, ',', '.') }}</td>
+                                        <td> {{ number_format($dpb->total_akhir, 2, ',', '.') }}</td>
                                         <td>
                                             @php
                                             $id_bon=$dpb->id_penjualan;
                                             $totalBayar=DB::select(DB::raw("SELECT sum(jumlah_pembayaran) AS total_bayar FROM pembayaran_bon WHERE id_penjualan=$id_bon GROUP BY id_penjualan"));
                                             @endphp
                                             @foreach ($totalBayar as $tb)
-                                                Rp. {{ number_format($tb->total_bayar, 2, ',', '.') }}
+                                                {{ number_format($tb->total_bayar, 2, ',', '.') }}
                                             @endforeach     
                                         </td>
                                         <td>
@@ -313,7 +308,7 @@
                                                     $x=$dpb->total_akhir;
                                                     $y=$tb->total_bayar;
                                                     $sisa=$x-$y;
-                                                    echo "Rp.".number_format("$sisa",2,",",".");
+                                                    echo number_format("$sisa",2,",",".");
                                                 }
                                             @endphp
                                         </td>
@@ -390,24 +385,17 @@
                                             </select>
 
                                             <label>Bank (Hanya Untuk Transfer):</label>
-                                            <select name="bank" class="form-control form-group">
+                                            <select name="id_bank" class="form-control form-group">
                                                 <option value="-">
                                                     -
                                                 </option>
-                                                <option value="BNI">
-                                                    BNI
+                                                @foreach ($dataBank as $db)
+                                                <option value="{{$db->id_bank}}">
+                                                    {{$db->nama_bank}}
                                                 </option>
-                                                <option value="BCA">
-                                                    BCA
-                                                </option>
-                                                <option value="BRI">
-                                                    BRI
-                                                </option>
-                                                <option value="MANDIRI">
-                                                    MANDIRI
-                                                </option>
+                                                @endforeach
                                             </select>
-                                                                                    
+
                                             <label>Jumlah Pembayaran :</label>
                                             {{ Form::text('jumlah_pembayaran','',['class' => 'form-control form-group uang','required'])}}
                                             <div class="row">
@@ -425,10 +413,7 @@
                                             {{Form::hidden('id_toko', $dt->id_toko) }}
                                             @endforeach
                                             {{Form::hidden('id_periode', $periode) }}
-
-                                            <div>
-                                                <input class="btn btn-primary btn-block" type="submit">
-                                            </div>
+                                            <input class="btn btn-primary btn-block" type="submit">
                                         </form>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -453,9 +438,10 @@
                                 <tr>
                                     <td>{{$dpb->no_bon}}</td>
                                     <td>{{$dpb->tanggal}}</td>
-                                    <td> Rp. {{ number_format($dpb->jumlah_pembayaran, 2, ',', '.') }}</td>
-                                    <td>{{$dpb->referral}}</td>                                  
+                                    <td>{{ number_format($dpb->jumlah_pembayaran, 2, ',', '.') }}</td>
                                     <td>{{$dpb->metode_pembayaran}}</td>
+                                    <td>{{$dpb->referral}}</td>                                  
+                                    <td>{{$dpb->nama_bank}}</td>
                                     <td>
                                         <!-- Modal Hapus Pembayaran Bon -->
                                         <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modal-hapus-pembayaran-bon{{$dpb->id_pembayaran_bon}}">
