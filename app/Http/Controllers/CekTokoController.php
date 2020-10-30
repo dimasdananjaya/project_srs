@@ -19,6 +19,7 @@ class CekTokoController extends Controller
     public function cekToko(Request $request)
     {
         $idToko=$request->input('id_toko');
+        $dataToko=DB::table('toko')->where('id_toko', '=', $idToko)->get();
         $dari = $request->input('dari');   
         $dari1 = strtotime($dari); // Convert date to a UNIX timestamp  
         
@@ -73,14 +74,23 @@ class CekTokoController extends Controller
         from pembayaran_bon 
         WHERE tanggal BETWEEN '$dari' AND '$hingga'
         and id_toko = $idToko")); 
+
+        $totalBarangTerjual=DB::select(DB::raw(" 
+        select sum(barang_penjualan) 
+        as total_barang_terjual
+        from pembayaran_bon 
+        WHERE tanggal BETWEEN '$dari' AND '$hingga'
+        and id_toko = $idToko")); 
         
         return view('menu.toko-cek')
         ->with('tanggal',$dates)
         ->with('idToko',$idToko)
+        ->with('dataToko',$dataToko)
         ->with('totalPenjualanDanPokok',$totalPenjualanDanPokok)
         ->with('totalPenjualanCash',$totalPenjualanCash)
         ->with('totalPenjualanTransfer',$totalPenjualanTransfer)
         ->with('totalPenjualanBon',$totalPenjualanBon)
-        ->with('totalBayarBon',$totalBayarBon);
+        ->with('totalBayarBon',$totalBayarBon)
+        ->with('totalBarangTerjual',$totalBarangTerjual);
     }
 }

@@ -95,7 +95,7 @@
 
                                             {{Form::hidden('id_user', Auth::user()->id_user) }}
                                             @foreach ($dataToko as $dt) 
-                                                {{Form::hidden('id_toko', $dt->id_toko) }}
+                                                <input type="hidden" id="id_toko" name="id_toko" value="{{$dt->id_toko}}">
                                             @endforeach
                                           
                                             {{Form::hidden('id_periode', $periode) }}

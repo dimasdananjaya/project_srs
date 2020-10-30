@@ -11,6 +11,7 @@ use App\Models\PenjualanModel;
 use App\Models\TokoModel;
 use App\Models\BankModel;
 use DB;
+use Session;
 
 class PenjualanController extends Controller
 {
@@ -51,7 +52,6 @@ class PenjualanController extends Controller
         $total_harga_juals = $request->input('total_harga_jual', []);
         $total_harga_pokoks = $request->input('total_harga_pokok', []);
        
-
         $penjualan = new PenjualanModel;
         $penjualan->tanggal = $request->input('tanggal');
         $penjualan->id_toko = $request->input('id_toko');
@@ -224,9 +224,10 @@ class PenjualanController extends Controller
 
     public function searchResponse(Request $request){
         $query = $request->get('term','');
+        $id_toko= $request->get('id_toko');
         $barangs=DB::table('barang');
         if($request->type=='nama_barang'){
-            $barangs->where('nama_barang','LIKE','%'.$query.'%');
+            $barangs->where('nama_barang','LIKE','%'.$query.'%')->where('id_toko','=',$id_toko);
         }
         $barangs=$barangs->get();        
         $data=array();

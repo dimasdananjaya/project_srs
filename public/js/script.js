@@ -118,6 +118,7 @@ $(".delete").on('click', function() {
                   data: {
                       term : request.term,
                       type : type,
+                      id_toko : $('input#id_toko').val()
                   },
                   success: function(data) {
                       var array = $.map(data, function (item) {
@@ -148,7 +149,7 @@ $(".delete").on('click', function() {
              $('#total_harga_pokok_'+elementId).val(totalHargaPokok);
              $('#total_harga_jual_'+elementId).val(totalHargaJual);
             hitungAll();
-           }       
+          }       
     });
 });
 
