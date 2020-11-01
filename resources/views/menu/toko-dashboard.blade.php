@@ -46,15 +46,8 @@
                                                     {{ Form::date('tanggal','',['class' => 'form-control form-group','required'],)}}
                                                 </div><!--col-lg-6-->
                                                 <div class="col-lg-6">
-                                                    <label>Pembeli / Member :</label>
-                                                    <select name="id_member" class="form-control form-group">
-                                                        <option value="">-- pilih --</option>
-                                                        @foreach ($dataMember as $dm)
-                                                            <option value="{{ $dm->id_member }}">
-                                                                {{ $dm->nama_member }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
+                                                    <label>Pembeli :</label>
+                                                    {{ Form::text('nama_pembeli','',['class' => 'form-control form-group','required'],)}}
                                                 </div><!--col-lg-6-->
                                                 <div class="col-lg-6">
                                                     <label>Metode Pembayaran :</label>
@@ -184,7 +177,7 @@
                                 <tr>
                                     <td>{{$dp->id_penjualan}}</td>
                                     <td>{{$dp->tanggal}}</td>
-                                    <td>{{$dp->nama_member}}</td>
+                                    <td>{{$dp->nama_pembeli}}</td>
                                     <td>
                                         <?php
                                             $barangs= DB::table('barang_penjualan')
@@ -274,7 +267,7 @@
                                     <tr>
                                         <td>{{$dpb->tanggal}}</td>
                                         <td>{{$dpb->no_bon}}</td>
-                                        <td>{{$dpb->nama_member}}</td>
+                                        <td>{{$dpb->nama_pembeli}}</td>
                                         <td>
                                             <?php
                                                 $barangs= DB::table('barang_penjualan')
@@ -289,16 +282,16 @@
                                         </td>
                                         <td>{{$dpb->jenis_pembayaran}}</td>
                                         <td> {{ number_format($dpb->total_harga_pokok, 2) }}</td>
-                                        <td> {{ number_format($dpb->total_harga_jual, 2, ',', '.') }}</td>
-                                        <td> {{ number_format($dpb->diskon, 2, ',', '.') }}</td>
-                                        <td> {{ number_format($dpb->total_akhir, 2, ',', '.') }}</td>
+                                        <td> {{ number_format($dpb->total_harga_jual, 2) }}</td>
+                                        <td> {{ number_format($dpb->diskon, 2) }}</td>
+                                        <td> {{ number_format($dpb->total_akhir, 2) }}</td>
                                         <td>
                                             @php
                                             $id_bon=$dpb->id_penjualan;
                                             $totalBayar=DB::select(DB::raw("SELECT sum(jumlah_pembayaran) AS total_bayar FROM pembayaran_bon WHERE id_penjualan=$id_bon GROUP BY id_penjualan"));
                                             @endphp
                                             @foreach ($totalBayar as $tb)
-                                                {{ number_format($tb->total_bayar, 2, ',', '.') }}
+                                                {{ number_format($tb->total_bayar, 2) }}
                                             @endforeach     
                                         </td>
                                         <td>
@@ -308,12 +301,24 @@
                                                     $x=$dpb->total_akhir;
                                                     $y=$tb->total_bayar;
                                                     $sisa=$x-$y;
-                                                    echo number_format("$sisa",2,",",".");
+                                                    echo number_format("$sisa",2);
                                                 }
                                             @endphp
                                         </td>
                                         <td>{{$dpb->keterangan}}</td>
-                                        <td><b>{{$dpb->status}}</b></td>
+                                        <td>
+                                            @php
+                                             if ($sisa==0) {
+                                                 echo "Lunas";
+                                             }
+                                             elseif ($y>$x) {
+                                                 echo "Melebihi Pembayaran";
+                                             }
+                                             else {
+                                                 echo "Belum Lunas";
+                                             }   
+                                            @endphp
+                                        </td>
                                         <td>
                                             <!-- Modal Hapus Bon -->
                                             <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modal-hapus-bon{{$dpb->id_penjualan}}">
@@ -370,7 +375,7 @@
                                                 <option value="">-- pilih --</option>
                                                 @foreach ($dataPenjualanBon as $dpb)
                                                     <option value="{{ $dpb->id_penjualan }}">
-                                                        {{ $dpb->no_bon }} - {{$dpb->nama_member}} - {{$dpb->tanggal}}
+                                                        {{ $dpb->no_bon }} - {{$dpb->nama_pembeli}} - {{$dpb->tanggal}}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -427,6 +432,7 @@
                                 <tr>
                                     <th>No Bon</th>
                                     <th>Tanggal</th>
+                                    <th>Nama Pembeli</th>
                                     <th>Jumlah Pembayaran</th>
                                     <th>Referral</th>                                   
                                     <th>Metode Pembayaran</th>
@@ -438,7 +444,8 @@
                                 <tr>
                                     <td>{{$dpb->no_bon}}</td>
                                     <td>{{$dpb->tanggal}}</td>
-                                    <td>{{ number_format($dpb->jumlah_pembayaran, 2, ',', '.') }}</td>
+                                    <td>{{$dpb->nama_pembeli}}</td>
+                                    <td>{{ number_format($dpb->jumlah_pembayaran, 2) }}</td>
                                     <td>{{$dpb->metode_pembayaran}}</td>
                                     <td>{{$dpb->referral}}</td>                                  
                                     <td>{{$dpb->nama_bank}}</td>

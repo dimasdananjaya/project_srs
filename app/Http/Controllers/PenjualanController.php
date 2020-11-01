@@ -56,7 +56,7 @@ class PenjualanController extends Controller
         $penjualan->tanggal = $request->input('tanggal');
         $penjualan->id_toko = $request->input('id_toko');
         $penjualan->id_user = $request->input('id_user');
-        $penjualan->id_member = $request->input('id_member');
+        $penjualan->id_member = 1;
         $penjualan->id_periode = $request->input('id_periode');
         $penjualan->id_bank = $request->input('id_bank');
         $penjualan->total_harga_pokok = $request->input('total_harga_akhir_pokok_penjualan');
@@ -64,7 +64,7 @@ class PenjualanController extends Controller
         $penjualan->total_akhir= $request->input('total_akhir');
         $penjualan->diskon = $request->input('diskon');
         $penjualan->no_bon = $request->input('no_bon');
-
+        $penjualan->nama_pembeli = $request->input('nama_pembeli');
 
         $jenis_pembayaran=$request->input('jenis_pembayaran');
         $tanggal=$request->input('tanggal');
@@ -185,7 +185,7 @@ class PenjualanController extends Controller
         $dataPembayaranBon=DB::table('pembayaran_bon')
         ->join('penjualan', 'penjualan.id_penjualan', '=', 'pembayaran_bon.id_penjualan')
         ->join('bank', 'bank.id_bank', '=', 'penjualan.id_bank')
-        ->select('pembayaran_bon.*','penjualan.no_bon','bank.nama_bank')  
+        ->select('pembayaran_bon.*','penjualan.no_bon','bank.nama_bank','penjualan.nama_pembeli')  
         ->where('pembayaran_bon.id_periode', $periode)
         ->where('pembayaran_bon.id_toko', $idToko)
         ->orderBy('tanggal','DESC')->get();

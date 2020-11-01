@@ -15,6 +15,10 @@ footer{
 }
 
 
+table{
+    overflow: scroll !important;
+
+}
 .ui-autocomplete {
     position: absolute;
     top: 0;

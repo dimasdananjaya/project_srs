@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Validator;
 use App\Models\BarangModel;
+use DB;
 
 class BarangController extends Controller
 {
@@ -15,7 +16,11 @@ class BarangController extends Controller
      */
     public function index()
     {
-        $dataBarang=BarangModel::all();
+        $dataBarang=DB::table('barang')
+        ->join('toko', 'toko.id_toko', '=', 'barang.id_toko')
+        ->select('barang.*','toko.nama_toko')  
+        ->orderBy('id_toko','ASC')->get();
+        
         return view('menu.barang-dashboard')
         ->with('dataBarang',$dataBarang);
     }

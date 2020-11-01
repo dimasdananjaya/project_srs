@@ -42,7 +42,7 @@
 
                 <table id="tabel-barang" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
                     <thead>
-                        <th>No.</th>
+                        <th>Toko</th>
                         <th>Nama Barang</th>
                         <th>Jenis</th>
                         <th>Harga Pokok</th>
@@ -52,11 +52,11 @@
                     <tbody>
                         @foreach ($dataBarang as $db)
                             <tr>
-                                <td></td>
+                                <td>{{$db->nama_toko}}</td>
                                 <td>{{$db->nama_barang}}</td>
                                 <td>{{$db->jenis}}</td>
-                                <td>{{$db->harga_pokok}}</td>
-                                <td>{{$db->harga_jual}}</td>
+                                <td>{{ number_format($db->harga_pokok, 2) }}</td>
+                                <td>{{ number_format($db->harga_jual, 2) }}</td>
                                 <td><a class="btn btn-success" style="color:#fff;" data-toggle="modal" data-target="#edit-barang-modal{{$db->id_barang}}">Edit</a></td>
                             </tr>
                             <!-- Modal Edit Tagihan Pembayaran-->
@@ -77,7 +77,8 @@
                                             {{Form::number('harga_pokok',$db->harga_pokok,['class'=>'form-control form-group','placeholder'=>'','required'])}}
                                             {{Form::label('harga_jual','Harga Jual :')}}
                                             {{Form::number('harga_jual',$db->harga_jual,['class'=>'form-control form-group','placeholder'=>'','required'])}}
-                                            {{Form::hidden('jenis', 'product') }}
+                                            {{Form::hidden('jenis', 'barang') }}
+                                            {{Form::hidden('id_toko', $db->id_toko) }}
                                             {{Form::submit('Simpan',['class'=>'btn btn-success btn-block'])}}
                                         {{ Form::close() }}
                                         </div>
@@ -96,25 +97,5 @@
     </div><!--container-->
 </section>
 
-<script type="text/javascript">
-    $(document).ready(function() {
-        var t = $('#tabel-barang').DataTable( {
-            "columnDefs": [ {
-                "searchable": false,
-                "orderable": false,
-                "targets": 0
-            } ],
-            "order": [[ 1, 'asc' ]],
-            "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Indonesian.json"
-        }
-        } );
-    
-        t.on( 'order.dt search.dt', function () {
-            t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
-                cell.innerHTML = i+1;
-            } );
-        } ).draw();        
-    } );
-</script>
+
 @endsection
