@@ -166,7 +166,7 @@
                                 @endphp
 
                                 @foreach ($dataBarangTerjual as $dbt)
-                                    <td>{{$dbt->jumlah_barang_terjual}}</td>
+                                    <td>{{ number_format($dbt->jumlah_barang_terjual, 0) }}</td>
                                 @endforeach
                             @endfor
                             </tr>
@@ -310,6 +310,7 @@
                                 <td>{{$dbb->metode_pembayaran}}</td>
                                 <td>{{$dbb->referral}}</td>                                  
                                 <td>{{$dbb->nama_bank}}</td>
+                                
                             </tr>
                             @endforeach
                         </tbody>

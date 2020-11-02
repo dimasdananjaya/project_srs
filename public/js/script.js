@@ -16,15 +16,17 @@ $(document).ready(function() {
 } );
 
 $(document).ready(function() {
-  $('#tabel-barang').DataTable();
+  $('#tabel-barang').DataTable({
+    "scrollX": true
+    });
 } );
 
-$(document).ready(function() {
-  $('#tabel-total-barang-terjual').DataTable()( {
-      "scrollX": true,
-      "responsive": true,
-  } );  
-} );
+$(document).ready(function () {
+  $('#tabel-total-barang-terjual').DataTable({
+  "scrollX": true
+  });
+  $('.dataTables_length').addClass('bs-select');
+});
 
 $(document).ready(function() {
   $('.uangPembayaranBon').mask("000,0000,000,000", {reverse: true, maxLength:false, removeMaskOnSubmit: true});

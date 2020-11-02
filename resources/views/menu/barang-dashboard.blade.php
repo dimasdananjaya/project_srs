@@ -28,6 +28,12 @@
                             {{ Form::open(['route' => 'barang.store']) }}
                                 {{Form::label('nama_barang','Nama Barang :')}}
                                 {{Form::text('nama_barang','',['class'=>'form-control form-group','placeholder'=>'','required'])}}
+                                {{Form::label('id_toko','Toko :')}}
+                                <select name="id_toko" class="form-control form-group">
+                                    @foreach ($dataBarang as $db)
+                                        <option value="{{$db->id_toko}}" class="form-control">{{$db->nama_toko}}</option>
+                                    @endforeach
+                                </select>
                                 {{Form::label('harga_pokok','Harga Pokok :')}}
                                 {{Form::number('harga_pokok','',['class'=>'form-control form-group','placeholder'=>'','required'])}}
                                 {{Form::label('harga_jual','Harga Jual :')}}
@@ -42,6 +48,7 @@
 
                 <table id="tabel-barang" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
                     <thead>
+                        <th>Id Barang</th>
                         <th>Toko</th>
                         <th>Nama Barang</th>
                         <th>Jenis</th>
@@ -52,6 +59,7 @@
                     <tbody>
                         @foreach ($dataBarang as $db)
                             <tr>
+                                <td>{{$db->id_barang}}</td>
                                 <td>{{$db->nama_toko}}</td>
                                 <td>{{$db->nama_barang}}</td>
                                 <td>{{$db->jenis}}</td>
@@ -71,14 +79,25 @@
                                         </div>
                                         <div class="modal-body">
                                         {!!Form::open(['route'=>['barang.update', $db->id_barang], 'method'=>'PUT'])!!}
+                                            {{Form::label('id_barang','Id Barang : ')}}
+                                            <p><b>{{$db->id_barang}}</b></p>
                                             {{Form::label('nama_barang','Nama Barang :')}}
                                             {{Form::text('nama_barang',$db->nama_barang,['class'=>'form-control form-group','placeholder'=>'','required'])}}
+                                            {{Form::label('toko','Toko :')}}
+                                            <select name="id_toko" class="form-control form-group">
+                                                @foreach ($dataToko as $dtk)
+                                                    @if ($db->id_toko == $dtk->id_toko)
+                                                        <option value="{{$dtk->id_toko}}" class="form-control" selected>{{$dtk->nama_toko}}</option>
+                                                    @else
+                                                        <option value="{{ $dtk->id_toko }}" class="form-control">{{ $dtk->nama_toko }}</option>
+                                                    @endif
+                                                @endforeach
+                                            </select>
                                             {{Form::label('harga_pokok','Harga Pokok :')}}
                                             {{Form::number('harga_pokok',$db->harga_pokok,['class'=>'form-control form-group','placeholder'=>'','required'])}}
                                             {{Form::label('harga_jual','Harga Jual :')}}
                                             {{Form::number('harga_jual',$db->harga_jual,['class'=>'form-control form-group','placeholder'=>'','required'])}}
                                             {{Form::hidden('jenis', 'barang') }}
-                                            {{Form::hidden('id_toko', $db->id_toko) }}
                                             {{Form::submit('Simpan',['class'=>'btn btn-success btn-block'])}}
                                         {{ Form::close() }}
                                         </div>

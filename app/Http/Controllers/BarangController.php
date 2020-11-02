@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Validator;
 use App\Models\BarangModel;
+use App\Models\TokoModel;
 use DB;
 
 class BarangController extends Controller
@@ -16,12 +17,14 @@ class BarangController extends Controller
      */
     public function index()
     {
+        $dataToko=TokoModel::all();
         $dataBarang=DB::table('barang')
         ->join('toko', 'toko.id_toko', '=', 'barang.id_toko')
         ->select('barang.*','toko.nama_toko')  
         ->orderBy('id_toko','ASC')->get();
         
         return view('menu.barang-dashboard')
+        ->with('dataToko',$dataToko)
         ->with('dataBarang',$dataBarang);
     }
 
@@ -56,6 +59,7 @@ class BarangController extends Controller
         } else {
             // store
             $dataBarang = new BarangModel;
+            $dataBarang->id_toko = $request->input('id_toko');
             $dataBarang->nama_barang = $request->input('nama_barang');
             $dataBarang->jenis = $request->input('jenis');
             $dataBarang->harga_pokok = $request->input('harga_pokok');
@@ -114,6 +118,7 @@ class BarangController extends Controller
             // store
             $dataBarang = BarangModel::find($id);
 
+            $dataBarang->id_toko = $request->input('id_toko');
             $dataBarang->nama_barang = $request->input('nama_barang');
             $dataBarang->jenis = $request->input('jenis');
             $dataBarang->harga_pokok = $request->input('harga_pokok');
