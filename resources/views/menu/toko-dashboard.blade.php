@@ -66,7 +66,7 @@
                                                 <div class="col-lg-6">
                                                     <label>Bank (Hanya Untuk Transfer):</label>
                                                     <select name="id_bank" class="form-control form-group">
-                                                        <option value="-">
+                                                        <option value="5">
                                                             -
                                                         </option>
                                                         @foreach ($dataBank as $db)
@@ -296,19 +296,27 @@
                                         </td>
                                         <td>
                                             @php
-                                                //cari sisa pembayaran
-                                                foreach ($totalBayar as $tb) {
-                                                    $x=$dpb->total_akhir;
-                                                    $y=$tb->total_bayar;
-                                                    $sisa=$x-$y;
-                                                    echo number_format("$sisa",2);
+                                                if ($totalBayar==null) {
+                                                    echo number_format("0",2);
+                                                }
+                                                else {
+                                                    //cari sisa pembayaran
+                                                    foreach ($totalBayar as $tb) {
+                                                        $x=$dpb->total_akhir;
+                                                        $y=$tb->total_bayar;
+                                                        $sisa=$x-$y;
+                                                        echo number_format("$sisa",2);
+                                                    }
                                                 }
                                             @endphp
                                         </td>
                                         <td>{{$dpb->keterangan}}</td>
                                         <td>
                                             @php
-                                             if ($sisa==0) {
+                                            if ($totalBayar==null){
+                                                echo "Belum Lunas";
+                                            }
+                                             elseif ($sisa==0) {
                                                  echo "Lunas";
                                              }
                                              elseif ($y>$x) {
@@ -391,7 +399,7 @@
 
                                             <label>Bank (Hanya Untuk Transfer):</label>
                                             <select name="id_bank" class="form-control form-group">
-                                                <option value="-">
+                                                <option value="5">
                                                     -
                                                 </option>
                                                 @foreach ($dataBank as $db)
@@ -402,7 +410,7 @@
                                             </select>
 
                                             <label>Jumlah Pembayaran :</label>
-                                            {{ Form::text('jumlah_pembayaran','',['class' => 'form-control form-group uang','required'])}}
+                                            {{ Form::text('jumlah_pembayaran','',['class' => 'form-control form-group uangPembayaranBon','required'])}}
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <label>Tanggal :</label>
@@ -436,6 +444,7 @@
                                     <th>Jumlah Pembayaran</th>
                                     <th>Referral</th>                                   
                                     <th>Metode Pembayaran</th>
+                                    <th>Nama Bank</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -490,7 +499,7 @@
                                 <h3><b>Total Barang Terjual</b></h3>
                             </div><!--card-header-->
                             <div class="card-body">
-                                <table id="tabel-penjualan-barang" class="table table-stripped table-bordered">
+                                <table id="tabel-penjualan-barang" class="table table-stripped table-bordered table-responsive-sm table-responsive-lg">
                                     <thead>
                                         <th>Id Barang</th>
                                         <th>Nama Barang</th>

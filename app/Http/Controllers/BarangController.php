@@ -62,8 +62,8 @@ class BarangController extends Controller
             $dataBarang->id_toko = $request->input('id_toko');
             $dataBarang->nama_barang = $request->input('nama_barang');
             $dataBarang->jenis = $request->input('jenis');
-            $dataBarang->harga_pokok = $request->input('harga_pokok');
-            $dataBarang->harga_jual = $request->input('harga_jual');
+            $dataBarang->harga_pokok = preg_replace('/\D/','',$request->input('harga_pokok'));
+            $dataBarang->harga_jual = preg_replace('/\D/','',$request->input('harga_jual'));
             
             $dataBarang->save();
 
@@ -121,8 +121,8 @@ class BarangController extends Controller
             $dataBarang->id_toko = $request->input('id_toko');
             $dataBarang->nama_barang = $request->input('nama_barang');
             $dataBarang->jenis = $request->input('jenis');
-            $dataBarang->harga_pokok = $request->input('harga_pokok');
-            $dataBarang->harga_jual = $request->input('harga_jual');
+            $dataBarang->harga_pokok = preg_replace('/\D/','',$request->input('harga_pokok'));
+            $dataBarang->harga_jual = preg_replace('/\D/','',$request->input('harga_jual'));
             
             $dataBarang->save();
 

@@ -56,7 +56,7 @@ class PenjualanController extends Controller
         $penjualan->tanggal = $request->input('tanggal');
         $penjualan->id_toko = $request->input('id_toko');
         $penjualan->id_user = $request->input('id_user');
-        $penjualan->id_member = 1;
+        $penjualan->id_member = "1";
         $penjualan->id_periode = $request->input('id_periode');
         $penjualan->id_bank = $request->input('id_bank');
         $penjualan->total_harga_pokok = $request->input('total_harga_akhir_pokok_penjualan');

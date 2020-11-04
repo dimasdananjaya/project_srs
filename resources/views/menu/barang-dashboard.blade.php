@@ -10,12 +10,12 @@
             <div class="card-body">
 
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-success mb-3"  data-toggle="modal" data-target="#exampleModal">
+            <button type="button" class="btn btn-success mb-3"  data-toggle="modal" data-target="#modalTambahBarang">
                 Tambah Barang
             </button>
             
             <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="modalTambahBarang" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -25,19 +25,19 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            {{ Form::open(['route' => 'barang.store']) }}
-                                {{Form::label('nama_barang','Nama Barang :')}}
+                            {{ Form::open(['id'=>'formTambahBarang','route' => 'barang.store']) }}
+                                {{Form::label('Nama Barang :')}}
                                 {{Form::text('nama_barang','',['class'=>'form-control form-group','placeholder'=>'','required'])}}
                                 {{Form::label('id_toko','Toko :')}}
                                 <select name="id_toko" class="form-control form-group">
-                                    @foreach ($dataBarang as $db)
-                                        <option value="{{$db->id_toko}}" class="form-control">{{$db->nama_toko}}</option>
+                                    @foreach ($dataToko as $dtk)
+                                        <option value="{{$dtk->id_toko}}" class="form-control">{{$dtk->nama_toko}}</option>
                                     @endforeach
                                 </select>
-                                {{Form::label('harga_pokok','Harga Pokok :')}}
-                                {{Form::number('harga_pokok','',['class'=>'form-control form-group','placeholder'=>'','required'])}}
-                                {{Form::label('harga_jual','Harga Jual :')}}
-                                {{Form::number('harga_jual','',['class'=>'form-control form-group','placeholder'=>'','required'])}}
+                                {{Form::label('Harga Pokok :')}}
+                                {{Form::text('harga_pokok','',['class'=>'form-control form-group uangBarang','placeholder'=>'','required'])}}
+                                {{Form::label('Harga Jual :')}}
+                                {{Form::text('harga_jual','',['class'=>'form-control form-group uangBarang','placeholder'=>'','required'])}}
                                 {{Form::hidden('jenis', 'product') }}
                                 {{Form::submit('Simpan',['class'=>'btn btn-success btn-block'])}}
                             {{ Form::close() }}
@@ -81,7 +81,7 @@
                                         {!!Form::open(['route'=>['barang.update', $db->id_barang], 'method'=>'PUT'])!!}
                                             {{Form::label('id_barang','Id Barang : ')}}
                                             <p><b>{{$db->id_barang}}</b></p>
-                                            {{Form::label('nama_barang','Nama Barang :')}}
+                                            {{Form::label('Nama Barang :')}}
                                             {{Form::text('nama_barang',$db->nama_barang,['class'=>'form-control form-group','placeholder'=>'','required'])}}
                                             {{Form::label('toko','Toko :')}}
                                             <select name="id_toko" class="form-control form-group">
@@ -93,10 +93,10 @@
                                                     @endif
                                                 @endforeach
                                             </select>
-                                            {{Form::label('harga_pokok','Harga Pokok :')}}
-                                            {{Form::number('harga_pokok',$db->harga_pokok,['class'=>'form-control form-group','placeholder'=>'','required'])}}
-                                            {{Form::label('harga_jual','Harga Jual :')}}
-                                            {{Form::number('harga_jual',$db->harga_jual,['class'=>'form-control form-group','placeholder'=>'','required'])}}
+                                            {{Form::label('Harga Pokok :')}}
+                                            {{Form::text('harga_pokok',$db->harga_pokok,['class'=>'form-control form-group uangBarang','placeholder'=>'','required'])}}
+                                            {{Form::label('Harga Jual :')}}
+                                            {{Form::text('harga_jual',$db->harga_jual,['class'=>'form-control form-group uangBarang','placeholder'=>'','required'])}}
                                             {{Form::hidden('jenis', 'barang') }}
                                             {{Form::submit('Simpan',['class'=>'btn btn-success btn-block'])}}
                                         {{ Form::close() }}
