@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('#example').DataTable();
+    $('#tabel-penjualan').DataTable();
 } );
 
 $(document).ready(function() {
@@ -16,9 +16,7 @@ $(document).ready(function() {
 } );
 
 $(document).ready(function() {
-  $('#tabel-barang').DataTable({
-    "scrollX": true
-    });
+  $('#tabel-barang').DataTable();
 } );
 
 $(document).ready(function () {

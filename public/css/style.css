@@ -4,7 +4,6 @@ body{
 
 footer{
     position: relative;
-
     width: 100%;
     text-align: center;
     box-shadow:0 3px 13px rgba(0,0,0,0.23);
@@ -100,5 +99,11 @@ table{
 
 #store-dashboard .card{
     margin-bottom: 2em;
-    
 }
+
+
+/*********utility******/
+.wide-column{
+    width: 20em;
+}
+/*********end utility******/

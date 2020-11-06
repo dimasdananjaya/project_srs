@@ -179,7 +179,7 @@
                 <div class="container-fluid mt-3">
                     <h3><b>Tabel Bon</b></h3>
                     <hr>
-                    <table class="table table-hover table-bordered dt-responsive table-responsive-xl table-sm" id="tabel-bon" style="width:100%">
+                    <table class="table table-hover table-bordered dt-responsive table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl table-sm" id="tabel-bon" style="width:100%">
                         <thead>
                             <tr>
                                 <th>Tanggal</th>
@@ -232,19 +232,27 @@
                                     </td>
                                     <td>
                                         @php
-                                            //cari sisa pembayaran
-                                            foreach ($totalBayar as $tb) {
-                                                $x=$dpb->total_akhir;
-                                                $y=$tb->total_bayar;
-                                                $sisa=$x-$y;
-                                                echo number_format("$sisa",2);
+                                            if ($totalBayar==null) {
+                                                echo number_format("0",2);
+                                            }
+                                            else {
+                                                //cari sisa pembayaran
+                                                foreach ($totalBayar as $tb) {
+                                                    $x=$dpb->total_akhir;
+                                                    $y=$tb->total_bayar;
+                                                    $sisa=$x-$y;
+                                                    echo number_format("$sisa",2);
+                                                }
                                             }
                                         @endphp
                                     </td>
                                     <td>{{$dpb->keterangan}}</td>
                                     <td>
                                         @php
-                                         if ($sisa==0) {
+                                        if ($totalBayar==null){
+                                            echo "Belum Lunas";
+                                        }
+                                         elseif ($sisa==0) {
                                              echo "Lunas";
                                          }
                                          elseif ($y>$x) {

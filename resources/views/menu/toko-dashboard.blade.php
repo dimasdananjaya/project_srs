@@ -153,7 +153,7 @@
                                 </div><!-- end modal content-->
                             </div><!--end modal dialog-->
                         </div><!--end modal-->
-                        <table class="table table-hover table-bordered dt-responsive table-responsive-xl table-sm" id="example" style="width:100%">
+                        <table class="table table-hover table-bordered dt-responsive table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl table-sm" id="tabel-penjualan" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>Id</th>
@@ -168,7 +168,6 @@
                                     <th>Total Akhir</th>
                                     <th>Keuntungan</th>
                                     <th>Keterangan</th>
-                                    <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -193,7 +192,13 @@
                                             $keuntungan=$hargaJual-$hargaPokok-$diskon;
                                         ?>
                                         @foreach ($barangs as $barang)
-                                            <p><small>{{$barang->nama_barang}} x ({{$barang->jumlah}})</small></p>
+                                            <p>
+                                                <small>
+                                                    <ul>
+                                                        <li>{{$barang->nama_barang}} x ({{$barang->jumlah}})</li>
+                                                    </ul>
+                                                </small>
+                                            </p>
                                         @endforeach
                                     </td>
                                     <td>{{$dp->jenis_pembayaran}}</td>
@@ -204,7 +209,6 @@
                                     <td>{{ number_format($dp->total_akhir, 2, ',', '.') }}</td>
                                     <td>{{ number_format($keuntungan, 2, ',', '.') }}</td>
                                     <td>{{$dp->keterangan}}</td>
-                                    <td><b>{{$dp->status}}</b></td>
                                     <td>
                                         <!-- Modal Hapus Penjualan -->
                                         <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modal-hapus-penjualan{{$dp->id_penjualan}}">
@@ -243,7 +247,7 @@
                         <!-- Button Tambah Penjualan modal -->
                         <h3><b>Tabel Bon</b></h3>
                         <hr>
-                        <table class="table table-hover table-bordered dt-responsive table-responsive-xl table-sm" id="tabel-bon" style="width:100%">
+                        <table class="table table-hover table-bordered dt-responsive table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl table-sm" id="tabel-bon" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>Tanggal</th>
