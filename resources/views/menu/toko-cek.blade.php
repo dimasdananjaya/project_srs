@@ -150,6 +150,7 @@
                         @for($i = 0; $i < count($tanggal); $i++) 
                             <th>{{$tanggal[$i]}}</th>
                         @endfor
+                        <th>Total Terjual</th>
                     </thead>
                     <tbody>
                         @foreach ($dataBarang as $db)
@@ -163,12 +164,21 @@
                                     ->where('barang_penjualan.id_toko', $idToko)
                                     ->where('barang_penjualan.id_barang', $db->id_barang)
                                     ->where('barang_penjualan.tanggal', $tanggal[$i])->get();
+
+                                    $dataTotalBarangTerjual=DB::select(DB::raw(" 
+                                    select *, sum(jumlah) as total_jumlah_barang_terjual from barang_penjualan
+                                    INNER JOIN barang ON barang.id_barang=barang_penjualan.id_barang
+                                    where barang_penjualan.id_toko = $idToko
+                                    and barang_penjualan.id_barang = $db->id_barang"));
                                 @endphp
 
                                 @foreach ($dataBarangTerjual as $dbt)
                                     <td>{{ number_format($dbt->jumlah_barang_terjual, 0) }}</td>
                                 @endforeach
                             @endfor
+                            @foreach ($dataTotalBarangTerjual as $dtbt)
+                                <td>{{ number_format($dtbt->total_jumlah_barang_terjual, 0) }}</td>
+                            @endforeach
                             </tr>
                         @endforeach
                     </tbody>

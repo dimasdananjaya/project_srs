@@ -43,11 +43,11 @@
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <label>Tanggal :</label>
-                                                    {{ Form::date('tanggal','',['class' => 'form-control form-group','required'],)}}
+                                                    {{ Form::date('tanggal','',['class' => 'form-control form-group','required'])}}
                                                 </div><!--col-lg-6-->
                                                 <div class="col-lg-6">
                                                     <label>Pembeli :</label>
-                                                    {{ Form::text('nama_pembeli','',['class' => 'form-control form-group','required'],)}}
+                                                    {{ Form::text('nama_pembeli','',['class' => 'form-control form-group','required'])}}
                                                 </div><!--col-lg-6-->
                                                 <div class="col-lg-6">
                                                     <label>Metode Pembayaran :</label>
@@ -70,7 +70,7 @@
                                                             -
                                                         </option>
                                                         @foreach ($dataBank as $db)
-                                                        <option value="{{$db->id_bank}}"">
+                                                        <option value="{{$db->id_bank}}">
                                                             {{$db->nama_bank}}
                                                         </option>
                                                         @endforeach
